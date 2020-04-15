@@ -12,28 +12,30 @@
  */
 package io.allune.quickfixj.api;
 
-import static io.allune.quickfixj.error.ShouldHaveFixVersionEqualTo.shouldHaveFixVersionEqualTo;
-import static io.allune.quickfixj.error.ShouldHaveHeaderField.shouldHaveHeaderFieldEqualTo;
-import static quickfix.FixVersions.BEGINSTRING_FIX40;
-import static quickfix.FixVersions.BEGINSTRING_FIX41;
-import static quickfix.FixVersions.BEGINSTRING_FIX42;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
-import quickfix.FieldNotFound;
 import quickfix.Message;
-import quickfix.field.BeginString;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageAssert extends AbstractAssert<MessageAssert, Message> {
+@SuppressWarnings("unchecked")
+public class MessageAssert<SELF extends MessageAssert<SELF>> extends AbstractAssert<SELF, Message> {
 
-	private Objects objects = Objects.instance();
+	protected Objects objects = Objects.instance();
 
-	private Failures failures = Failures.instance();
+	protected Failures failures = Failures.instance();
+
+	/**
+	 * Creates a new <code>{@link io.allune.quickfixj.api.MessageAssert}</code>.
+	 *
+	 * @param actual   the actual value to verify
+	 */
+	protected MessageAssert(Message actual) {
+		super(actual, MessageAssert.class);
+	}
 
 	/**
 	 * Creates a new <code>{@link io.allune.quickfixj.api.MessageAssert}</code>.
@@ -41,54 +43,27 @@ public class MessageAssert extends AbstractAssert<MessageAssert, Message> {
 	 * @param selfType the "self type"
 	 * @param actual   the actual value to verify
 	 */
-	protected MessageAssert(Class<MessageAssert> selfType, Message actual) {
+	protected MessageAssert(Class<SELF> selfType, Message actual) {
 		super(actual, selfType);
 	}
 
+	public QuickfixVersionAssert hasVersion() {
+		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual);
+	}
+
+	public QuickfixVersionAssert hasVersion(String version) {
+		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual, version);
+	}
+
 	@Override
-	public MessageAssert isEqualTo(Object expected) {
+	public SELF isEqualTo(Object expected) {
 		// TODO
 		objects.assertEqual(info, actual, expected);
-		return this;
+		return (SELF) this;
 	}
 
-	public MessageAssert isVersionFix40() {
-		isNotNull();
-		String beginStringValue = getBeginString();
-		if (!BEGINSTRING_FIX40.equals(beginStringValue)) {
-			throw failures.failure(info, shouldHaveFixVersionEqualTo(actual, beginStringValue, BEGINSTRING_FIX40));
-		}
-		return this;
-	}
-
-	public MessageAssert isFixVersion41() {
-		isNotNull();
-		String beginStringValue = getBeginString();
-		if (!BEGINSTRING_FIX41.equals(beginStringValue)) {
-			throw failures.failure(info, shouldHaveFixVersionEqualTo(actual, beginStringValue, BEGINSTRING_FIX41));
-		}
-		return this;
-	}
-
-	public MessageAssert isFixVersion42() {
-		isNotNull();
-		String beginStringValue = getBeginString();
-		if (!BEGINSTRING_FIX42.equals(beginStringValue)) {
-			throw failures.failure(info, shouldHaveFixVersionEqualTo(actual, beginStringValue, BEGINSTRING_FIX42));
-		}
-		return this;
-	}
-
-	public MessageAssert hasBodyLength(int expected) {
+	public SELF hasBodyLength(int expected) {
 		objects.assertEqual(info, actual.bodyLength(), expected);
-		return this;
-	}
-
-	private String getBeginString() {
-		try {
-			return actual.getHeader().getString(BeginString.FIELD);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveHeaderFieldEqualTo(BeginString.class, BeginString.FIELD));
-		}
+		return (SELF) this;
 	}
 }
