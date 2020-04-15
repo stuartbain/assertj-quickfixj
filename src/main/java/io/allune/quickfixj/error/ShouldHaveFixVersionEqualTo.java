@@ -32,6 +32,6 @@ public class ShouldHaveFixVersionEqualTo extends BasicErrorMessageFactory {
 						"  <%s>%n" +
 						"but was:%n" +
 						"  <%s>",
-				actual, actualVersion, expectedVersion);
+				actual, expectedVersion, actualVersion);
 	}
 }

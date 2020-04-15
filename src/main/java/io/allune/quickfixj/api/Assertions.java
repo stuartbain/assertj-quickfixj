@@ -19,8 +19,8 @@ import quickfix.Message;
  */
 public class Assertions {
 
-	public static MessageAssert assertThat(Message message) {
-		return new MessageAssert(MessageAssert.class, message);
+	public static MessageAssert<?> assertThat(Message message) {
+		return new MessageAssert<>(message);
 	}
 
 	public static MessageHeaderAssert assertThat(Message.Header header) {
