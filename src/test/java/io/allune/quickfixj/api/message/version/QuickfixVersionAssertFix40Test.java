@@ -10,7 +10,7 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.message;
+package io.allune.quickfixj.api.message.version;
 
 import static io.allune.quickfixj.api.Assertions.assertThat;
 import static java.lang.String.format;
@@ -25,27 +25,27 @@ import quickfix.Message;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageAssertIsVersionFix40Test {
+public class QuickfixVersionAssertFix40Test {
 
 	@Test
 	public void shouldAssertIsVersionFix40() throws InvalidMessage {
 		Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
-		assertThat(message).isVersionFix40();
+		assertThat(message).hasVersion().fix40();
 	}
 
 	@Test
 	public void shouldFailToAssertIsVersionFix40GivenMessageWithVersion41() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.1\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=016\u0001");
-			assertThat(message).isVersionFix40();
+			assertThat(message).hasVersion().fix40();
 		} catch (AssertionError e) {
 			assertThat(e).hasMessage(format("%n"
 					+ "Expecting:%n"
 					+ "  <8=FIX.4.1\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=016\u0001>%n"
 					+ "to have FIX version:%n"
-					+ "  <\"FIX.4.1\">%n"
+					+ "  <\"FIX.4.0\">%n"
 					+ "but was:%n"
-					+ "  <\"FIX.4.0\">"));
+					+ "  <\"FIX.4.1\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
