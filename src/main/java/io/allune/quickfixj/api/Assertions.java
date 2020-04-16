@@ -23,14 +23,6 @@ public class Assertions {
 		return new MessageAssert<>(message);
 	}
 
-	public static MessageHeaderAssert assertThat(Message.Header header) {
-		return new MessageHeaderAssert(MessageHeaderAssert.class, header);
-	}
-
-	public static MessageTrailerAssert assertThat(Message.Trailer trailer) {
-		return new MessageTrailerAssert(MessageTrailerAssert.class, trailer);
-	}
-
 	protected Assertions() {
 		// empty
 	}
