@@ -25,27 +25,27 @@ import quickfix.Message;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class QuickfixVersionAssertFix40Test {
+public class QuickfixVersionAssertFix43Test {
 
 	@Test
-	public void shouldAssertIsVersionFix40() throws InvalidMessage {
-		Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
-		assertThat(message).hasVersion().fix40();
+	public void shouldAssertIsVersionFix43() throws InvalidMessage {
+		Message message = new Message("8=FIX.4.3\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=018\u0001");
+		assertThat(message).hasVersion().fix43();
 	}
 
 	@Test
-	public void shouldFailToAssertIsVersionFix40GivenMessageWithVersionFix41() throws InvalidMessage {
+	public void shouldFailToAssertIsVersionFix43GivenMessageWithVersionFix40() throws InvalidMessage {
 		try {
-			Message message = new Message("8=FIX.4.1\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=016\u0001");
-			assertThat(message).hasVersion().fix40();
+			Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
+			assertThat(message).hasVersion().fix43();
 		} catch (AssertionError e) {
 			assertThat(e).hasMessage(format("%n"
 					+ "Expecting:%n"
-					+ "  <8=FIX.4.1\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=016\u0001>%n"
+					+ "  <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
 					+ "to have FIX version:%n"
-					+ "  <\"FIX.4.0\">%n"
+					+ "  <\"FIX.4.3\">%n"
 					+ "but was:%n"
-					+ "  <\"FIX.4.1\">"));
+					+ "  <\"FIX.4.0\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
