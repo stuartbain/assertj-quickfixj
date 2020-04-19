@@ -12,58 +12,99 @@
  */
 package io.allune.quickfixj.api;
 
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
+import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
+import static quickfix.FixVersions.BEGINSTRING_FIX40;
+import static quickfix.FixVersions.BEGINSTRING_FIX41;
 
+import io.allune.quickfixj.api.newordersingle.NewOrderSingle40Assert;
+import io.allune.quickfixj.api.newordersingle.NewOrderSingle41Assert;
+import quickfix.ConfigError;
+import quickfix.DataDictionary;
+import quickfix.InvalidMessage;
 import quickfix.Message;
+import quickfix.MessageUtils;
+import quickfix.field.ClOrdID;
+import quickfix.field.MsgType;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-@SuppressWarnings("unchecked")
-public class MessageAssert<SELF extends MessageAssert<SELF>> extends AbstractAssert<SELF, Message> {
+public class MessageAssert extends AbstractMessageAssert<MessageAssert, Message> {
 
-	protected Objects objects = Objects.instance();
+	protected MessageAssert(Message message) {
+		super(MessageAssert.class, message);
+	}
 
-	protected Failures failures = Failures.instance();
+	public NewOrderSingle40Assert isNewOrderSingle40() {
+		try {
+			hasVersion(BEGINSTRING_FIX40);
+			assertIsNewOrderSingle();
 
-	/**
-	 * Creates a new <code>{@link io.allune.quickfixj.api.MessageAssert}</code>.
-	 *
-	 * @param actual   the actual value to verify
-	 */
-	protected MessageAssert(Message actual) {
-		super(actual, MessageAssert.class);
+			quickfix.fix40.NewOrderSingle newOrderSingle = createNewOrderSingle40FromMessage();
+			return new NewOrderSingle40Assert(newOrderSingle);
+		} catch (InvalidMessage invalidMessage) {
+			throw failures.failure(info, shouldHaveField(ClOrdID.class, ClOrdID.FIELD));
+		}
+	}
+
+	public NewOrderSingle41Assert isNewOrderSingle41() {
+		try {
+			hasVersion(BEGINSTRING_FIX41);
+			assertIsNewOrderSingle();
+
+			quickfix.fix41.NewOrderSingle newOrderSingle = createNewOrderSingle41FromMessage();
+			return new NewOrderSingle41Assert(newOrderSingle);
+		} catch (InvalidMessage invalidMessage) {
+			throw failures.failure(info, shouldHaveField(ClOrdID.class, ClOrdID.FIELD));
+		}
+	}
+
+	private void assertIsNewOrderSingle() throws InvalidMessage {
+		objects.assertEqual(info, MsgType.ORDER_SINGLE, MessageUtils.getMessageType(actual.toString()));
+	}
+
+	private quickfix.fix40.NewOrderSingle createNewOrderSingle40FromMessage() throws InvalidMessage {
+		quickfix.fix40.NewOrderSingle newOrderSingle = new quickfix.fix40.NewOrderSingle();
+		newOrderSingle.fromString(actual.toRawString(), dataDictionary40, false);
+		return newOrderSingle;
+	}
+
+	private quickfix.fix41.NewOrderSingle createNewOrderSingle41FromMessage() throws InvalidMessage {
+		quickfix.fix41.NewOrderSingle newOrderSingle = new quickfix.fix41.NewOrderSingle();
+		newOrderSingle.fromString(actual.toRawString(), dataDictionary41, false);
+		return newOrderSingle;
+	}
+
+	private static DataDictionary dataDictionary40 = getFix40Dictionary();
+
+	private static DataDictionary dataDictionary41 = getFix41Dictionary();
+
+	public static DataDictionary getFix40Dictionary() {
+		if (dataDictionary40 == null) {
+			dataDictionary40 = getDictionary("FIX40.xml");
+		}
+		return dataDictionary40;
+	}
+
+	public static DataDictionary getFix41Dictionary() {
+		if (dataDictionary41 == null) {
+			dataDictionary41 = getDictionary("FIX41.xml");
+		}
+		return dataDictionary41;
 	}
 
 	/**
-	 * Creates a new <code>{@link io.allune.quickfixj.api.MessageAssert}</code>.
+	 * Loads and returns the named data dictionary.
 	 *
-	 * @param selfType the "self type"
-	 * @param actual   the actual value to verify
+	 * @param fileName the data dictionary file name (e.g. "FIX40.xml")
+	 * @return a new data dictionary instance
+	 * @throws RuntimeException if the named data dictionary cannot be loaded
 	 */
-	protected MessageAssert(Class<SELF> selfType, Message actual) {
-		super(actual, selfType);
-	}
-
-	public QuickfixVersionAssert hasVersion() {
-		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual);
-	}
-
-	public QuickfixVersionAssert hasVersion(String version) {
-		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual, version);
-	}
-
-	@Override
-	public SELF isEqualTo(Object expected) {
-		// TODO
-		objects.assertEqual(info, actual, expected);
-		return (SELF) this;
-	}
-
-	public SELF hasBodyLength(int expected) {
-		objects.assertEqual(info, actual.bodyLength(), expected);
-		return (SELF) this;
+	public static DataDictionary getDictionary(String fileName) {
+		try {
+			return new DataDictionary(MessageAssert.class.getClassLoader().getResourceAsStream(fileName));
+		} catch (ConfigError e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
 	}
 }

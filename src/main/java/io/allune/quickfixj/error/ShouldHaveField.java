@@ -18,13 +18,13 @@ import org.assertj.core.error.ErrorMessageFactory;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class ShouldHaveHeaderField extends BasicErrorMessageFactory {
+public class ShouldHaveField extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldHaveHeaderFieldEqualTo(Object actual, Object field) {
-		return new ShouldHaveHeaderField(actual, field);
+	public static ErrorMessageFactory shouldHaveField(Object actual, Object field) {
+		return new ShouldHaveField(actual, field);
 	}
 
-	private ShouldHaveHeaderField(Object actual, Object field) {
+	private ShouldHaveField(Object actual, Object field) {
 		super("%nExpecting Message to have header field <%s> (field number %s), but did not.", actual, field);
 	}
 }

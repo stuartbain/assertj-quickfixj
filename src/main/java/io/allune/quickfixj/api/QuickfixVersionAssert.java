@@ -12,8 +12,8 @@
  */
 package io.allune.quickfixj.api;
 
+import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
 import static io.allune.quickfixj.error.ShouldHaveFixVersionEqualTo.shouldHaveFixVersionEqualTo;
-import static io.allune.quickfixj.error.ShouldHaveHeaderField.shouldHaveHeaderFieldEqualTo;
 import static quickfix.FixVersions.BEGINSTRING_FIX40;
 import static quickfix.FixVersions.BEGINSTRING_FIX41;
 import static quickfix.FixVersions.BEGINSTRING_FIX42;
@@ -28,7 +28,7 @@ import quickfix.field.BeginString;
 /**
  * @author Simon Lewis
  */
-public class QuickfixVersionAssert extends MessageAssert<QuickfixVersionAssert> {
+public class QuickfixVersionAssert extends AbstractMessageAssert<QuickfixVersionAssert, Message> {
 
 	protected QuickfixVersionAssert(Class<QuickfixVersionAssert> selfType, Message actual) {
 		super(selfType, actual);
@@ -81,7 +81,7 @@ public class QuickfixVersionAssert extends MessageAssert<QuickfixVersionAssert> 
 		try {
 			return actual.getHeader().getString(BeginString.FIELD);
 		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveHeaderFieldEqualTo(BeginString.class, BeginString.FIELD));
+			throw failures.failure(info, shouldHaveField(BeginString.class, BeginString.FIELD));
 		}
 	}
 }
