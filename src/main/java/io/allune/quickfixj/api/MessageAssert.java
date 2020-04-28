@@ -21,9 +21,9 @@ import static quickfix.FixVersions.BEGINSTRING_FIX42;
 import static quickfix.MessageUtils.getMessageType;
 import static quickfix.field.MsgType.ORDER_SINGLE;
 
-import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingleAssert40Assert;
-import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingleAssert41Assert;
-import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingleAssert42Assert;
+import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingle40Assert;
+import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingle41Assert;
+import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingle42Assert;
 import quickfix.InvalidMessage;
 import quickfix.Message;
 import quickfix.field.MsgType;
@@ -37,31 +37,31 @@ public class MessageAssert extends AbstractMessageAssert<MessageAssert, Message>
 		super(MessageAssert.class, message);
 	}
 
-	public NewOrderSingleAssert40Assert isNewOrderSingle40() {
+	public NewOrderSingle40Assert isNewOrderSingle40() {
 		hasVersion(BEGINSTRING_FIX40);
 		assertSameMessageType(ORDER_SINGLE);
 		try {
-			return new NewOrderSingleAssert40Assert(createFromMessage(BEGINSTRING_FIX40, ORDER_SINGLE, actual.toRawString()));
+			return new NewOrderSingle40Assert(createFromMessage(BEGINSTRING_FIX40, ORDER_SINGLE, actual.toRawString()));
 		} catch (InvalidMessage e) {
 			throw failures.failure(info, shouldBeValidMessage(actual.toRawString(), e.getMessage()));
 		}
 	}
 
-	public NewOrderSingleAssert41Assert isNewOrderSingle41() {
+	public NewOrderSingle41Assert isNewOrderSingle41() {
 		hasVersion(BEGINSTRING_FIX41);
 		assertSameMessageType(ORDER_SINGLE);
 		try {
-			return new NewOrderSingleAssert41Assert(createFromMessage(BEGINSTRING_FIX41, ORDER_SINGLE, actual.toRawString()));
+			return new NewOrderSingle41Assert(createFromMessage(BEGINSTRING_FIX41, ORDER_SINGLE, actual.toRawString()));
 		} catch (InvalidMessage e) {
 			throw failures.failure(info, shouldBeValidMessage(actual.toRawString(), e.getMessage()));
 		}
 	}
 
-	public NewOrderSingleAssert42Assert isNewOrderSingle42() {
+	public NewOrderSingle42Assert isNewOrderSingle42() {
 		hasVersion(BEGINSTRING_FIX42);
 		assertSameMessageType(ORDER_SINGLE);
 		try {
-			return new NewOrderSingleAssert42Assert(createFromMessage(BEGINSTRING_FIX42, ORDER_SINGLE, actual.toRawString()));
+			return new NewOrderSingle42Assert(createFromMessage(BEGINSTRING_FIX42, ORDER_SINGLE, actual.toRawString()));
 		} catch (InvalidMessage e) {
 			throw failures.failure(info, shouldBeValidMessage(actual.toRawString(), e.getMessage()));
 		}

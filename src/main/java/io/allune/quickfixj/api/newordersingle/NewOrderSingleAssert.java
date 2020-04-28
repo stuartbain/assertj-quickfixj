@@ -19,59 +19,59 @@ import quickfix.fix40.NewOrderSingle;
  */
 public class NewOrderSingleAssert {
 
-	public static class NewOrderSingleAssert40Assert extends AbstractNewOrderSingleAssert<NewOrderSingleAssert40Assert, NewOrderSingle> {
+	public static class NewOrderSingle40Assert extends AbstractNewOrderSingleAssert<NewOrderSingle40Assert, NewOrderSingle> {
 
-		public NewOrderSingleAssert40Assert(NewOrderSingle actual) {
-			super(NewOrderSingleAssert40Assert.class, actual);
+		public NewOrderSingle40Assert(NewOrderSingle actual) {
+			super(NewOrderSingle40Assert.class, actual);
 		}
 	}
 
-	public static class NewOrderSingleAssert41Assert extends AbstractNewOrderSingleAssert<NewOrderSingleAssert41Assert, quickfix.fix41.NewOrderSingle> {
+	public static class NewOrderSingle41Assert extends AbstractNewOrderSingleAssert<NewOrderSingle41Assert, quickfix.fix41.NewOrderSingle> {
 
-		public NewOrderSingleAssert41Assert(quickfix.fix41.NewOrderSingle actual) {
-			super(NewOrderSingleAssert41Assert.class, actual);
+		public NewOrderSingle41Assert(quickfix.fix41.NewOrderSingle actual) {
+			super(NewOrderSingle41Assert.class, actual);
 		}
 	}
 
-	public static class NewOrderSingleAssert42Assert extends AbstractNewOrderSingleAssert<NewOrderSingleAssert42Assert, quickfix.fix42.NewOrderSingle> {
+	public static class NewOrderSingle42Assert extends AbstractNewOrderSingleAssert<NewOrderSingle42Assert, quickfix.fix42.NewOrderSingle> {
 
-		public NewOrderSingleAssert42Assert(quickfix.fix42.NewOrderSingle actual) {
-			super(NewOrderSingleAssert42Assert.class, actual);
+		public NewOrderSingle42Assert(quickfix.fix42.NewOrderSingle actual) {
+			super(NewOrderSingle42Assert.class, actual);
 		}
 	}
 
-	public static class NewOrderSingleAssert43Assert extends AbstractNewOrderSingleAssert<NewOrderSingleAssert43Assert, quickfix.fix43.NewOrderSingle> {
+	public static class NewOrderSingle43Assert extends AbstractNewOrderSingleAssert<NewOrderSingle43Assert, quickfix.fix43.NewOrderSingle> {
 
-		public NewOrderSingleAssert43Assert(quickfix.fix43.NewOrderSingle actual) {
-			super(NewOrderSingleAssert43Assert.class, actual);
+		public NewOrderSingle43Assert(quickfix.fix43.NewOrderSingle actual) {
+			super(NewOrderSingle43Assert.class, actual);
 		}
 	}
 
-	public static class NewOrderSingleAssert44Assert extends AbstractNewOrderSingleAssert<NewOrderSingleAssert44Assert, quickfix.fix44.NewOrderSingle> {
+	public static class NewOrderSingle44Assert extends AbstractNewOrderSingleAssert<NewOrderSingle44Assert, quickfix.fix44.NewOrderSingle> {
 
-		public NewOrderSingleAssert44Assert(quickfix.fix44.NewOrderSingle actual) {
-			super(NewOrderSingleAssert44Assert.class, actual);
+		public NewOrderSingle44Assert(quickfix.fix44.NewOrderSingle actual) {
+			super(NewOrderSingle44Assert.class, actual);
 		}
 	}
 
-	public static class NewOrderSingleAssert50Assert extends AbstractNewOrderSingleAssert<NewOrderSingleAssert50Assert, quickfix.fix50.NewOrderSingle> {
+	public static class NewOrderSingle50Assert extends AbstractNewOrderSingleAssert<NewOrderSingle50Assert, quickfix.fix50.NewOrderSingle> {
 
-		public NewOrderSingleAssert50Assert(quickfix.fix50.NewOrderSingle actual) {
-			super(NewOrderSingleAssert50Assert.class, actual);
+		public NewOrderSingle50Assert(quickfix.fix50.NewOrderSingle actual) {
+			super(NewOrderSingle50Assert.class, actual);
 		}
 	}
 
-	public static class NewOrderSingleAssert50sp1Assert extends AbstractNewOrderSingleAssert<NewOrderSingleAssert50sp1Assert, quickfix.fix50sp1.NewOrderSingle> {
+	public static class NewOrderSingle50sp1Assert extends AbstractNewOrderSingleAssert<NewOrderSingle50sp1Assert, quickfix.fix50sp1.NewOrderSingle> {
 
-		public NewOrderSingleAssert50sp1Assert(quickfix.fix50sp1.NewOrderSingle actual) {
-			super(NewOrderSingleAssert50sp1Assert.class, actual);
+		public NewOrderSingle50sp1Assert(quickfix.fix50sp1.NewOrderSingle actual) {
+			super(NewOrderSingle50sp1Assert.class, actual);
 		}
 	}
 
-	public static class NewOrderSingleAssert50sp2Assert extends AbstractNewOrderSingleAssert<NewOrderSingleAssert50sp2Assert, quickfix.fix50sp2.NewOrderSingle> {
+	public static class NewOrderSingle50sp2Assert extends AbstractNewOrderSingleAssert<NewOrderSingle50sp2Assert, quickfix.fix50sp2.NewOrderSingle> {
 
-		public NewOrderSingleAssert50sp2Assert(quickfix.fix50sp2.NewOrderSingle actual) {
-			super(NewOrderSingleAssert50sp2Assert.class, actual);
+		public NewOrderSingle50sp2Assert(quickfix.fix50sp2.NewOrderSingle actual) {
+			super(NewOrderSingle50sp2Assert.class, actual);
 		}
 	}
 }
