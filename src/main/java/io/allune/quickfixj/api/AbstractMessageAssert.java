@@ -12,11 +12,17 @@
  */
 package io.allune.quickfixj.api;
 
+import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
+import static quickfix.MessageUtils.getMessageType;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+import quickfix.Field;
+import quickfix.InvalidMessage;
 import quickfix.Message;
+import quickfix.field.MsgType;
 
 /**
  * @author Eduardo Sanchez-Ros
@@ -55,15 +61,49 @@ public class AbstractMessageAssert<SELF extends AbstractMessageAssert<SELF, ACTU
 		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual, version);
 	}
 
+	public SELF hasBodyLength(int expected) {
+		isNotNull();
+		objects.assertEqual(info, actual.bodyLength(), expected);
+		return (SELF) this;
+	}
+
+	public SELF containsField(int expected) {
+		isNotNull();
+		objects.assertEqual(info, actual.isSetField(expected), true);
+		return (SELF) this;
+	}
+
+	public SELF containsField(Field<?> expected) {
+		return containsField(expected.getField());
+	}
+
+	//	public <T> SELF hasFieldWithValue(int field, T value) {
+	//		hasField(field);
+	//
+	//		actual.getField()
+	//	}
+	//
+	//	public SELF hasFieldWithValue(Field<?> field, Object value) {
+	//
+	//	}
+
+	public SELF isMessageType(String msgType) {
+		assertSameMessageType(msgType);
+		return (SELF) this;
+	}
+
+	private void assertSameMessageType(String msgType) {
+		try {
+			objects.assertEqual(info, msgType, getMessageType(actual.toString()));
+		} catch (InvalidMessage invalidMessage) {
+			throw failures.failure(info, shouldHaveField(MsgType.class, MsgType.FIELD));
+		}
+	}
+
 	@Override
 	public SELF isEqualTo(Object expected) {
 		// TODO
 		objects.assertEqual(info, actual, expected);
-		return (SELF) this;
-	}
-
-	public SELF hasBodyLength(int expected) {
-		objects.assertEqual(info, actual.bodyLength(), expected);
 		return (SELF) this;
 	}
 }

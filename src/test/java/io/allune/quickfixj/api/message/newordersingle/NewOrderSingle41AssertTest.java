@@ -13,11 +13,15 @@
 package io.allune.quickfixj.api.message.newordersingle;
 
 import static io.allune.quickfixj.api.Assertions.assertThat;
+import static io.allune.quickfixj.internal.Messages.getSessionDataDictionary;
+import static quickfix.FixVersions.BEGINSTRING_FIX41;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import io.allune.quickfixj.api.MessageAssert;
+import quickfix.field.Account;
+import quickfix.field.ClOrdID;
+import quickfix.field.Side;
 import quickfix.fix40.NewOrderSingle;
 
 /**
@@ -32,7 +36,7 @@ public class NewOrderSingle41AssertTest {
 		message = new NewOrderSingle();
 		message.fromString(
 				"8=FIX.4.1\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000159=0\u000160=20100225-19:39:52.020\u000110=068\u0001",
-				MessageAssert.getFix41Dictionary(),
+				getSessionDataDictionary(BEGINSTRING_FIX41),
 				false);
 	}
 
@@ -42,7 +46,7 @@ public class NewOrderSingle41AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasClOrdID("13346");
+				.hasClOrdID(new ClOrdID("13346"));
 	}
 
 	@Test
@@ -51,6 +55,15 @@ public class NewOrderSingle41AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasAccount("Marcel");
+				.hasAccount(new Account("Marcel"));
+	}
+
+	@Test
+	public void shouldAssertNewOrderSingle41HasSide() {
+		// Given
+
+		// When/Then
+		assertThat(message)
+				.hasSide(new Side(Side.BUY));
 	}
 }
