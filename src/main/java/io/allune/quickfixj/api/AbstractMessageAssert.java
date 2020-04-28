@@ -92,7 +92,7 @@ public class AbstractMessageAssert<SELF extends AbstractMessageAssert<SELF, ACTU
 		return (SELF) this;
 	}
 
-	private void assertSameMessageType(String msgType) {
+	public void assertSameMessageType(String msgType) {
 		try {
 			objects.assertEqual(info, msgType, getMessageType(actual.toString()));
 		} catch (InvalidMessage invalidMessage) {

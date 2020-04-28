@@ -32,9 +32,13 @@ public class Messages {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Message> T createFromMessage(String beginString, String msgType, String messageData) throws InvalidMessage {
+	public static <T extends Message> T createFromMessage(String beginString, String msgType, String messageData) {
 		Message message = messageFactory.create(beginString, msgType);
-		message.fromString(messageData, dataDictionaryProvider.getSessionDataDictionary(beginString), false);
+		try {
+			message.fromString(messageData, dataDictionaryProvider.getSessionDataDictionary(beginString), false);
+		} catch (InvalidMessage e) {
+			throw new InvalidMessageException(e.getMessage(), e);
+		}
 		return (T) message;
 	}
 }

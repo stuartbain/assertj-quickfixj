@@ -12,66 +12,56 @@
  */
 package io.allune.quickfixj.api;
 
-import static io.allune.quickfixj.error.ShouldBeValidMessage.shouldBeValidMessage;
-import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
-import static io.allune.quickfixj.internal.Messages.createFromMessage;
 import static quickfix.FixVersions.BEGINSTRING_FIX40;
 import static quickfix.FixVersions.BEGINSTRING_FIX41;
 import static quickfix.FixVersions.BEGINSTRING_FIX42;
-import static quickfix.MessageUtils.getMessageType;
+import static quickfix.FixVersions.BEGINSTRING_FIX43;
+import static quickfix.FixVersions.BEGINSTRING_FIX44;
 import static quickfix.field.MsgType.ORDER_SINGLE;
 
-import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingle40Assert;
-import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingle41Assert;
-import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert.NewOrderSingle42Assert;
-import quickfix.InvalidMessage;
+import io.allune.quickfixj.api.newordersingle.AbstractNewOrderSingleAssert;
+import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertFactory;
 import quickfix.Message;
-import quickfix.field.MsgType;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
+@SuppressWarnings("rawtypes")
 public class MessageAssert extends AbstractMessageAssert<MessageAssert, Message> {
+
+	NewOrderSingleAssertFactory assertFactory = new NewOrderSingleAssertFactory();
 
 	protected MessageAssert(Message message) {
 		super(MessageAssert.class, message);
 	}
 
-	public NewOrderSingle40Assert isNewOrderSingle40() {
+	public AbstractNewOrderSingleAssert isNewOrderSingle40() {
 		hasVersion(BEGINSTRING_FIX40);
 		assertSameMessageType(ORDER_SINGLE);
-		try {
-			return new NewOrderSingle40Assert(createFromMessage(BEGINSTRING_FIX40, ORDER_SINGLE, actual.toRawString()));
-		} catch (InvalidMessage e) {
-			throw failures.failure(info, shouldBeValidMessage(actual.toRawString(), e.getMessage()));
-		}
+		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX40, actual.toRawString());
 	}
 
-	public NewOrderSingle41Assert isNewOrderSingle41() {
+	public AbstractNewOrderSingleAssert isNewOrderSingle41() {
 		hasVersion(BEGINSTRING_FIX41);
 		assertSameMessageType(ORDER_SINGLE);
-		try {
-			return new NewOrderSingle41Assert(createFromMessage(BEGINSTRING_FIX41, ORDER_SINGLE, actual.toRawString()));
-		} catch (InvalidMessage e) {
-			throw failures.failure(info, shouldBeValidMessage(actual.toRawString(), e.getMessage()));
-		}
+		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX41, actual.toRawString());
 	}
 
-	public NewOrderSingle42Assert isNewOrderSingle42() {
+	public AbstractNewOrderSingleAssert isNewOrderSingle42() {
 		hasVersion(BEGINSTRING_FIX42);
 		assertSameMessageType(ORDER_SINGLE);
-		try {
-			return new NewOrderSingle42Assert(createFromMessage(BEGINSTRING_FIX42, ORDER_SINGLE, actual.toRawString()));
-		} catch (InvalidMessage e) {
-			throw failures.failure(info, shouldBeValidMessage(actual.toRawString(), e.getMessage()));
-		}
+		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX42, actual.toRawString());
 	}
 
-	private void assertSameMessageType(String msgType) {
-		try {
-			objects.assertEqual(info, msgType, getMessageType(actual.toString()));
-		} catch (InvalidMessage invalidMessage) {
-			throw failures.failure(info, shouldHaveField(MsgType.class, MsgType.FIELD));
-		}
+	public AbstractNewOrderSingleAssert isNewOrderSingle43() {
+		hasVersion(BEGINSTRING_FIX43);
+		assertSameMessageType(ORDER_SINGLE);
+		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX43, actual.toRawString());
+	}
+
+	public AbstractNewOrderSingleAssert isNewOrderSingle44() {
+		hasVersion(BEGINSTRING_FIX44);
+		assertSameMessageType(ORDER_SINGLE);
+		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX44, actual.toRawString());
 	}
 }

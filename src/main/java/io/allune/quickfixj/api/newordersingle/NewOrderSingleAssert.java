@@ -24,6 +24,10 @@ public class NewOrderSingleAssert {
 		public NewOrderSingle40Assert(NewOrderSingle actual) {
 			super(NewOrderSingle40Assert.class, actual);
 		}
+
+		//		public static NewOrderSingle40Assert createNewOrderSingle40Assert(NewOrderSingle actual) {
+		//			return new NewOrderSingle40Assert(actual);
+		//		}
 	}
 
 	public static class NewOrderSingle41Assert extends AbstractNewOrderSingleAssert<NewOrderSingle41Assert, quickfix.fix41.NewOrderSingle> {
