@@ -25,6 +25,11 @@ public class ShouldBeValidMessage extends BasicErrorMessageFactory {
 	}
 
 	private ShouldBeValidMessage(Object actual, Object error) {
-		super("%nExpecting Message to be a valid message <%s>, but was not. Error <%s>", actual, error);
+		super("%n"
+				+ "Expecting Message to be a valid message:%n"
+				+ " <%s>"
+				+ "but was not.%n"
+				+ "Error:%n"
+				+ " <%s>", actual, error);
 	}
 }

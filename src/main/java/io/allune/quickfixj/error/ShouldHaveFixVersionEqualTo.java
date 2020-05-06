@@ -18,6 +18,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 /**
  * @author Eduardo Sanchez-Ros
  */
+// TODO: Rename class
 public class ShouldHaveFixVersionEqualTo extends BasicErrorMessageFactory {
 
 	public static ErrorMessageFactory shouldHaveFixVersionEqualTo(Object actual, Object actualVersion, Object expectedVersion) {
@@ -25,13 +26,12 @@ public class ShouldHaveFixVersionEqualTo extends BasicErrorMessageFactory {
 	}
 
 	private ShouldHaveFixVersionEqualTo(Object actual, Object actualVersion, Object expectedVersion) {
-		super("%n" +
-						"Expecting:%n" +
-						"  <%s>%n" +
-						"to have FIX version:%n" +
-						"  <%s>%n" +
-						"but was:%n" +
-						"  <%s>",
-				actual, expectedVersion, actualVersion);
+		super("%n"
+				+ "Expecting:%n"
+				+ " <%s>%n"
+				+ "to have FIX version:%n"
+				+ " <%s>%n"
+				+ "but was:%n"
+				+ " <%s>", actual, expectedVersion, actualVersion);
 	}
 }

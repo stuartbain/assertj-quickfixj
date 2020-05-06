@@ -25,6 +25,8 @@ public class ShouldHaveField extends BasicErrorMessageFactory {
 	}
 
 	private ShouldHaveField(Object actual, Object field) {
-		super("%nExpecting Message to have header field <%s> (field number %s), but did not.", actual, field);
+		super("%n"
+				+ "Expecting Message to have header field <%s> (field number %s)%n"
+				+ "but did not.", actual, field);
 	}
 }

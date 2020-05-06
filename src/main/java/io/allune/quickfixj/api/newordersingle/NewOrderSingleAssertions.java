@@ -12,22 +12,16 @@
  */
 package io.allune.quickfixj.api.newordersingle;
 
-import quickfix.fix40.NewOrderSingle;
-
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class NewOrderSingleAssert {
+public class NewOrderSingleAssertions {
 
-	public static class NewOrderSingle40Assert extends AbstractNewOrderSingleAssert<NewOrderSingle40Assert, NewOrderSingle> {
+	public static class NewOrderSingle40Assert extends AbstractNewOrderSingleAssert<NewOrderSingle40Assert, quickfix.fix40.NewOrderSingle> {
 
-		public NewOrderSingle40Assert(NewOrderSingle actual) {
+		public NewOrderSingle40Assert(quickfix.fix40.NewOrderSingle actual) {
 			super(NewOrderSingle40Assert.class, actual);
 		}
-
-		//		public static NewOrderSingle40Assert createNewOrderSingle40Assert(NewOrderSingle actual) {
-		//			return new NewOrderSingle40Assert(actual);
-		//		}
 	}
 
 	public static class NewOrderSingle41Assert extends AbstractNewOrderSingleAssert<NewOrderSingle41Assert, quickfix.fix41.NewOrderSingle> {
@@ -77,5 +71,37 @@ public class NewOrderSingleAssert {
 		public NewOrderSingle50sp2Assert(quickfix.fix50sp2.NewOrderSingle actual) {
 			super(NewOrderSingle50sp2Assert.class, actual);
 		}
+	}
+
+	public static NewOrderSingle40Assert assertThat(quickfix.fix40.NewOrderSingle newOrderSingle) {
+		return new NewOrderSingle40Assert(newOrderSingle);
+	}
+
+	public static NewOrderSingle41Assert assertThat(quickfix.fix41.NewOrderSingle newOrderSingle) {
+		return new NewOrderSingle41Assert(newOrderSingle);
+	}
+
+	public static NewOrderSingle42Assert assertThat(quickfix.fix42.NewOrderSingle newOrderSingle) {
+		return new NewOrderSingle42Assert(newOrderSingle);
+	}
+
+	public static NewOrderSingle43Assert assertThat(quickfix.fix43.NewOrderSingle newOrderSingle) {
+		return new NewOrderSingle43Assert(newOrderSingle);
+	}
+
+	public static NewOrderSingle44Assert assertThat(quickfix.fix44.NewOrderSingle newOrderSingle) {
+		return new NewOrderSingle44Assert(newOrderSingle);
+	}
+
+	public static NewOrderSingle50Assert assertThat(quickfix.fix50.NewOrderSingle newOrderSingle) {
+		return new NewOrderSingle50Assert(newOrderSingle);
+	}
+
+	public static NewOrderSingle50sp1Assert assertThat(quickfix.fix50sp1.NewOrderSingle newOrderSingle) {
+		return new NewOrderSingle50sp1Assert(newOrderSingle);
+	}
+
+	public static NewOrderSingle50sp2Assert assertThat(quickfix.fix50sp2.NewOrderSingle newOrderSingle) {
+		return new NewOrderSingle50sp2Assert(newOrderSingle);
 	}
 }

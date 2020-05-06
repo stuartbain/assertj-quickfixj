@@ -18,13 +18,19 @@ import org.assertj.core.error.ErrorMessageFactory;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class ShouldBeSupportedFixVersion extends BasicErrorMessageFactory {
+public class FieldShouldHaveValue extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldBeSupportedFixVersion(Object actual) {
-		return new ShouldBeSupportedFixVersion(actual);
+	public static ErrorMessageFactory fieldShouldHaveValue(Object clazz, Object field, Object actual, Object expected) {
+		return new FieldShouldHaveValue(clazz, field, actual, expected);
 	}
 
-	private ShouldBeSupportedFixVersion(Object actual) {
-		super("%nExpecting FIX version to be one of <%s>, but was <%s>", "", actual);
+	private FieldShouldHaveValue(Object clazz, Object field, Object actual, Object expected) {
+		super("%n"
+				+ "Expecting Message with field <%s> (field number %s)%n"
+				+ "to have value:%n"
+				+ " <%s>%n"
+				+ "but was:%n"
+				+ " <%s>", clazz, field, expected, actual);
 	}
+
 }

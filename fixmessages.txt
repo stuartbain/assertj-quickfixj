@@ -1,0 +1,41 @@
+https://seedcx.com/api/fix/
+
+FIX 4.4
+
+# Limit Day Order (40=2, 59=0)
+
+8=FIX.4.4|9=227|35=D|49=YIZUG0TPF6|56=SEEDCX|34=26|50=FKIDMMZZ7YAV|142=US,IL|57=SCXM|52=20181001-15:18:10.913|369=33|11=Order48984|1=FKIDMMZZ7|55=COSP:BTC/USD|54=2|60=20181001-15:18:10.913|38=1|40=2|44=6435|59=0|528=A|582=1|1028=N|10=078|
+
+# Market FOK Order (40=1, 59=4)
+
+8=FIX.4.4|9=219|35=D|49=YIZUG0TPF6|56=SEEDCX|34=31|50=FKIDMMZZ7YAV|142=US,IL|57=SCXM|52=20181001-15:18:24.751|369=40|11=Order48991|1=FKIDMMZZ7|55=COSP:BTC/USD|54=1|60=20181001-15:18:24.751|38=2|40=1|59=4|528=A|582=1|1028=N|10=220|
+
+
+
+
+
+
+https://docs.gemini.com/fix-api/#clearing-order-confirmation
+
+RAW
+8=FIX.4.4|9=137|35=D|34=2237|49=CLIENT|52=20160218-22:25:24.277|56=GEMINI|11=SOME_ORDER|38=5|40=2|44=420.18|54=1|55=BTCUSD|59=1|60=20160218-17:24:14.453|10=066|
+
+HEADER
+        8         BeginString: FIX.4.4
+        9          BodyLength: 137
+       34           MsgSeqNum: 2237
+       35             MsgType: NewOrderSingle (D)
+       49        SenderCompID: CLIENT
+       52         SendingTime: 20160218-22:25:24.277
+       56        TargetCompID: GEMINI
+BODY
+       11             ClOrdID: SOME_ORDER
+       38            OrderQty: 5
+       40             OrdType: LIMIT (2)
+       44               Price: 420.18
+       54                Side: BUY (1)
+       55              Symbol: BTCUSD
+       59         TimeInForce: GOOD_TILL_CANCEL (1)
+       60        TransactTime: 20160218-17:24:14.453
+TRAILER
+       10            CheckSum: 066

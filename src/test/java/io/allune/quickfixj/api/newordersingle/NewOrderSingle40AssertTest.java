@@ -10,24 +10,21 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.message.newordersingle;
+package io.allune.quickfixj.api.newordersingle;
 
-import static io.allune.quickfixj.api.Assertions.assertThat;
+import static io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertions.assertThat;
 import static io.allune.quickfixj.internal.Messages.getSessionDataDictionary;
+import static org.assertj.core.api.Assertions.fail;
 import static quickfix.FixVersions.BEGINSTRING_FIX40;
 
 import java.time.LocalDateTime;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
-import quickfix.field.Account;
-import quickfix.field.ClOrdID;
 import quickfix.field.HandlInst;
 import quickfix.field.OrdType;
-import quickfix.field.OrderQty;
 import quickfix.field.Side;
-import quickfix.field.Symbol;
-import quickfix.field.TransactTime;
 import quickfix.fix40.NewOrderSingle;
 
 /**
@@ -52,29 +49,30 @@ public class NewOrderSingle40AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasClOrdID(new ClOrdID("13346"));
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle40HasClOrdIDString() {
-		// Given
-
-		// When/Then
-		assertThat(message)
 				.hasClOrdID("13346");
 	}
 
 	@Test
-	public void shouldAssertNewOrderSingle40HasHandlInst() {
+	public void shouldFailToAssertNewOrderSingle40HasClOrdID() {
 		// Given
 
 		// When/Then
-		assertThat(message)
-				.hasHandlInst(new HandlInst(HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION));
+		try {
+			assertThat(message)
+					.hasClOrdID("13342");
+		} catch (AssertionError e) {
+			Assertions.assertThat(e).hasMessage("\nExpecting Message with field <quickfix.field.ClOrdID> (field number 11)\n"
+					+ "to have value:\n"
+					+ " <\"13342\">\n"
+					+ "but was:\n"
+					+ " <\"13346\">");
+			return;
+		}
+		fail("Should have thrown AssertionError");
 	}
 
 	@Test
-	public void shouldAssertNewOrderSingle40HasHandlInstChar() {
+	public void shouldAssertNewOrderSingle40HasHandlInst() {
 		// Given
 
 		// When/Then
@@ -88,29 +86,11 @@ public class NewOrderSingle40AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasSymbol(new Symbol("GBP/USD"));
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle40HasSymbolString() {
-		// Given
-
-		// When/Then
-		assertThat(message)
 				.hasSymbol("GBP/USD");
 	}
 
 	@Test
 	public void shouldAssertNewOrderSingle40HasSide() {
-		// Given
-
-		// When/Then
-		assertThat(message)
-				.hasSide(new Side(Side.BUY));
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle40HasSideChar() {
 		// Given
 
 		// When/Then
@@ -124,29 +104,11 @@ public class NewOrderSingle40AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasOrderQty(new OrderQty(1000));
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle40HasOrderQtyDouble() {
-		// Given
-
-		// When/Then
-		assertThat(message)
 				.hasOrderQty(1000D);
 	}
 
 	@Test
 	public void shouldAssertNewOrderSingle40HasOrdType() {
-		// Given
-
-		// When/Then
-		assertThat(message)
-				.hasOrdType(new OrdType(OrdType.LIMIT));
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle40HasOrdTypeChar() {
 		// Given
 
 		// When/Then
@@ -160,15 +122,6 @@ public class NewOrderSingle40AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasTransactTime(new TransactTime(LocalDateTime.parse("2010-02-25T19:39:52.020")));
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle40HasTransactTimeLocalDateTime() {
-		// Given
-
-		// When/Then
-		assertThat(message)
 				.hasTransactTime(LocalDateTime.parse("2010-02-25T19:39:52.020"));
 	}
 
@@ -178,16 +131,22 @@ public class NewOrderSingle40AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasAccount(new Account("Marcel"));
+				.hasAccount("Marcel");
 	}
 
 	@Test
-	public void shouldAssertNewOrderSingle40HasAccountString() {
+	public void shouldAssertNewOrderSingleAllFields() {
 		// Given
 
 		// When/Then
 		assertThat(message)
+				.hasClOrdID("13346")
+				.hasHandlInst(HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION)
+				.hasSymbol("GBP/USD")
+				.hasSide(Side.BUY)
+				.hasOrderQty(1000D)
+				.hasOrdType(OrdType.LIMIT)
+				.hasTransactTime(LocalDateTime.parse("2010-02-25T19:39:52.020"))
 				.hasAccount("Marcel");
 	}
-
 }

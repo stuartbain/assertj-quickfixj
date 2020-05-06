@@ -12,12 +12,9 @@
  */
 package io.allune.quickfixj.api.newordersingle;
 
-import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
-
 import java.time.LocalDateTime;
 
 import io.allune.quickfixj.api.AbstractMessageAssert;
-import quickfix.FieldNotFound;
 import quickfix.Message;
 import quickfix.field.Account;
 import quickfix.field.ClOrdID;
@@ -31,122 +28,57 @@ import quickfix.field.TransactTime;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class AbstractNewOrderSingleAssert<ACTUAL extends AbstractMessageAssert<ACTUAL, SELF>, SELF extends Message> extends AbstractMessageAssert<ACTUAL, SELF> {
+public abstract class AbstractNewOrderSingleAssert<ACTUAL extends AbstractMessageAssert<ACTUAL, SELF>, SELF extends Message> extends AbstractMessageAssert<ACTUAL, SELF> {
 
 	protected AbstractNewOrderSingleAssert(Class<ACTUAL> selfType, SELF self) {
 		super(selfType, self);
 	}
 
-	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasClOrdID(ClOrdID expected) {
-		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getString(ClOrdID.FIELD), expected != null ? expected.getObject() : null);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(ClOrdID.class, ClOrdID.FIELD));
-		}
-		return this;
-	}
-
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasClOrdID(String expected) {
-		return hasClOrdID(new ClOrdID(expected));
-	}
-
-	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasHandlInst(HandlInst expected) {
 		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getChar(HandlInst.FIELD), expected != null ? expected.getObject() : null);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(HandlInst.class, HandlInst.FIELD));
-		}
+		messages.assertHasStringFieldValue(info, actual, ClOrdID.FIELD, ClOrdID.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasHandlInst(Character expected) {
-		return hasHandlInst(new HandlInst(expected));
-	}
-
-	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasSymbol(Symbol expected) {
 		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getString(Symbol.FIELD), expected != null ? expected.getObject() : null);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(Symbol.class, Symbol.FIELD));
-		}
+		messages.assertHasCharFieldValue(info, actual, HandlInst.FIELD, HandlInst.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasSymbol(String expected) {
-		return hasSymbol(new Symbol(expected));
-	}
-
-	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasSide(Side expected) {
 		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getChar(Side.FIELD), expected != null ? expected.getObject() : null);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(Side.class, Side.FIELD));
-		}
+		messages.assertHasStringFieldValue(info, actual, Symbol.FIELD, Symbol.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasSide(Character expected) {
-		return hasSide(new Side(expected));
-	}
-
-	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasOrderQty(OrderQty expected) {
 		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getDouble(OrderQty.FIELD), expected != null ? expected.getObject() : null);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(OrderQty.class, OrderQty.FIELD));
-		}
+		messages.assertHasCharFieldValue(info, actual, Side.FIELD, Side.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasOrderQty(Double expected) {
-		return hasOrderQty(new OrderQty(expected));
-	}
-
-	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasOrdType(OrdType expected) {
 		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getChar(OrdType.FIELD), expected != null ? expected.getObject() : null);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(OrdType.class, OrdType.FIELD));
-		}
+		messages.assertHasDoubleFieldValue(info, actual, OrderQty.FIELD, OrderQty.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasOrdType(Character expected) {
-		return hasOrdType(new OrdType(expected));
-	}
-
-	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasTransactTime(TransactTime expected) {
 		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getUtcTimeStamp(TransactTime.FIELD), expected != null ? expected.getObject() : null);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(TransactTime.class, TransactTime.FIELD));
-		}
+		messages.assertHasCharFieldValue(info, actual, OrdType.FIELD, OrdType.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasTransactTime(LocalDateTime expected) {
-		return hasTransactTime(new TransactTime(expected));
-	}
-
-	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasAccount(Account expected) {
 		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getString(Account.FIELD), expected != null ? expected.getObject() : null);
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(Account.class, Account.FIELD));
-		}
+		messages.assertHasUtcTimeStampFieldValue(info, actual, TransactTime.FIELD, TransactTime.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasAccount(String expected) {
-		return hasAccount(new Account(expected));
+		isNotNull();
+		messages.assertHasStringFieldValue(info, actual, Account.FIELD, Account.class, expected);
+		return this;
 	}
-
 }

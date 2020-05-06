@@ -12,56 +12,54 @@
  */
 package io.allune.quickfixj.api;
 
-import static quickfix.FixVersions.BEGINSTRING_FIX40;
-import static quickfix.FixVersions.BEGINSTRING_FIX41;
-import static quickfix.FixVersions.BEGINSTRING_FIX42;
-import static quickfix.FixVersions.BEGINSTRING_FIX43;
-import static quickfix.FixVersions.BEGINSTRING_FIX44;
-import static quickfix.field.MsgType.ORDER_SINGLE;
-
-import io.allune.quickfixj.api.newordersingle.AbstractNewOrderSingleAssert;
-import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertFactory;
 import quickfix.Message;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-@SuppressWarnings("rawtypes")
 public class MessageAssert extends AbstractMessageAssert<MessageAssert, Message> {
 
-	NewOrderSingleAssertFactory assertFactory = new NewOrderSingleAssertFactory();
-
-	protected MessageAssert(Message message) {
+	public MessageAssert(Message message) {
 		super(MessageAssert.class, message);
 	}
 
-	public AbstractNewOrderSingleAssert isNewOrderSingle40() {
-		hasVersion(BEGINSTRING_FIX40);
-		assertSameMessageType(ORDER_SINGLE);
-		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX40, actual.toRawString());
+	public MessageAssert isVersion40() {
+		versions.assertMessageIsVersionFix40(info, actual);
+		return this;
 	}
 
-	public AbstractNewOrderSingleAssert isNewOrderSingle41() {
-		hasVersion(BEGINSTRING_FIX41);
-		assertSameMessageType(ORDER_SINGLE);
-		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX41, actual.toRawString());
+	public MessageAssert isVersion41() {
+		versions.assertMessageIsVersionFix41(info, actual);
+		return this;
 	}
 
-	public AbstractNewOrderSingleAssert isNewOrderSingle42() {
-		hasVersion(BEGINSTRING_FIX42);
-		assertSameMessageType(ORDER_SINGLE);
-		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX42, actual.toRawString());
+	public MessageAssert isVersion42() {
+		versions.assertMessageIsVersionFix42(info, actual);
+		return this;
 	}
 
-	public AbstractNewOrderSingleAssert isNewOrderSingle43() {
-		hasVersion(BEGINSTRING_FIX43);
-		assertSameMessageType(ORDER_SINGLE);
-		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX43, actual.toRawString());
+	public MessageAssert isVersion43() {
+		versions.assertMessageIsVersionFix43(info, actual);
+		return this;
 	}
 
-	public AbstractNewOrderSingleAssert isNewOrderSingle44() {
-		hasVersion(BEGINSTRING_FIX44);
-		assertSameMessageType(ORDER_SINGLE);
-		return assertFactory.newOrderSingleAssertFromFixVersion(info, BEGINSTRING_FIX44, actual.toRawString());
+	public MessageAssert isVersion44() {
+		versions.assertMessageIsVersionFix44(info, actual);
+		return this;
+	}
+
+	public MessageAssert isVersion50() {
+		versions.assertMessageIsVersionFix50(info, actual);
+		return this;
+	}
+
+	public MessageAssert isVersion50sp1() {
+		versions.assertMessageIsVersionFix50sp1(info, actual);
+		return this;
+	}
+
+	public MessageAssert isVersion50sp2() {
+		versions.assertMessageIsVersionFix50sp2(info, actual);
+		return this;
 	}
 }

@@ -12,36 +12,43 @@
  */
 package io.allune.quickfixj.api;
 
-import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
-import static quickfix.MessageUtils.getMessageType;
+import static quickfix.FixVersions.BEGINSTRING_FIXT11;
+import static quickfix.MessageUtils.toBeginString;
+import static quickfix.field.MsgType.ORDER_SINGLE;
 
+import java.util.Iterator;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+import io.allune.quickfixj.api.newordersingle.AbstractNewOrderSingleAssert;
+import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertFactory;
+import io.allune.quickfixj.internal.Messages;
+import io.allune.quickfixj.internal.Versions;
 import quickfix.Field;
-import quickfix.InvalidMessage;
+import quickfix.FieldNotFound;
 import quickfix.Message;
-import quickfix.field.MsgType;
+import quickfix.StringField;
+import quickfix.field.ApplVerID;
+import quickfix.field.BeginString;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-@SuppressWarnings("unchecked")
-public class AbstractMessageAssert<SELF extends AbstractMessageAssert<SELF, ACTUAL>, ACTUAL extends Message> extends AbstractAssert<SELF, ACTUAL> {
+@SuppressWarnings({ "unchecked", "rawtypes" })
+public abstract class AbstractMessageAssert<SELF extends AbstractMessageAssert<SELF, ACTUAL>, ACTUAL extends Message> extends AbstractAssert<SELF, ACTUAL> {
+
+	private final String beginString;
 
 	protected Objects objects = Objects.instance();
 
 	protected Failures failures = Failures.instance();
 
-	/**
-	 * Creates a new <code>{@link AbstractMessageAssert}</code>.
-	 *
-	 * @param actual the actual value to verify
-	 */
-	protected AbstractMessageAssert(ACTUAL actual) {
-		super(actual, AbstractMessageAssert.class);
-	}
+	protected Messages messages = Messages.instance();
+
+	protected Versions versions = Versions.instance();
+
+	protected NewOrderSingleAssertFactory assertFactory = new NewOrderSingleAssertFactory();
 
 	/**
 	 * Creates a new <code>{@link AbstractMessageAssert}</code>.
@@ -51,59 +58,89 @@ public class AbstractMessageAssert<SELF extends AbstractMessageAssert<SELF, ACTU
 	 */
 	protected AbstractMessageAssert(Class<SELF> selfType, ACTUAL actual) {
 		super(actual, selfType);
+		this.beginString = determineMessageVersion(actual);
 	}
 
-	public QuickfixVersionAssert hasVersion() {
-		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual);
+	private String determineMessageVersion(ACTUAL actual) {
+		String beginString = messages.getBeginString(info, actual);
+
+		if (beginString.equals(BEGINSTRING_FIXT11)) {
+			String applVerId = messages.getApplVerId(info, actual);
+			return toBeginString(new ApplVerID(applVerId));
+		} else {
+			return beginString;
+		}
 	}
 
-	public QuickfixVersionAssert hasVersion(String version) {
-		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual, version);
+	public SELF hasBeginString(String expected) {
+		// TODO: Custom error message
+		isNotNull();
+		try {
+			objects.assertEqual(info, actual.getString(BeginString.FIELD), expected);
+		} catch (FieldNotFound fieldNotFound) {
+			fieldNotFound.printStackTrace();
+		}
+		return (SELF) this;
 	}
 
 	public SELF hasBodyLength(int expected) {
+		// TODO: Custom error message
 		isNotNull();
 		objects.assertEqual(info, actual.bodyLength(), expected);
 		return (SELF) this;
 	}
 
-	public SELF containsField(int expected) {
-		isNotNull();
-		objects.assertEqual(info, actual.isSetField(expected), true);
+	public SELF hasMessageType(String msgType) {
+		// TODO: Custom error message
+		messages.assertSameMessageType(info, actual, msgType);
 		return (SELF) this;
 	}
 
-	public SELF containsField(Field<?> expected) {
-		return containsField(expected.getField());
-	}
-
-	//	public <T> SELF hasFieldWithValue(int field, T value) {
-	//		hasField(field);
-	//
-	//		actual.getField()
-	//	}
-	//
-	//	public SELF hasFieldWithValue(Field<?> field, Object value) {
-	//
-	//	}
-
-	public SELF isMessageType(String msgType) {
-		assertSameMessageType(msgType);
-		return (SELF) this;
-	}
-
-	public void assertSameMessageType(String msgType) {
-		try {
-			objects.assertEqual(info, msgType, getMessageType(actual.toString()));
-		} catch (InvalidMessage invalidMessage) {
-			throw failures.failure(info, shouldHaveField(MsgType.class, MsgType.FIELD));
+	public SELF hasFields(int... fields) {
+		// TODO: Custom error message
+		for (int field : fields) {
+			hasField(field);
 		}
+		return (SELF) this;
+	}
+
+	public SELF hasField(int field) {
+		isNotNull();
+		// TODO: Custom error message
+		objects.assertEqual(info,
+				actual.isSetField(field) ||
+						actual.getHeader().isSetField(field) ||
+						actual.getTrailer().isSetField(field), true);
+		return (SELF) this;
+	}
+
+	public <T> SELF hasFieldValue(int expectedField, Object expected) {
+		hasField(expectedField);
+		Iterator<Field<?>> iterator = actual.iterator();
+		while (iterator.hasNext()) {
+			final StringField actualField = (StringField) iterator.next();
+			if (expectedField != actualField.getField())
+				continue;
+
+			// TODO: Custom error message
+			objects.assertEqual(info, actualField.getValue(), expected);
+		}
+
+		return (SELF) this;
 	}
 
 	@Override
 	public SELF isEqualTo(Object expected) {
 		// TODO
-		objects.assertEqual(info, actual, expected);
 		return (SELF) this;
+	}
+
+	public AbstractNewOrderSingleAssert isNewOrderSingle() {
+		messages.assertSameMessageType(info, actual, ORDER_SINGLE);
+		return assertFactory.newOrderSingleAssertFromFixVersion(info, getBeginString(), actual.toRawString());
+	}
+
+	protected String getBeginString() {
+		return beginString;
 	}
 }
