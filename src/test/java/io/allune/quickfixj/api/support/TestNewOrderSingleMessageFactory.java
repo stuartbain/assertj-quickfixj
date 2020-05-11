@@ -10,30 +10,29 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.newordersingle;
+package io.allune.quickfixj.api.support;
 
-import static io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertions.assertThat;
-import static io.allune.quickfixj.api.support.TestNewOrderSingleMessageFactory.newOrderSingleBuilder;
-import static quickfix.FixVersions.BEGINSTRING_FIX41;
 import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
 
-import org.junit.Before;
-import org.junit.Test;
+import java.time.LocalDateTime;
 
+import io.allune.quickfixj.api.support.NewOrderSingle.NewOrderSingleBuilder;
 import quickfix.field.OrdType;
 import quickfix.field.Side;
-import quickfix.fix41.NewOrderSingle;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class NewOrderSingle41AssertTest {
+public class TestNewOrderSingleMessageFactory {
 
-	private NewOrderSingle message;
+	public static NewOrderSingleBuilder<?, ?> newOrderSingleBuilder(String beginString) {
+		return NewOrderSingle.builder()
+				.beginString(beginString);
+	}
 
-	@Before
-	public void setUp() throws Exception {
-		message = newOrderSingleBuilder(BEGINSTRING_FIX41)
+	public static NewOrderSingleBuilder<?, ?> newOrderSingleBuilderWithDefaults(String beginString) {
+		return NewOrderSingle.builder()
+				.beginString(beginString)
 				.clientOrderId("13346")
 				.handlInst(AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION)
 				.symbol("GBP/USD")
@@ -42,34 +41,6 @@ public class NewOrderSingle41AssertTest {
 				.orderType(OrdType.LIMIT)
 				.price(300.00)
 				.account("Marcel")
-				.build()
-				.toMessage();
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle41HasClOrdID() {
-		// Given
-
-		// When/Then
-		assertThat(message)
-				.hasClOrdID("13346");
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle41HasAccount() {
-		// Given
-
-		// When/Then
-		assertThat(message)
-				.hasAccount("Marcel");
-	}
-
-	@Test
-	public void shouldAssertNewOrderSingle41HasSide() {
-		// Given
-
-		// When/Then
-		assertThat(message)
-				.hasSide(Side.BUY);
+				.transactTime(LocalDateTime.now());
 	}
 }

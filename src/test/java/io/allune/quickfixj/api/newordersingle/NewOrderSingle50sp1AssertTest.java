@@ -13,37 +13,44 @@
 package io.allune.quickfixj.api.newordersingle;
 
 import static io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertions.assertThat;
-import static io.allune.quickfixj.internal.Messages.getSessionDataDictionary;
+import static io.allune.quickfixj.api.support.TestNewOrderSingleMessageFactory.newOrderSingleBuilder;
 import static quickfix.FixVersions.FIX50SP2;
+import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
 
 import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 
+import io.allune.quickfixj.api.support.NewOrderSingle.NewOrderSingleBuilder;
 import quickfix.field.HandlInst;
 import quickfix.field.OrdType;
 import quickfix.field.Side;
-import quickfix.fix50sp2.NewOrderSingle;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
 public class NewOrderSingle50sp1AssertTest {
 
-	private NewOrderSingle message;
+	private NewOrderSingleBuilder<?, ?> messageBuilder;
 
 	@Before
-	public void setUp() throws Exception {
-		message = new NewOrderSingle();
-		message.fromString(
-				"8=FIXT.1.1\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000155=GBP/USD\u000138=1000\u00011128=9\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000159=0\u000160=20100225-19:39:52.020\u000110=068\u0001",
-				getSessionDataDictionary(FIX50SP2),
-				false);
+	public void setUp() {
+		messageBuilder = newOrderSingleBuilder(FIX50SP2)
+				.clientOrderId("13346")
+				.handlInst(AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION)
+				.symbol("GBP/USD")
+				.side(Side.BUY)
+				.orderQty(1000D)
+				.orderType(OrdType.LIMIT)
+				.price(300.00)
+				.account("Marcel")
+				.transactTime(LocalDateTime.now());
 	}
 
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasClOrdID() {
 		// Given
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
@@ -53,6 +60,7 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasHandlInst() {
 		// Given
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
@@ -62,6 +70,7 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasSymbol() {
 		// Given
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
@@ -71,6 +80,7 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasSide() {
 		// Given
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
@@ -80,6 +90,7 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasOrderQty() {
 		// Given
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
@@ -89,6 +100,7 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasOrdType() {
 		// Given
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
@@ -98,15 +110,19 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasTransactTime() {
 		// Given
+		LocalDateTime now = LocalDateTime.now();
+		messageBuilder.transactTime(now);
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
-				.hasTransactTime(LocalDateTime.parse("2010-02-25T19:39:52.020"));
+				.hasTransactTime(now);
 	}
 
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasAccount() {
 		// Given
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
@@ -116,6 +132,9 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingleAllFields() {
 		// Given
+		LocalDateTime now = LocalDateTime.now();
+		messageBuilder.transactTime(now);
+		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
@@ -125,7 +144,7 @@ public class NewOrderSingle50sp1AssertTest {
 				.hasSide(Side.BUY)
 				.hasOrderQty(1000D)
 				.hasOrdType(OrdType.LIMIT)
-				.hasTransactTime(LocalDateTime.parse("2010-02-25T19:39:52.020"))
+				.hasTransactTime(now)
 				.hasAccount("Marcel");
 	}
 }

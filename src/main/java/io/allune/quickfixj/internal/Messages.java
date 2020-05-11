@@ -25,6 +25,8 @@ import quickfix.DataDictionary;
 import quickfix.DefaultDataDictionaryProvider;
 import quickfix.DefaultMessageFactory;
 import quickfix.FieldNotFound;
+import quickfix.IncorrectDataFormat;
+import quickfix.IncorrectTagValue;
 import quickfix.InvalidMessage;
 import quickfix.Message;
 import quickfix.field.ApplVerID;
@@ -64,8 +66,9 @@ public class Messages {
 		DataDictionary dataDictionary = dataDictionaryProvider.getSessionDataDictionary(beginString);
 
 		try {
-			message.fromString(messageData, dataDictionary, false);
-		} catch (InvalidMessage e) {
+			message.fromString(messageData, dataDictionary, true);
+			dataDictionary.validate(message);
+		} catch (InvalidMessage | FieldNotFound | IncorrectTagValue | IncorrectDataFormat e) {
 			throw new InvalidMessageException(e.getMessage(), e);
 		}
 		return (T) message;

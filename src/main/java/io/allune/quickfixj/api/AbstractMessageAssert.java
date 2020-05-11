@@ -137,7 +137,7 @@ public abstract class AbstractMessageAssert<SELF extends AbstractMessageAssert<S
 
 	public AbstractNewOrderSingleAssert isNewOrderSingle() {
 		messages.assertSameMessageType(info, actual, ORDER_SINGLE);
-		return assertFactory.newOrderSingleAssertFromFixVersion(info, getBeginString(), actual.toRawString());
+		return assertFactory.newOrderSingleAssertFromFixVersion(info, getBeginString(), actual.toString());
 	}
 
 	protected String getBeginString() {

@@ -21,6 +21,7 @@ import quickfix.field.ClOrdID;
 import quickfix.field.HandlInst;
 import quickfix.field.OrdType;
 import quickfix.field.OrderQty;
+import quickfix.field.Price;
 import quickfix.field.Side;
 import quickfix.field.Symbol;
 import quickfix.field.TransactTime;
@@ -79,6 +80,12 @@ public abstract class AbstractNewOrderSingleAssert<ACTUAL extends AbstractMessag
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasAccount(String expected) {
 		isNotNull();
 		messages.assertHasStringFieldValue(info, actual, Account.FIELD, Account.class, expected);
+		return this;
+	}
+
+	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasPrice(Double expected) {
+		isNotNull();
+		messages.assertHasDoubleFieldValue(info, actual, Price.FIELD, Price.class, expected);
 		return this;
 	}
 }

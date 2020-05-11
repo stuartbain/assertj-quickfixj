@@ -13,11 +13,11 @@
 package io.allune.quickfixj.api.newordersingle;
 
 import static io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertions.assertThat;
-import static io.allune.quickfixj.internal.Messages.getSessionDataDictionary;
+import static io.allune.quickfixj.api.support.TestNewOrderSingleMessageFactory.newOrderSingleBuilder;
 import static org.assertj.core.api.Assertions.fail;
 import static quickfix.FixVersions.BEGINSTRING_FIX40;
+import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
 
-import java.time.LocalDateTime;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,12 +35,18 @@ public class NewOrderSingle40AssertTest {
 	private NewOrderSingle message;
 
 	@Before
-	public void setUp() throws Exception {
-		message = new NewOrderSingle();
-		message.fromString(
-				"8=FIX.4.0\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000155=GBP/USD\u000138=1000\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000159=0\u000160=20100225-19:39:52.020\u000110=068\u0001",
-				getSessionDataDictionary(BEGINSTRING_FIX40),
-				false);
+	public void setUp() {
+		message = newOrderSingleBuilder(BEGINSTRING_FIX40)
+				.clientOrderId("13346")
+				.handlInst(AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION)
+				.symbol("GBP/USD")
+				.side(Side.BUY)
+				.orderQty(1000D)
+				.orderType(OrdType.LIMIT)
+				.price(300.00)
+				.account("Marcel")
+				.build()
+				.toMessage();
 	}
 
 	@Test
@@ -117,15 +123,6 @@ public class NewOrderSingle40AssertTest {
 	}
 
 	@Test
-	public void shouldAssertNewOrderSingle40HasTransactTime() {
-		// Given
-
-		// When/Then
-		assertThat(message)
-				.hasTransactTime(LocalDateTime.parse("2010-02-25T19:39:52.020"));
-	}
-
-	@Test
 	public void shouldAssertNewOrderSingle40HasAccount() {
 		// Given
 
@@ -146,7 +143,7 @@ public class NewOrderSingle40AssertTest {
 				.hasSide(Side.BUY)
 				.hasOrderQty(1000D)
 				.hasOrdType(OrdType.LIMIT)
-				.hasTransactTime(LocalDateTime.parse("2010-02-25T19:39:52.020"))
-				.hasAccount("Marcel");
+				.hasAccount("Marcel")
+				.hasPrice(300.00);
 	}
 }
