@@ -10,20 +10,14 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api;
-
-import quickfix.Message;
+package io.allune.quickfixj.internal;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class Assertions extends org.assertj.core.api.Assertions {
+public class InvalidMessageException extends RuntimeException {
 
-	public static MessageAssert assertThat(Message message) {
-		return new MessageAssert(message);
-	}
-
-	protected Assertions() {
-		// empty
+	public InvalidMessageException(String message, Exception exception) {
+		super(message, exception);
 	}
 }

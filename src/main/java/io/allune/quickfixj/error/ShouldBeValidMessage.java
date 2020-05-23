@@ -10,24 +10,26 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.message;
+package io.allune.quickfixj.error;
 
-import org.junit.Test;
-
-import quickfix.InvalidMessage;
-import quickfix.Message;
+import org.assertj.core.error.BasicErrorMessageFactory;
+import org.assertj.core.error.ErrorMessageFactory;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageAssertIsEqualsTest {
+public class ShouldBeValidMessage extends BasicErrorMessageFactory {
 
-	@Test
-	public void shouldAssertIsEquals() throws InvalidMessage {
-		Message message1 = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
-		Message message2 = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
+	public static ErrorMessageFactory shouldBeValidMessage(Object actual, Object error) {
+		return new ShouldBeValidMessage(actual, error);
+	}
 
-		// TODO
-		//		assertThat(message1).isEqualTo(message2);
+	private ShouldBeValidMessage(Object actual, Object error) {
+		super("%n"
+				+ "Expecting Message to be a valid message:%n"
+				+ " <%s>"
+				+ "but was not.%n"
+				+ "Error:%n"
+				+ " <%s>", actual, error);
 	}
 }

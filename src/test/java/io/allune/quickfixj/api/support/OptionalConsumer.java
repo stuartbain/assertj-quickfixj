@@ -10,21 +10,32 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.error;
+package io.allune.quickfixj.api.support;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
+import java.util.Optional;
+import java.util.function.Consumer;
 
-/**
- * @author Eduardo Sanchez-Ros
- */
-public class ShouldHaveHeaderField extends BasicErrorMessageFactory {
+public class OptionalConsumer<T> {
 
-	public static ErrorMessageFactory shouldHaveHeaderFieldEqualTo(Object actual, Object field) {
-		return new ShouldHaveHeaderField(actual, field);
+	private Optional<T> optional;
+
+	private OptionalConsumer(Optional<T> optional) {
+		this.optional = optional;
 	}
 
-	private ShouldHaveHeaderField(Object actual, Object field) {
-		super("%nExpecting Message to have header field <%s> (field number %s), but did not.", actual, field);
+	public static <T> OptionalConsumer<T> of(Optional<T> optional) {
+		return new OptionalConsumer<>(optional);
+	}
+
+	public OptionalConsumer<T> ifPresent(Consumer<T> c) {
+		optional.ifPresent(c);
+		return this;
+	}
+
+	public OptionalConsumer<T> ifNotPresent(Runnable r) {
+		if (!optional.isPresent()) {
+			r.run();
+		}
+		return this;
 	}
 }

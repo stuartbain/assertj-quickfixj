@@ -18,20 +18,19 @@ import org.assertj.core.error.ErrorMessageFactory;
 /**
  * @author Eduardo Sanchez-Ros
  */
-// TODO: Rename class
-public class ShouldHaveFixVersionEqualTo extends BasicErrorMessageFactory {
+public class FieldShouldHaveValue extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldHaveFixVersionEqualTo(Object actual, Object actualVersion, Object expectedVersion) {
-		return new ShouldHaveFixVersionEqualTo(actual, actualVersion, expectedVersion);
+	public static ErrorMessageFactory fieldShouldHaveValue(Object clazz, Object field, Object actual, Object expected) {
+		return new FieldShouldHaveValue(clazz, field, actual, expected);
 	}
 
-	private ShouldHaveFixVersionEqualTo(Object actual, Object actualVersion, Object expectedVersion) {
+	private FieldShouldHaveValue(Object clazz, Object field, Object actual, Object expected) {
 		super("%n"
-				+ "Expecting:%n"
-				+ " <%s>%n"
-				+ "to have FIX version:%n"
+				+ "Expecting Message with field <%s> (field number %s)%n"
+				+ "to have value:%n"
 				+ " <%s>%n"
 				+ "but was:%n"
-				+ " <%s>", actual, expectedVersion, actualVersion);
+				+ " <%s>", clazz, field, expected, actual);
 	}
+
 }

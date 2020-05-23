@@ -78,6 +78,18 @@
 			<version>${quickfixj.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.quickfixj</groupId>
+			<artifactId>quickfixj-messages-all</artifactId>
+			<version>${quickfixj.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+			<version>1.18.8</version>
+		</dependency>
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -91,6 +103,13 @@
 			<version>2.18.3</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

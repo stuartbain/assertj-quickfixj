@@ -12,58 +12,54 @@
  */
 package io.allune.quickfixj.api;
 
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
-
 import quickfix.Message;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-@SuppressWarnings("unchecked")
-public class MessageAssert<SELF extends MessageAssert<SELF>> extends AbstractAssert<SELF, Message> {
+public class MessageAssert extends AbstractMessageAssert<MessageAssert, Message> {
 
-	protected Objects objects = Objects.instance();
-
-	protected Failures failures = Failures.instance();
-
-	/**
-	 * Creates a new <code>{@link io.allune.quickfixj.api.MessageAssert}</code>.
-	 *
-	 * @param actual   the actual value to verify
-	 */
-	protected MessageAssert(Message actual) {
-		super(actual, MessageAssert.class);
+	public MessageAssert(Message message) {
+		super(MessageAssert.class, message);
 	}
 
-	/**
-	 * Creates a new <code>{@link io.allune.quickfixj.api.MessageAssert}</code>.
-	 *
-	 * @param selfType the "self type"
-	 * @param actual   the actual value to verify
-	 */
-	protected MessageAssert(Class<SELF> selfType, Message actual) {
-		super(actual, selfType);
+	public MessageAssert isVersion40() {
+		versions.assertMessageIsVersionFix40(info, actual);
+		return this;
 	}
 
-	public QuickfixVersionAssert hasVersion() {
-		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual);
+	public MessageAssert isVersion41() {
+		versions.assertMessageIsVersionFix41(info, actual);
+		return this;
 	}
 
-	public QuickfixVersionAssert hasVersion(String version) {
-		return new QuickfixVersionAssert(QuickfixVersionAssert.class, actual, version);
+	public MessageAssert isVersion42() {
+		versions.assertMessageIsVersionFix42(info, actual);
+		return this;
 	}
 
-	@Override
-	public SELF isEqualTo(Object expected) {
-		// TODO
-		objects.assertEqual(info, actual, expected);
-		return (SELF) this;
+	public MessageAssert isVersion43() {
+		versions.assertMessageIsVersionFix43(info, actual);
+		return this;
 	}
 
-	public SELF hasBodyLength(int expected) {
-		objects.assertEqual(info, actual.bodyLength(), expected);
-		return (SELF) this;
+	public MessageAssert isVersion44() {
+		versions.assertMessageIsVersionFix44(info, actual);
+		return this;
+	}
+
+	public MessageAssert isVersion50() {
+		versions.assertMessageIsVersionFix50(info, actual);
+		return this;
+	}
+
+	public MessageAssert isVersion50sp1() {
+		versions.assertMessageIsVersionFix50sp1(info, actual);
+		return this;
+	}
+
+	public MessageAssert isVersion50sp2() {
+		versions.assertMessageIsVersionFix50sp2(info, actual);
+		return this;
 	}
 }

@@ -10,22 +10,25 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.message;
+package io.allune.quickfixj.error;
 
-import static io.allune.quickfixj.api.Assertions.assertThat;
-
-import org.junit.Test;
-
-import quickfix.Message;
+import org.assertj.core.error.BasicErrorMessageFactory;
+import org.assertj.core.error.ErrorMessageFactory;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageAssertHasBodyLengthTest {
+public class ShouldBeValidVersion extends BasicErrorMessageFactory {
 
-	@Test
-	public void shouldAssertHasBodyLength() throws Exception {
-		Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
-		assertThat(message).hasBodyLength(61);
+	public static ErrorMessageFactory shouldBeValidVersion(Object actual) {
+		return new ShouldBeValidVersion(actual);
+	}
+
+	private ShouldBeValidVersion(Object actual) {
+		super("%n"
+				+ "Expecting Message version to be one of:%n"
+				+ " <%s>%n"
+				+ "but was:%n"
+				+ " <%s>", "", actual);
 	}
 }
