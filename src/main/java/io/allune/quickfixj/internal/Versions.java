@@ -12,16 +12,7 @@
  */
 package io.allune.quickfixj.internal;
 
-import static io.allune.quickfixj.error.ShouldHaveFixVersionEqualTo.shouldHaveFixVersionEqualTo;
-import static quickfix.FixVersions.BEGINSTRING_FIX40;
-import static quickfix.FixVersions.BEGINSTRING_FIX41;
-import static quickfix.FixVersions.BEGINSTRING_FIX42;
-import static quickfix.FixVersions.BEGINSTRING_FIX43;
-import static quickfix.FixVersions.BEGINSTRING_FIX44;
-import static quickfix.FixVersions.BEGINSTRING_FIXT11;
-import static quickfix.field.ApplVerID.FIX50;
-import static quickfix.field.ApplVerID.FIX50SP1;
-import static quickfix.field.ApplVerID.FIX50SP2;
+import static io.allune.quickfixj.error.ShouldHaveVersionEqualTo.shouldHaveVersionEqualTo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Failures;
@@ -37,9 +28,11 @@ public class Versions {
 
 	private static final Versions INSTANCE = new Versions();
 
-	private Messages messages = Messages.instance();
+	private static final Messages messages = Messages.instance();
 
-	private Failures failures = Failures.instance();
+	private static final Failures failures = Failures.instance();
+
+	private static final Objects objects = Objects.instance();
 
 	Versions() {
 	}
@@ -48,58 +41,24 @@ public class Versions {
 		return INSTANCE;
 	}
 
-	public void assertMessageIsVersionFix40(AssertionInfo info, Message message) {
-		assertMessageIsVersion(info, message, BEGINSTRING_FIX40);
-	}
-
-	public void assertMessageIsVersionFix41(AssertionInfo info, Message message) {
-		assertMessageIsVersion(info, message, BEGINSTRING_FIX41);
-	}
-
-	public void assertMessageIsVersionFix42(AssertionInfo info, Message message) {
-		assertMessageIsVersion(info, message, BEGINSTRING_FIX42);
-	}
-
-	public void assertMessageIsVersionFix43(AssertionInfo info, Message message) {
-		assertMessageIsVersion(info, message, BEGINSTRING_FIX43);
-	}
-
-	public void assertMessageIsVersionFix44(AssertionInfo info, Message message) {
-		assertMessageIsVersion(info, message, BEGINSTRING_FIX44);
-	}
-
-	public void assertMessageIsVersionFix50(AssertionInfo info, Message message) {
-		assertMessageIsVersion(info, message, BEGINSTRING_FIXT11, FIX50);
-	}
-
-	public void assertMessageIsVersionFix50sp1(AssertionInfo info, Message message) {
-		assertMessageIsVersion(info, message, BEGINSTRING_FIXT11, FIX50SP1);
-	}
-
-	public void assertMessageIsVersionFix50sp2(AssertionInfo info, Message message) {
-		assertMessageIsVersion(info, message, BEGINSTRING_FIXT11, FIX50SP2);
-	}
-
 	public void assertMessageIsVersion(AssertionInfo info, Message message, String expectedBeginString) {
 		assertMessageIsVersion(info, message, expectedBeginString, null);
 	}
 
 	public void assertMessageIsVersion(AssertionInfo info, Message message, String expectedBeginString, String expectedApplVerId) {
-		assertNotNull(info, message);
+		objects.assertNotNull(info, message);
+
 		String actualBeginString = messages.getBeginString(info, message);
 		if (!actualBeginString.equals(expectedBeginString)) {
-			throw failures.failure(info, shouldHaveFixVersionEqualTo(message, actualBeginString, expectedBeginString));
+			throw failures.failure(info, shouldHaveVersionEqualTo(message, actualBeginString, expectedBeginString));
 		}
 
 		if (expectedApplVerId != null && expectedApplVerId.length() > 0) {
 			String actualApplVerId = messages.getApplVerId(info, message);
 			if (!actualApplVerId.equals(expectedApplVerId)) {
-				throw failures.failure(info, shouldHaveFixVersionEqualTo(message, actualApplVerId, expectedApplVerId));
+				throw failures.failure(info, shouldHaveVersionEqualTo(message, actualApplVerId, expectedApplVerId));
 			}
 		}
 	}
 
-	private static void assertNotNull(AssertionInfo info, Message actual) {
-		Objects.instance().assertNotNull(info, actual);
-	}
 }

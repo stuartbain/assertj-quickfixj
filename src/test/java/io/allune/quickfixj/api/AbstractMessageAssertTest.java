@@ -41,7 +41,9 @@ public class AbstractMessageAssertTest {
 	@Test
 	public void shouldAssertHasBodyLength() throws Exception {
 		Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
-		assertThat(message).hasBodyLength(61);
+		assertThat(message)
+				.hasHeader()
+				.hasBodyLength(61);
 	}
 
 	@Test
@@ -51,10 +53,17 @@ public class AbstractMessageAssertTest {
 
 		try {
 			// When
-			assertThat(message).hasBodyLength(60);
+			assertThat(message)
+					.hasHeader()
+					.hasBodyLength(60);
 		} catch (AssertionError e) {
 			// Then
-			org.assertj.core.api.Assertions.assertThat(e).hasMessage("expected:<6[0]> but was:<6[1]>");
+			assertThat(e).hasMessage("Expecting value for field <quickfix.field.BodyLength> (tag=<9>) in Message:\n"
+					+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>\n"
+					+ "to be:\n"
+					+ " <60>\n"
+					+ "but was:\n"
+					+ " <61>");
 			return;
 		}
 		fail("Should have thrown AssertionError");
@@ -68,19 +77,19 @@ public class AbstractMessageAssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasField(BeginString.FIELD)
-				.hasField(BodyLength.FIELD)
-				.hasField(MsgType.FIELD)
-				.hasField(MsgSeqNum.FIELD)
-				.hasField(SenderCompID.FIELD)
-				.hasField(SendingTime.FIELD)
-				.hasField(TargetCompID.FIELD)
-				.hasField(Account.FIELD)
-				.hasField(ClOrdID.FIELD)
-				.hasField(Side.FIELD)
-				.hasField(Symbol.FIELD)
-				.hasField(OrdType.FIELD)
-				.hasField(CheckSum.FIELD);
+				.hasHeaderField(BeginString.FIELD)
+				.hasHeaderField(BodyLength.FIELD)
+				.hasHeaderField(MsgType.FIELD)
+				.hasHeaderField(MsgSeqNum.FIELD)
+				.hasHeaderField(SenderCompID.FIELD)
+				.hasHeaderField(SendingTime.FIELD)
+				.hasHeaderField(TargetCompID.FIELD)
+				.hasBodyField(Account.FIELD)
+				.hasBodyField(ClOrdID.FIELD)
+				.hasBodyField(Side.FIELD)
+				.hasBodyField(Symbol.FIELD)
+				.hasBodyField(OrdType.FIELD)
+				.hasTrailerField(CheckSum.FIELD);
 	}
 
 	@Test
@@ -96,8 +105,19 @@ public class AbstractMessageAssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasFields(BeginString.FIELD, BodyLength.FIELD, MsgType.FIELD, MsgSeqNum.FIELD, SenderCompID.FIELD,
-						SendingTime.FIELD, TargetCompID.FIELD, Account.FIELD, ClOrdID.FIELD, Side.FIELD, Symbol.FIELD, OrdType.FIELD,
+				.hasFields(
+						BeginString.FIELD,
+						BodyLength.FIELD,
+						MsgType.FIELD,
+						MsgSeqNum.FIELD,
+						SenderCompID.FIELD,
+						SendingTime.FIELD,
+						TargetCompID.FIELD,
+						Account.FIELD,
+						ClOrdID.FIELD,
+						Side.FIELD,
+						Symbol.FIELD,
+						OrdType.FIELD,
 						CheckSum.FIELD);
 	}
 
@@ -141,7 +161,9 @@ public class AbstractMessageAssertTest {
 				"8=FIX.4.0\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000138=1000\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000155=GBP/USD\u000159=0\u000160=20100225-19:39:52.020\u000110=074\u0001");
 
 		// When/Then
-		assertThat(message).hasMessageType("D");
+		assertThat(message)
+				.hasHeader()
+				.hasMessageType("D");
 	}
 
 	@Test

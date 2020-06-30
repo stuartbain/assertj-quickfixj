@@ -20,13 +20,14 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class ShouldHaveField extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldHaveField(Object actual, Object field) {
-		return new ShouldHaveField(actual, field);
+	public static ErrorMessageFactory shouldHaveField(Object message, Object field) {
+		return new ShouldHaveField(message, field);
 	}
 
-	private ShouldHaveField(Object actual, Object field) {
-		super("%n"
-				+ "Expecting Message to have header field <%s> (field number %s)%n"
-				+ "but did not.", actual, field);
+	private ShouldHaveField(Object actual, Object fieldTag) {
+		super("Expecting Message:%n"
+				+ " <%s>%n"
+				+ "to have field with tag <%s>%n"
+				+ "but did not.", actual, fieldTag);
 	}
 }

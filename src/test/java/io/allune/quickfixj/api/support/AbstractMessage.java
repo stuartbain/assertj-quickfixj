@@ -25,8 +25,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import io.allune.quickfixj.internal.InvalidMessageException;
-import io.allune.quickfixj.internal.InvalidVersion;
+import io.allune.quickfixj.exception.InvalidMessageException;
+import io.allune.quickfixj.exception.InvalidVersionException;
 import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import quickfix.FieldNotFound;
@@ -80,7 +80,7 @@ public abstract class AbstractMessage {
 	public <T extends Message> T toMessage(String beginString) {
 		T order = (T) getMap().get(beginString).get();
 		if (order == null) {
-			throw new InvalidVersion(format("Version %s not supported", beginString));
+			throw new InvalidVersionException(format("Version %s not supported", beginString));
 		}
 
 		try {

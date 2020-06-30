@@ -10,7 +10,7 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.internal;
+package io.allune.quickfixj.exception;
 
 /**
  * @author Eduardo Sanchez-Ros

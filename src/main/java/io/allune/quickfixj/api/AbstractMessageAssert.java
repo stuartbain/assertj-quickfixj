@@ -12,31 +12,27 @@
  */
 package io.allune.quickfixj.api;
 
+import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
 import static quickfix.FixVersions.BEGINSTRING_FIXT11;
 import static quickfix.MessageUtils.toBeginString;
-import static quickfix.field.MsgType.ORDER_SINGLE;
 
 import java.util.Iterator;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
-import io.allune.quickfixj.api.newordersingle.AbstractNewOrderSingleAssert;
-import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertFactory;
 import io.allune.quickfixj.internal.Messages;
 import io.allune.quickfixj.internal.Versions;
 import quickfix.Field;
-import quickfix.FieldNotFound;
 import quickfix.Message;
 import quickfix.StringField;
 import quickfix.field.ApplVerID;
-import quickfix.field.BeginString;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class AbstractMessageAssert<SELF extends AbstractMessageAssert<SELF, ACTUAL>, ACTUAL extends Message> extends AbstractAssert<SELF, ACTUAL> {
+public abstract class AbstractMessageAssert<SELF extends AbstractMessageAssert<SELF, ACTUAL>, ACTUAL extends Message>
+		extends AbstractAssert<SELF, ACTUAL> {
 
 	private final String beginString;
 
@@ -47,8 +43,6 @@ public abstract class AbstractMessageAssert<SELF extends AbstractMessageAssert<S
 	protected Messages messages = Messages.instance();
 
 	protected Versions versions = Versions.instance();
-
-	protected NewOrderSingleAssertFactory assertFactory = new NewOrderSingleAssertFactory();
 
 	/**
 	 * Creates a new <code>{@link AbstractMessageAssert}</code>.
@@ -62,6 +56,7 @@ public abstract class AbstractMessageAssert<SELF extends AbstractMessageAssert<S
 	}
 
 	private String determineMessageVersion(ACTUAL actual) {
+		isNotNull();
 		String beginString = messages.getBeginString(info, actual);
 
 		if (beginString.equals(BEGINSTRING_FIXT11)) {
@@ -72,58 +67,70 @@ public abstract class AbstractMessageAssert<SELF extends AbstractMessageAssert<S
 		}
 	}
 
-	public SELF hasBeginString(String expected) {
-		// TODO: Custom error message
+	public SELF hasHeaderField(int expectedFieldTag) {
 		isNotNull();
-		try {
-			objects.assertEqual(info, actual.getString(BeginString.FIELD), expected);
-		} catch (FieldNotFound fieldNotFound) {
-			fieldNotFound.printStackTrace();
+		if (actual.getHeader() == null || !actual.getHeader().isSetField(expectedFieldTag))
+			throw failures.failure(info, shouldHaveField(actual, expectedFieldTag));
+		return (SELF) this;
+	}
+
+	public SELF hasBodyField(int expectedTag) {
+		isNotNull();
+		if (!actual.isSetField(expectedTag))
+			throw failures.failure(info, shouldHaveField(actual, expectedTag));
+		return (SELF) this;
+	}
+
+	public SELF hasBodyFields(int... expectedFieldTags) {
+		// TODO: Iterate through all fields, gather the errors and custom error message
+		isNotNull();
+		for (int field : expectedFieldTags) {
+			hasBodyField(field);
 		}
 		return (SELF) this;
 	}
 
-	public SELF hasBodyLength(int expected) {
-		// TODO: Custom error message
+	public SELF hasTrailerField(int expectedFieldTag) {
 		isNotNull();
-		objects.assertEqual(info, actual.bodyLength(), expected);
+		if (actual.getTrailer() == null || !actual.getTrailer().isSetField(expectedFieldTag))
+			throw failures.failure(info, shouldHaveField(actual, expectedFieldTag));
 		return (SELF) this;
 	}
 
-	public SELF hasMessageType(String msgType) {
-		// TODO: Custom error message
-		messages.assertSameMessageType(info, actual, msgType);
+	public SELF hasField(int expectedFieldTag) {
+		isNotNull();
+		if (!actual.isSetField(expectedFieldTag) &&
+				(actual.getHeader() == null || !actual.getHeader().isSetField(expectedFieldTag)) &&
+				(actual.getTrailer() == null || !actual.getTrailer().isSetField(expectedFieldTag))) {
+			throw failures.failure(info, shouldHaveField(actual, expectedFieldTag));
+		}
+
 		return (SELF) this;
 	}
 
-	public SELF hasFields(int... fields) {
-		// TODO: Custom error message
-		for (int field : fields) {
+	public SELF hasFields(int... expectedFieldTags) {
+		// TODO: Iterate through all fields, gather the errors and custom error message
+		isNotNull();
+		for (int field : expectedFieldTags) {
 			hasField(field);
 		}
 		return (SELF) this;
 	}
 
-	public SELF hasField(int field) {
+	public SELF hasFieldValue(int expectedFieldTag, Object expectedFieldValue) {
 		isNotNull();
-		// TODO: Custom error message
-		objects.assertEqual(info,
-				actual.isSetField(field) ||
-						actual.getHeader().isSetField(field) ||
-						actual.getTrailer().isSetField(field), true);
-		return (SELF) this;
-	}
 
-	public <T> SELF hasFieldValue(int expectedField, Object expected) {
-		hasField(expectedField);
 		Iterator<Field<?>> iterator = actual.iterator();
 		while (iterator.hasNext()) {
 			final StringField actualField = (StringField) iterator.next();
-			if (expectedField != actualField.getField())
+			if (expectedFieldTag != actualField.getTag())
 				continue;
 
-			// TODO: Custom error message
-			objects.assertEqual(info, actualField.getValue(), expected);
+			// field found, check value matches expected
+			messages.assertFieldHasValue(info, actual, actualField, expectedFieldValue);
+			//			if (!actualField.getValue().equals(expectedFieldValue))
+			//				throw failures.failure(info, fieldShouldHaveValue(actual, actualField.getTag(), actualField.getValue(), expectedFieldValue));
+			break;
 		}
 
 		return (SELF) this;
@@ -133,11 +140,6 @@ public abstract class AbstractMessageAssert<SELF extends AbstractMessageAssert<S
 	public SELF isEqualTo(Object expected) {
 		// TODO
 		return (SELF) this;
-	}
-
-	public AbstractNewOrderSingleAssert isNewOrderSingle() {
-		messages.assertSameMessageType(info, actual, ORDER_SINGLE);
-		return assertFactory.newOrderSingleAssertFromFixVersion(info, getBeginString(), actual.toString());
 	}
 
 	protected String getBeginString() {

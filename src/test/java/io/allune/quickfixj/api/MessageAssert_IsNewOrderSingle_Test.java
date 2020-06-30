@@ -36,7 +36,7 @@ import quickfix.field.Side;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageAssertTest {
+public class MessageAssert_IsNewOrderSingle_Test {
 
 	NewOrderSingleBuilder<?, ?> messageBuilder;
 
@@ -72,8 +72,6 @@ public class MessageAssertTest {
 		// Given
 		Message message = messageBuilder.build()
 				.toMessage(BEGINSTRING_FIX41);
-		//		Message message = new Message(
-		//				"8=FIX.4.1\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000156=B\u00011=Marcel\u000155=GBP/USD\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000159=0\u000110=19\u0001");
 
 		// When/Then
 		assertThat(message)
@@ -88,8 +86,6 @@ public class MessageAssertTest {
 				.transactTime(now())
 				.build()
 				.toMessage(BEGINSTRING_FIX42);
-		//		Message message = new Message(
-		//				"8=FIX.4.2\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000155=GBP/USD\u000159=0\u000160=20100225-19:39:52.020\u000110=226\u0001");
 
 		// When/Then
 		assertThat(message)
@@ -104,8 +100,6 @@ public class MessageAssertTest {
 				.transactTime(now())
 				.build()
 				.toMessage(BEGINSTRING_FIX43);
-		//		Message message = new Message(
-		//				"8=FIX.4.3\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000156=B\u00011=Marcel\u000155=GBP/USD\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000159=0\u000160=20100225-19:39:52.020\u000110=227\u0001");
 
 		// When/Then
 		assertThat(message)
@@ -120,8 +114,6 @@ public class MessageAssertTest {
 				.transactTime(now())
 				.build()
 				.toMessage(BEGINSTRING_FIX44);
-		//		Message message = new Message(
-		//				"8=FIX.4.4\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000156=B\u00011=Marcel\u000155=GBP/USD\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000159=0\u000160=20100225-19:39:52.020\u000110=228\u0001");
 
 		// When/Then
 		assertThat(message)
@@ -136,8 +128,6 @@ public class MessageAssertTest {
 				.transactTime(now())
 				.build()
 				.toMessage(FIX50);
-		//		Message message = new Message(
-		//				"8=FIXT.1.1\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u00011128=7\u000156=B\u00011=Marcel\u000121=1\u000140=2\u000111=13346\u000144=5\u000154=1\u000159=0\u000160=20100225-19:39:52.020\u000110=215\u0001");
 
 		// When/Then
 		assertThat(message)
@@ -152,8 +142,6 @@ public class MessageAssertTest {
 				.transactTime(now())
 				.build()
 				.toMessage(FIX50SP1);
-		//		Message message = new Message(
-		//				"8=FIXT.1.1\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u00011128=8\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000159=0\u000160=20100225-19:39:52.020\u000110=216\u0001");
 
 		// When/Then
 		assertThat(message)
@@ -168,8 +156,6 @@ public class MessageAssertTest {
 				.transactTime(now())
 				.build()
 				.toMessage(FIX50SP2);
-		//		Message message = new Message(
-		//				"8=FIXT.1.1\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u00011128=9\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000159=0\u000160=20100225-19:39:52.020\u000110=217\u0001");
 
 		// When/Then
 		assertThat(message)

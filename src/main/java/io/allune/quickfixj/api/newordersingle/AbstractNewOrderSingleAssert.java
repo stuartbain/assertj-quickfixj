@@ -29,7 +29,8 @@ import quickfix.field.TransactTime;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public abstract class AbstractNewOrderSingleAssert<ACTUAL extends AbstractMessageAssert<ACTUAL, SELF>, SELF extends Message> extends AbstractMessageAssert<ACTUAL, SELF> {
+public abstract class AbstractNewOrderSingleAssert<ACTUAL extends AbstractMessageAssert<ACTUAL, SELF>, SELF extends Message>
+		extends AbstractMessageAssert<ACTUAL, SELF> {
 
 	protected AbstractNewOrderSingleAssert(Class<ACTUAL> selfType, SELF self) {
 		super(selfType, self);
@@ -37,55 +38,55 @@ public abstract class AbstractNewOrderSingleAssert<ACTUAL extends AbstractMessag
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasClOrdID(String expected) {
 		isNotNull();
-		messages.assertHasStringFieldValue(info, actual, ClOrdID.FIELD, ClOrdID.class, expected);
+		messages.assertFieldHasValue(info, actual, ClOrdID.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasHandlInst(Character expected) {
 		isNotNull();
-		messages.assertHasCharFieldValue(info, actual, HandlInst.FIELD, HandlInst.class, expected);
+		messages.assertFieldHasValue(info, actual, HandlInst.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasSymbol(String expected) {
 		isNotNull();
-		messages.assertHasStringFieldValue(info, actual, Symbol.FIELD, Symbol.class, expected);
+		messages.assertFieldHasValue(info, actual, Symbol.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasSide(Character expected) {
 		isNotNull();
-		messages.assertHasCharFieldValue(info, actual, Side.FIELD, Side.class, expected);
+		messages.assertFieldHasValue(info, actual, Side.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasOrderQty(Double expected) {
 		isNotNull();
-		messages.assertHasDoubleFieldValue(info, actual, OrderQty.FIELD, OrderQty.class, expected);
+		messages.assertFieldHasValue(info, actual, OrderQty.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasOrdType(Character expected) {
 		isNotNull();
-		messages.assertHasCharFieldValue(info, actual, OrdType.FIELD, OrdType.class, expected);
+		messages.assertFieldHasValue(info, actual, OrdType.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasTransactTime(LocalDateTime expected) {
 		isNotNull();
-		messages.assertHasUtcTimeStampFieldValue(info, actual, TransactTime.FIELD, TransactTime.class, expected);
+		messages.assertFieldHasValue(info, actual, TransactTime.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasAccount(String expected) {
 		isNotNull();
-		messages.assertHasStringFieldValue(info, actual, Account.FIELD, Account.class, expected);
+		messages.assertFieldHasValue(info, actual, Account.class, expected);
 		return this;
 	}
 
 	public AbstractNewOrderSingleAssert<ACTUAL, SELF> hasPrice(Double expected) {
 		isNotNull();
-		messages.assertHasDoubleFieldValue(info, actual, Price.FIELD, Price.class, expected);
+		messages.assertFieldHasValue(info, actual, Price.class, expected);
 		return this;
 	}
 }

@@ -16,19 +16,27 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /**
+ * Creates an error message indicating that the message is not an admin message.
+ *
  * @author Eduardo Sanchez-Ros
  */
-public class ShouldBeValidMessage extends BasicErrorMessageFactory {
+public class ShouldBeAdminMessage extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldBeValidMessage(Object actual, Object error) {
-		return new ShouldBeValidMessage(actual, error);
+	/**
+	 * Creates a new <code>{@link ShouldBeAdminMessage}</code>.
+	 *
+	 * @param message the actual value in the failed assertion.
+	 * @return @return the created {@code ErrorMessageFactory}.
+	 */
+	public static ErrorMessageFactory shouldBeAdminMessage(Object message) {
+		return new ShouldBeAdminMessage(message);
 	}
 
-	private ShouldBeValidMessage(Object actual, Object error) {
+	private ShouldBeAdminMessage(Object message) {
+		// TODO: refactor message wording
 		super("Expecting Message:%n"
-				+ " <%s>"
-				+ "to be a valid message but was not.%n"
-				+ "Error:%n"
-				+ " <%s>", actual, error);
+				+ " <%s>%n"
+				+ "to be an Admin message but was not", message);
 	}
+
 }

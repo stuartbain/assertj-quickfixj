@@ -10,25 +10,14 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.error;
-
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
+package io.allune.quickfixj.exception;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class ShouldBeValidMessage extends BasicErrorMessageFactory {
+public class InvalidVersionException extends RuntimeException {
 
-	public static ErrorMessageFactory shouldBeValidMessage(Object actual, Object error) {
-		return new ShouldBeValidMessage(actual, error);
-	}
-
-	private ShouldBeValidMessage(Object actual, Object error) {
-		super("Expecting Message:%n"
-				+ " <%s>"
-				+ "to be a valid message but was not.%n"
-				+ "Error:%n"
-				+ " <%s>", actual, error);
+	public InvalidVersionException(String message) {
+		super(message);
 	}
 }

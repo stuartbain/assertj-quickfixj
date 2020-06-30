@@ -16,19 +16,27 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /**
+ * Creates an error message indicating that the message is not an application message.
+ *
  * @author Eduardo Sanchez-Ros
  */
-public class ShouldBeValidMessage extends BasicErrorMessageFactory {
+public class ShouldBeAppMessage extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldBeValidMessage(Object actual, Object error) {
-		return new ShouldBeValidMessage(actual, error);
+	/**
+	 * Creates a new <code>{@link ShouldBeAppMessage}</code>.
+	 *
+	 * @param message the actual value in the failed assertion.
+	 * @return @return the created {@code ErrorMessageFactory}.
+	 */
+	public static ErrorMessageFactory shouldBeAppMessage(Object message) {
+		return new ShouldBeAppMessage(message);
 	}
 
-	private ShouldBeValidMessage(Object actual, Object error) {
+	private ShouldBeAppMessage(Object message) {
+		// TODO: refactor message wording
 		super("Expecting Message:%n"
-				+ " <%s>"
-				+ "to be a valid message but was not.%n"
-				+ "Error:%n"
-				+ " <%s>", actual, error);
+				+ " <%s>%n"
+				+ "to be an Application message but was not", message);
 	}
+
 }

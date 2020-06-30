@@ -12,7 +12,7 @@
  */
 package io.allune.quickfixj.api.newordersingle;
 
-import static io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertions.assertThat;
+import static io.allune.quickfixj.api.Assertions.assertThat;
 import static io.allune.quickfixj.api.support.TestNewOrderSingleMessageFactory.newOrderSingleBuilder;
 import static quickfix.FixVersions.FIX50SP2;
 import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
@@ -22,9 +22,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.allune.quickfixj.api.support.NewOrderSingle.NewOrderSingleBuilder;
+import quickfix.field.Account;
+import quickfix.field.ClOrdID;
 import quickfix.field.HandlInst;
 import quickfix.field.OrdType;
+import quickfix.field.OrderQty;
 import quickfix.field.Side;
+import quickfix.field.Symbol;
+import quickfix.field.TransactTime;
 
 /**
  * @author Eduardo Sanchez-Ros
@@ -54,7 +59,8 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasClOrdID("13346");
+				.isNewOrderSingle()
+				.hasFieldValue(ClOrdID.FIELD, "13346");
 	}
 
 	@Test
@@ -64,7 +70,8 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasHandlInst(HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION);
+				.isNewOrderSingle()
+				.hasFieldValue(HandlInst.FIELD, HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION);
 	}
 
 	@Test
@@ -74,7 +81,8 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasSymbol("GBP/USD");
+				.isNewOrderSingle()
+				.hasFieldValue(Symbol.FIELD, "GBP/USD");
 	}
 
 	@Test
@@ -84,7 +92,8 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasSide(Side.BUY);
+				.isNewOrderSingle()
+				.hasFieldValue(Side.FIELD, Side.BUY);
 	}
 
 	@Test
@@ -94,7 +103,8 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasOrderQty(1000D);
+				.isNewOrderSingle()
+				.hasFieldValue(OrderQty.FIELD, 1000D);
 	}
 
 	@Test
@@ -104,7 +114,8 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasOrdType(OrdType.LIMIT);
+				.isNewOrderSingle()
+				.hasFieldValue(OrdType.FIELD, OrdType.LIMIT);
 	}
 
 	@Test
@@ -116,7 +127,8 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasTransactTime(now);
+				.isNewOrderSingle()
+				.hasFieldValue(TransactTime.FIELD, now);
 	}
 
 	@Test
@@ -126,7 +138,8 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasAccount("Marcel");
+				.isNewOrderSingle()
+				.hasFieldValue(Account.FIELD, "Marcel");
 	}
 
 	@Test
@@ -138,13 +151,14 @@ public class NewOrderSingle50sp1AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasClOrdID("13346")
-				.hasHandlInst(HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION)
-				.hasSymbol("GBP/USD")
-				.hasSide(Side.BUY)
-				.hasOrderQty(1000D)
-				.hasOrdType(OrdType.LIMIT)
-				.hasTransactTime(now)
-				.hasAccount("Marcel");
+				.isNewOrderSingle()
+				.hasFieldValue(ClOrdID.FIELD, "13346")
+				.hasFieldValue(HandlInst.FIELD, HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION)
+				.hasFieldValue(Symbol.FIELD, "GBP/USD")
+				.hasFieldValue(Side.FIELD, Side.BUY)
+				.hasFieldValue(OrderQty.FIELD, 1000D)
+				.hasFieldValue(OrdType.FIELD, OrdType.LIMIT)
+				.hasFieldValue(TransactTime.FIELD, now)
+				.hasFieldValue(Account.FIELD, "Marcel");
 	}
 }

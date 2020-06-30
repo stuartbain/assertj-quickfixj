@@ -20,17 +20,35 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class FieldShouldHaveValue extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory fieldShouldHaveValue(Object clazz, Object field, Object actual, Object expected) {
-		return new FieldShouldHaveValue(clazz, field, actual, expected);
+	public static final String FIELD_SHOULD_HAVE_VALUE =
+			"Expecting field <%s> with tag <%s> in Message:%n"
+					+ " <%s>%n"
+					+ "to have value:%n"
+					+ " <%s>%n"
+					+ "but was:%n"
+					+ " <%s>";
+
+	public static final String FIELD_SHOULD_HAVE_VALUE_WITHOUT_CLASS =
+			"Expecting field with tag <%s> in Message:%n"
+					+ " <%s>%n"
+					+ "to have value:%n"
+					+ " <%s>%n"
+					+ "but was:%n"
+					+ " <%s>";
+
+	public static ErrorMessageFactory fieldShouldHaveValue(Object message, Object fieldClass, Object fieldTag, Object actualValue, Object expectedValue) {
+		return new FieldShouldHaveValue(message, fieldClass, fieldTag, actualValue, expectedValue);
 	}
 
-	private FieldShouldHaveValue(Object clazz, Object field, Object actual, Object expected) {
-		super("%n"
-				+ "Expecting Message with field <%s> (field number %s)%n"
-				+ "to have value:%n"
-				+ " <%s>%n"
-				+ "but was:%n"
-				+ " <%s>", clazz, field, expected, actual);
+	public static ErrorMessageFactory fieldShouldHaveValue(Object message, Object fieldTag, Object actual, Object expected) {
+		return new FieldShouldHaveValue(message, fieldTag, actual, expected);
 	}
 
+	private FieldShouldHaveValue(Object message, Object fieldClass, Object fieldTag, Object actualValue, Object expectedValue) {
+		super(FIELD_SHOULD_HAVE_VALUE, fieldClass, fieldTag, message, expectedValue, actualValue);
+	}
+
+	private FieldShouldHaveValue(Object message, Object fieldTag, Object actualValue, Object expectedValue) {
+		super(FIELD_SHOULD_HAVE_VALUE_WITHOUT_CLASS, fieldTag, message, expectedValue, actualValue);
+	}
 }

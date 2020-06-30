@@ -10,14 +10,23 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.internal;
+package io.allune.quickfixj.error;
+
+import org.assertj.core.error.BasicErrorMessageFactory;
+import org.assertj.core.error.ErrorMessageFactory;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class InvalidVersion extends RuntimeException {
+public class FieldShouldHaveTag extends BasicErrorMessageFactory {
 
-	public InvalidVersion(String message) {
-		super(message);
+	public static ErrorMessageFactory fieldShouldHaveTag(Object actual) {
+		return new FieldShouldHaveTag(actual);
+	}
+
+	private FieldShouldHaveTag(Object actual) {
+		// TODO: re do
+		super("Expecting field of type <%s> to have static field \"FIELD\" with tag id%n"
+				+ "but did not.", actual);
 	}
 }

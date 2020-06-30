@@ -18,17 +18,18 @@ import org.assertj.core.error.ErrorMessageFactory;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class ShouldBeValidMessage extends BasicErrorMessageFactory {
+public class ShouldHaveVersionEqualTo extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldBeValidMessage(Object actual, Object error) {
-		return new ShouldBeValidMessage(actual, error);
+	public static ErrorMessageFactory shouldHaveVersionEqualTo(Object message, Object actualVersion, Object expectedVersion) {
+		return new ShouldHaveVersionEqualTo(message, actualVersion, expectedVersion);
 	}
 
-	private ShouldBeValidMessage(Object actual, Object error) {
+	private ShouldHaveVersionEqualTo(Object message, Object actualVersion, Object expectedVersion) {
 		super("Expecting Message:%n"
-				+ " <%s>"
-				+ "to be a valid message but was not.%n"
-				+ "Error:%n"
-				+ " <%s>", actual, error);
+				+ " <%s>%n"
+				+ "to have version:%n"
+				+ " <%s>%n"
+				+ "but was:%n"
+				+ " <%s>", message, expectedVersion, actualVersion);
 	}
 }

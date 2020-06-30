@@ -12,27 +12,38 @@
  */
 package io.allune.quickfixj.internal;
 
+import static io.allune.quickfixj.error.FieldShouldHaveTag.fieldShouldHaveTag;
 import static io.allune.quickfixj.error.FieldShouldHaveValue.fieldShouldHaveValue;
+import static io.allune.quickfixj.error.ShouldBeOfType.shouldBeOfType;
 import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
 import static quickfix.MessageUtils.getMessageType;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
+import io.allune.quickfixj.exception.ThrownByLambdaException;
+import quickfix.BooleanField;
+import quickfix.CharField;
 import quickfix.DataDictionary;
+import quickfix.DecimalField;
 import quickfix.DefaultDataDictionaryProvider;
-import quickfix.DefaultMessageFactory;
+import quickfix.DoubleField;
+import quickfix.Field;
+import quickfix.FieldMap;
 import quickfix.FieldNotFound;
-import quickfix.IncorrectDataFormat;
-import quickfix.IncorrectTagValue;
+import quickfix.IntField;
 import quickfix.InvalidMessage;
 import quickfix.Message;
+import quickfix.StringField;
+import quickfix.UtcDateOnlyField;
+import quickfix.UtcTimeOnlyField;
+import quickfix.UtcTimeStampField;
 import quickfix.field.ApplVerID;
 import quickfix.field.BeginString;
 import quickfix.field.MsgType;
-import quickfix.field.TransactTime;
 
 /**
  * @author Eduardo Sanchez-Ros
@@ -40,6 +51,26 @@ import quickfix.field.TransactTime;
 public class Messages {
 
 	private static final Messages INSTANCE = new Messages();
+
+	private static final String FIELD_TAG_FIELD_NAME = "FIELD";
+
+	private static final DefaultDataDictionaryProvider dataDictionaryProvider = new DefaultDataDictionaryProvider();
+
+	//	private static final DefaultMessageFactory messageFactory = new DefaultMessageFactory();
+
+	private static final Map<Class<? extends Field<?>>, ThrowingBiFunction<Message, Integer, Object>> quickfixClassToObject =
+			new HashMap<Class<? extends Field<?>>, ThrowingBiFunction<Message, Integer, Object>>() {{
+
+				put(StringField.class, FieldMap::getString);
+				put(BooleanField.class, FieldMap::getBoolean);
+				put(CharField.class, FieldMap::getChar);
+				put(IntField.class, FieldMap::getInt);
+				put(DoubleField.class, FieldMap::getDouble);
+				put(DecimalField.class, FieldMap::getDecimal);
+				put(UtcTimeStampField.class, FieldMap::getUtcTimeStamp);
+				put(UtcTimeOnlyField.class, FieldMap::getUtcTimeOnly);
+				put(UtcDateOnlyField.class, FieldMap::getUtcDateOnly);
+			}};
 
 	public static Messages instance() {
 		return INSTANCE;
@@ -52,78 +83,76 @@ public class Messages {
 
 	Failures failures = Failures.instance();
 
-	private static DefaultDataDictionaryProvider dataDictionaryProvider = new DefaultDataDictionaryProvider();
-
-	private static DefaultMessageFactory messageFactory = new DefaultMessageFactory();
-
 	public static DataDictionary getSessionDataDictionary(String beginString) {
 		return dataDictionaryProvider.getSessionDataDictionary(beginString);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends Message> T createFromMessage(String beginString, String msgType, String messageData) {
-		Message message = messageFactory.create(beginString, msgType);
-		DataDictionary dataDictionary = dataDictionaryProvider.getSessionDataDictionary(beginString);
+	//	@SuppressWarnings("unchecked")
+	//	public static <T extends Message> T createFromMessage(String beginString, String msgType, String messageData) {
+	//		Message message = messageFactory.create(beginString, msgType);
+	//		DataDictionary dataDictionary = dataDictionaryProvider.getSessionDataDictionary(beginString);
+	//
+	//		try {
+	//			message.fromString(messageData, dataDictionary, true);
+	//			dataDictionary.validate(message);
+	//		} catch (InvalidMessage | FieldNotFound | IncorrectTagValue | IncorrectDataFormat e) {
+	//			throw new InvalidMessageException(e.getMessage(), e);
+	//		}
+	//		return (T) message;
+	//	}
+
+	public void assertMessageIsOfType(AssertionInfo info, Message actual, String expectedMessageType) {
+		objects.assertNotNull(info, actual);
 
 		try {
-			message.fromString(messageData, dataDictionary, true);
-			dataDictionary.validate(message);
-		} catch (InvalidMessage | FieldNotFound | IncorrectTagValue | IncorrectDataFormat e) {
-			throw new InvalidMessageException(e.getMessage(), e);
-		}
-		return (T) message;
-	}
-
-	public void assertSameMessageType(AssertionInfo info, Message actual, String expected) {
-		try {
-			// TODO: Custom error message if not equals
-			objects.assertEqual(info, getMessageType(actual.toString()), expected);
+			String actualMessageType = getMessageType(actual.toString());
+			if (!actualMessageType.equals(expectedMessageType)) {
+				throw failures.failure(info, shouldBeOfType(actual, actualMessageType, expectedMessageType));
+			}
 		} catch (InvalidMessage invalidMessage) {
-			throw failures.failure(info, shouldHaveField(MsgType.class, MsgType.FIELD));
+			throw failures.failure(info, shouldHaveField(actual, MsgType.FIELD));
 		}
 	}
 
-	public void assertHasStringFieldValue(AssertionInfo info, Message actual, int actualField, Class<?> actualFieldClass, String expectedValue) {
-		try {
-			String actualValue = actual.getString(actualField);
-			if (!actualValue.equals(expectedValue)) {
-				throw failures.failure(info, fieldShouldHaveValue(actualFieldClass, actualField, actualValue, expectedValue));
-			}
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(actualFieldClass, actualField));
+	public <T> void assertFieldHasValue(AssertionInfo info, Message actual, Class<? extends Field<T>> actualFieldClass, T expectedFieldValue) {
+		objects.assertNotNull(info, actual);
+
+		int actualFieldTag = getFieldTagFromFieldClass(info, actualFieldClass);
+		Object actualFieldValue = getActualValue(info, actual, actualFieldClass, actualFieldTag);
+		if (!actualFieldValue.equals(expectedFieldValue)) {
+			throw failures.failure(info, fieldShouldHaveValue(actual, actualFieldClass, actualFieldTag, actualFieldValue, expectedFieldValue));
 		}
 	}
 
-	public void assertHasCharFieldValue(AssertionInfo info, Message actual, int actualField, Class<?> actualFieldClass, Character expectedValue) {
+	public <T> void assertFieldHasValue(AssertionInfo info, Message actual, Field<T> actualField, Object expectedFieldValue) {
+		if (!actualField.getObject().equals(expectedFieldValue))
+			throw failures.failure(info, fieldShouldHaveValue(actual, actualField.getTag(), actualField.getObject(), expectedFieldValue));
+	}
+
+	private int getFieldTagFromFieldClass(AssertionInfo info, Class<? extends Field<?>> actualFieldClass) {
 		try {
-			Character actualValue = actual.getChar(actualField);
-			if (!actualValue.equals(expectedValue)) {
-				throw failures.failure(info, fieldShouldHaveValue(actualFieldClass, actualField, actualValue, expectedValue));
-			}
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(actualFieldClass, actualField));
+			return actualFieldClass.getField(FIELD_TAG_FIELD_NAME).getInt(null);
+		} catch (IllegalAccessException | NoSuchFieldException e) {
+			throw failures.failure(info, fieldShouldHaveTag(actualFieldClass));
 		}
 	}
 
-	public void assertHasDoubleFieldValue(AssertionInfo info, Message actual, int actualField, Class<?> actualFieldClass, Double expectedValue) {
-		try {
-			Double actualValue = actual.getDouble(actualField);
-			if (!actualValue.equals(expectedValue)) {
-				throw failures.failure(info, fieldShouldHaveValue(actualFieldClass, actualField, actualValue, expectedValue));
-			}
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(actualFieldClass, actualField));
+	private Object getActualValue(AssertionInfo info, Message actual, Class<? extends Field<?>> actualFieldClass, int actualFieldTag) {
+		ThrowingBiFunction<Message, Integer, Object> fieldValueFunction = quickfixClassToObject.get(actualFieldClass.getSuperclass());
+		if (fieldValueFunction == null) {
+			// TODO: Field type not supported
+			throw failures.failure(info, fieldShouldHaveTag(actualFieldClass));
 		}
-	}
 
-	public void assertHasUtcTimeStampFieldValue(AssertionInfo info, Message actual, int actualField, Class<?> actualFieldClass, LocalDateTime expectedValue) {
 		try {
-			LocalDateTime actualValue = actual.getUtcTimeStamp(TransactTime.FIELD);
-			if (!actualValue.equals(expectedValue)) {
-				throw failures.failure(info, fieldShouldHaveValue(actualFieldClass, actualField, actualValue, expectedValue));
+			return fieldValueFunction.apply(actual, actualFieldTag);
+		} catch (ThrownByLambdaException e) {
+			if (e.getCause().getClass().equals(FieldNotFound.class)) {
+				throw failures.failure(info, shouldHaveField(actualFieldClass, actualFieldTag));
+			} else {
+				// TODO: other exception throw failure
+				throw failures.failure(info, shouldHaveField(actualFieldClass, actualFieldTag));
 			}
-		} catch (FieldNotFound fieldNotFound) {
-			throw failures.failure(info, shouldHaveField(actualFieldClass, actualField));
 		}
 	}
 
@@ -142,19 +171,4 @@ public class Messages {
 			throw failures.failure(info, shouldHaveField(actualClazz, actualField));
 		}
 	}
-
-	//	public <T> void assertMessageHasFieldWithValue(AssertionInfo info, Message actual, Class<?> clazz, int expectedField, T expectedValue) {
-	//		try {
-	//			T actualValue = getFieldValue(actual, expectedField);
-	//			if (!actualValue.equals(expectedField)) {
-	//				throw failures.failure(info, fieldShouldHaveValue(clazz, expectedField, actualValue, expectedValue));
-	//			}
-	//		} catch (FieldNotFound fieldNotFound) {
-	//			throw failures.failure(info, shouldHaveField(ClOrdID.class, expectedField));
-	//		}
-	//	}
-	//
-	//	private <T> T getFieldValue(Message actual, int expectedField) throws FieldNotFound {
-	//		return actual.getString(expectedField);
-	//	}
 }

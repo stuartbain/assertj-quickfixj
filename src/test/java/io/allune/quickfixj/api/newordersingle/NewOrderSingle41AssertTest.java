@@ -12,7 +12,7 @@
  */
 package io.allune.quickfixj.api.newordersingle;
 
-import static io.allune.quickfixj.api.newordersingle.NewOrderSingleAssertions.assertThat;
+import static io.allune.quickfixj.api.Assertions.assertThat;
 import static io.allune.quickfixj.api.support.TestNewOrderSingleMessageFactory.newOrderSingleBuilder;
 import static quickfix.FixVersions.BEGINSTRING_FIX41;
 import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
@@ -20,6 +20,8 @@ import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROK
 import org.junit.Before;
 import org.junit.Test;
 
+import quickfix.field.Account;
+import quickfix.field.ClOrdID;
 import quickfix.field.OrdType;
 import quickfix.field.Side;
 import quickfix.fix41.NewOrderSingle;
@@ -52,7 +54,8 @@ public class NewOrderSingle41AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasClOrdID("13346");
+				.isNewOrderSingle()
+				.hasFieldValue(ClOrdID.FIELD, "13346");
 	}
 
 	@Test
@@ -61,7 +64,8 @@ public class NewOrderSingle41AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasAccount("Marcel");
+				.isNewOrderSingle()
+				.hasFieldValue(Account.FIELD, "Marcel");
 	}
 
 	@Test
@@ -70,6 +74,7 @@ public class NewOrderSingle41AssertTest {
 
 		// When/Then
 		assertThat(message)
-				.hasSide(Side.BUY);
+				.isNewOrderSingle()
+				.hasFieldValue(Side.FIELD, Side.BUY);
 	}
 }

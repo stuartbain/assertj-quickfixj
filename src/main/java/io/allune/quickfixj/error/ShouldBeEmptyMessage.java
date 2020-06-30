@@ -16,22 +16,27 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 /**
+ * Creates an error message indicating that the message is not an empty message.
+ *
  * @author Eduardo Sanchez-Ros
  */
-// TODO: Rename class
-public class ShouldHaveFixVersionEqualTo extends BasicErrorMessageFactory {
+public class ShouldBeEmptyMessage extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldHaveFixVersionEqualTo(Object actual, Object actualVersion, Object expectedVersion) {
-		return new ShouldHaveFixVersionEqualTo(actual, actualVersion, expectedVersion);
+	/**
+	 * Creates a new <code>{@link ShouldBeEmptyMessage}</code>.
+	 *
+	 * @param message the actual value in the failed assertion.
+	 * @return @return the created {@code ErrorMessageFactory}.
+	 */
+	public static ErrorMessageFactory shouldBeEmptyMessage(Object message) {
+		return new ShouldBeEmptyMessage(message);
 	}
 
-	private ShouldHaveFixVersionEqualTo(Object actual, Object actualVersion, Object expectedVersion) {
-		super("%n"
-				+ "Expecting:%n"
+	private ShouldBeEmptyMessage(Object message) {
+		// TODO: refactor message wording
+		super("Expecting Message:%n"
 				+ " <%s>%n"
-				+ "to have FIX version:%n"
-				+ " <%s>%n"
-				+ "but was:%n"
-				+ " <%s>", actual, expectedVersion, actualVersion);
+				+ "to be an Application message but was not", message);
 	}
+
 }

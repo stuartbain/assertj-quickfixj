@@ -18,17 +18,17 @@ import org.assertj.core.error.ErrorMessageFactory;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class ShouldBeValidMessage extends BasicErrorMessageFactory {
+public class ShouldBeOfType extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldBeValidMessage(Object actual, Object error) {
-		return new ShouldBeValidMessage(actual, error);
+	public static ErrorMessageFactory shouldBeOfType(Object message, Object actualMessageType, Object expectedMessageType) {
+		return new ShouldBeOfType(message, actualMessageType, expectedMessageType);
 	}
 
-	private ShouldBeValidMessage(Object actual, Object error) {
+	private ShouldBeOfType(Object actual, Object actualMessageType, Object expectedMessageType) {
 		super("Expecting Message:%n"
-				+ " <%s>"
-				+ "to be a valid message but was not.%n"
-				+ "Error:%n"
-				+ " <%s>", actual, error);
+				+ " <%s>%n"
+				+ "to be of type <%s>%n" // TODO: Add message class (maybe lookup by msgType?)
+				+ "but was:%n"
+				+ " <%s>", actual, expectedMessageType, actualMessageType);
 	}
 }

@@ -24,7 +24,7 @@ import quickfix.Message;
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageAssertIsVersionTest {
+public class MessageAssert_IsVersion_Test {
 
 	@Test
 	public void shouldAssertIsVersion40() throws InvalidMessage {
@@ -33,18 +33,30 @@ public class MessageAssertIsVersionTest {
 	}
 
 	@Test
+	public void shouldFailToAssertIsVersion40GivenNullMessage() {
+		try {
+			assertThat((Message) null).isVersion40();
+		} catch (AssertionError e) {
+			assertThat(e).hasMessage(format("%n"
+					+ "Expecting actual not to be null"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
+	}
+
+	@Test
 	public void shouldFailToAssertIsVersion40GivenMessageWithVersion41() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.1\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=016\u0001");
 			assertThat(message).isVersion40();
 		} catch (AssertionError e) {
-			assertThat(e).hasMessage(format("%n"
-					+ "Expecting:%n"
-					+ " <8=FIX.4.1\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=016\u0001>%n"
-					+ "to have FIX version:%n"
-					+ " <\"FIX.4.0\">%n"
-					+ "but was:%n"
-					+ " <\"FIX.4.1\">"));
+			assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.1\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=016\u0001>%n"
+							+ "to have version:%n"
+							+ " <\"FIX.4.0\">%n"
+							+ "but was:%n"
+							+ " <\"FIX.4.1\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
@@ -57,18 +69,30 @@ public class MessageAssertIsVersionTest {
 	}
 
 	@Test
+	public void shouldFailToAssertIsVersion41GivenNullMessage() {
+		try {
+			assertThat((Message) null).isVersion41();
+		} catch (AssertionError e) {
+			assertThat(e).hasMessage(format("%n"
+					+ "Expecting actual not to be null"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
+	}
+
+	@Test
 	public void shouldFailToAssertIsVersion41GivenMessageWithVersion40() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
 			assertThat(message).isVersion41();
 		} catch (AssertionError e) {
-			assertThat(e).hasMessage(format("%n"
-					+ "Expecting:%n"
-					+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
-					+ "to have FIX version:%n"
-					+ " <\"FIX.4.1\">%n"
-					+ "but was:%n"
-					+ " <\"FIX.4.0\">"));
+			assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
+							+ "to have version:%n"
+							+ " <\"FIX.4.1\">%n"
+							+ "but was:%n"
+							+ " <\"FIX.4.0\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
@@ -81,18 +105,30 @@ public class MessageAssertIsVersionTest {
 	}
 
 	@Test
+	public void shouldFailToAssertIsVersion42GivenNullMessage() {
+		try {
+			assertThat((Message) null).isVersion42();
+		} catch (AssertionError e) {
+			assertThat(e).hasMessage(format("%n"
+					+ "Expecting actual not to be null"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
+	}
+
+	@Test
 	public void shouldFailToAssertIsVersion42GivenMessageWithVersion40() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
 			assertThat(message).isVersion42();
 		} catch (AssertionError e) {
-			assertThat(e).hasMessage(format("%n"
-					+ "Expecting:%n"
-					+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
-					+ "to have FIX version:%n"
-					+ " <\"FIX.4.2\">%n"
-					+ "but was:%n"
-					+ " <\"FIX.4.0\">"));
+			assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
+							+ "to have version:%n"
+							+ " <\"FIX.4.2\">%n"
+							+ "but was:%n"
+							+ " <\"FIX.4.0\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
@@ -105,18 +141,30 @@ public class MessageAssertIsVersionTest {
 	}
 
 	@Test
+	public void shouldFailToAssertIsVersion43GivenNullMessage() {
+		try {
+			assertThat((Message) null).isVersion43();
+		} catch (AssertionError e) {
+			assertThat(e).hasMessage(format("%n"
+					+ "Expecting actual not to be null"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
+	}
+
+	@Test
 	public void shouldFailToAssertIsVersion43GivenMessageWithVersion40() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
 			assertThat(message).isVersion43();
 		} catch (AssertionError e) {
-			assertThat(e).hasMessage(format("%n"
-					+ "Expecting:%n"
-					+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
-					+ "to have FIX version:%n"
-					+ " <\"FIX.4.3\">%n"
-					+ "but was:%n"
-					+ " <\"FIX.4.0\">"));
+			assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
+							+ "to have version:%n"
+							+ " <\"FIX.4.3\">%n"
+							+ "but was:%n"
+							+ " <\"FIX.4.0\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
@@ -129,18 +177,30 @@ public class MessageAssertIsVersionTest {
 	}
 
 	@Test
+	public void shouldFailToAssertIsVersion44GivenNullMessage() {
+		try {
+			assertThat((Message) null).isVersion44();
+		} catch (AssertionError e) {
+			assertThat(e).hasMessage(format("%n"
+					+ "Expecting actual not to be null"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
+	}
+
+	@Test
 	public void shouldFailToAssertIsVersion44GivenMessageWithVersion40() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
 			assertThat(message).isVersion44();
 		} catch (AssertionError e) {
-			assertThat(e).hasMessage(format("%n"
-					+ "Expecting:%n"
-					+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
-					+ "to have FIX version:%n"
-					+ " <\"FIX.4.4\">%n"
-					+ "but was:%n"
-					+ " <\"FIX.4.0\">"));
+			assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
+							+ "to have version:%n"
+							+ " <\"FIX.4.4\">%n"
+							+ "but was:%n"
+							+ " <\"FIX.4.0\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
@@ -154,18 +214,30 @@ public class MessageAssertIsVersionTest {
 	}
 
 	@Test
+	public void shouldFailToAssertIsVersion50GivenNullMessage() {
+		try {
+			assertThat((Message) null).isVersion50();
+		} catch (AssertionError e) {
+			assertThat(e).hasMessage(format("%n"
+					+ "Expecting actual not to be null"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
+	}
+
+	@Test
 	public void shouldFailAssertIsVersion50GivenMessageWithVersion40() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
 			assertThat(message).isVersion50();
 		} catch (AssertionError e) {
-			assertThat(e).hasMessage(format("%n"
-					+ "Expecting:%n"
-					+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
-					+ "to have FIX version:%n"
-					+ " <\"FIXT.1.1\">%n"
-					+ "but was:%n"
-					+ " <\"FIX.4.0\">"));
+			assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
+							+ "to have version:%n"
+							+ " <\"FIXT.1.1\">%n"
+							+ "but was:%n"
+							+ " <\"FIX.4.0\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
@@ -179,18 +251,30 @@ public class MessageAssertIsVersionTest {
 	}
 
 	@Test
+	public void shouldFailToAssertIsVersion50sp1GivenNullMessage() {
+		try {
+			assertThat((Message) null).isVersion50sp1();
+		} catch (AssertionError e) {
+			assertThat(e).hasMessage(format("%n"
+					+ "Expecting actual not to be null"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
+	}
+
+	@Test
 	public void shouldFailAssertIsVersion50sp1GivenMessageWithVersion40() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
 			assertThat(message).isVersion50sp1();
 		} catch (AssertionError e) {
-			assertThat(e).hasMessage(format("%n"
-					+ "Expecting:%n"
-					+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
-					+ "to have FIX version:%n"
-					+ " <\"FIXT.1.1\">%n"
-					+ "but was:%n"
-					+ " <\"FIX.4.0\">"));
+			assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
+							+ "to have version:%n"
+							+ " <\"FIXT.1.1\">%n"
+							+ "but was:%n"
+							+ " <\"FIX.4.0\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
@@ -204,18 +288,30 @@ public class MessageAssertIsVersionTest {
 	}
 
 	@Test
+	public void shouldFailToAssertIsVersion50sp2GivenNullMessage() {
+		try {
+			assertThat((Message) null).isVersion50sp2();
+		} catch (AssertionError e) {
+			assertThat(e).hasMessage(format("%n"
+					+ "Expecting actual not to be null"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
+	}
+
+	@Test
 	public void shouldFailToAssertIsVersion50sp2GivenMessageWithVersion40() throws InvalidMessage {
 		try {
 			Message message = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
 			assertThat(message).isVersion50sp2();
 		} catch (AssertionError e) {
-			assertThat(e).hasMessage(format("%n"
-					+ "Expecting:%n"
-					+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
-					+ "to have FIX version:%n"
-					+ " <\"FIXT.1.1\">%n"
-					+ "but was:%n"
-					+ " <\"FIX.4.0\">"));
+			assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001>%n"
+							+ "to have version:%n"
+							+ " <\"FIXT.1.1\">%n"
+							+ "but was:%n"
+							+ " <\"FIX.4.0\">"));
 			return;
 		}
 		fail("Should have thrown AssertionError");
