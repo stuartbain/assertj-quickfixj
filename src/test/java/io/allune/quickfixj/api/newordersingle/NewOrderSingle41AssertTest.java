@@ -75,6 +75,6 @@ public class NewOrderSingle41AssertTest {
 		// When/Then
 		assertThat(message)
 				.isNewOrderSingle()
-				.hasFieldValue(Side.FIELD, Side.BUY);
+				.hasFieldValue(Side.FIELD, String.valueOf(Side.BUY));
 	}
 }

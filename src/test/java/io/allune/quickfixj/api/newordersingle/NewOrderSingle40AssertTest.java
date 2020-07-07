@@ -95,7 +95,7 @@ public class NewOrderSingle40AssertTest {
 		// When/Then
 		assertThat(message)
 				.isNewOrderSingle()
-				.hasFieldValue(HandlInst.FIELD, AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION);
+				.hasFieldValue(HandlInst.FIELD, String.valueOf(AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION));
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class NewOrderSingle40AssertTest {
 		// When/Then
 		assertThat(message)
 				.isNewOrderSingle()
-				.hasFieldValue(Side.FIELD, Side.BUY);
+				.hasFieldValue(Side.FIELD, String.valueOf(Side.BUY));
 	}
 
 	@Test
@@ -125,7 +125,7 @@ public class NewOrderSingle40AssertTest {
 		// When/Then
 		assertThat(message)
 				.isNewOrderSingle()
-				.hasFieldValue(OrderQty.FIELD, 1000D);
+				.hasFieldValue(OrderQty.FIELD, 1000);
 	}
 
 	@Test
@@ -135,7 +135,7 @@ public class NewOrderSingle40AssertTest {
 		// When/Then
 		assertThat(message)
 				.isNewOrderSingle()
-				.hasFieldValue(OrdType.FIELD, OrdType.LIMIT);
+				.hasFieldValue(OrdType.FIELD, String.valueOf(OrdType.LIMIT));
 	}
 
 	@Test
@@ -154,7 +154,7 @@ public class NewOrderSingle40AssertTest {
 		// When/Then
 		assertThat(message)
 				.hasFieldValue(ClOrdID.FIELD, "13346")
-				.hasFieldValue(HandlInst.FIELD, HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION)
+				.hasFieldValue(HandlInst.FIELD, String.valueOf(HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION))
 				.hasFieldValue(Symbol.FIELD, "GBP/USD")
 				.hasFieldValue(Side.FIELD, Side.BUY)
 				.hasFieldValue(OrderQty.FIELD, 1000D)

@@ -32,9 +32,6 @@ import static quickfix.field.MsgType.ORDER_SINGLE;
 import quickfix.FixVersions;
 import quickfix.Message;
 
-//import io.allune.quickfixj.api.newordersingle.AbstractNewOrderSingleAssert;
-//import io.allune.quickfixj.api.newordersingle.NewOrderSingleAssert;
-
 /**
  * @author Eduardo Sanchez-Ros
  */
@@ -69,7 +66,7 @@ public class MessageAssert extends AbstractMessageAssert<MessageAssert, Message>
 	 * <pre>
 	 * 	<code class='java'>
 	 * 		Message message = new Message(&quot;8=FIX.4.1\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=018\u0001&quot;);
-	 * 		assertThat(message).isVersion43();
+	 * 		assertThat(message).isVersion41();
 	 * 	</code>
 	 * </pre>
 	 *
@@ -88,7 +85,7 @@ public class MessageAssert extends AbstractMessageAssert<MessageAssert, Message>
 	 * <pre>
 	 * 	<code class='java'>
 	 * 		Message message = new Message(&quot;8=FIX.4.2\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=017\u0001&quot;);
-	 * 		assertThat(message).isVersion43();
+	 * 		assertThat(message).isVersion42();
 	 * 	</code>
 	 * </pre>
 	 *

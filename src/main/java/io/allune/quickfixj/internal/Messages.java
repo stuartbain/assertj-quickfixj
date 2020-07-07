@@ -76,12 +76,12 @@ public class Messages {
 		return INSTANCE;
 	}
 
-	Messages() {
-	}
-
 	Objects objects = Objects.instance();
 
 	Failures failures = Failures.instance();
+
+	Messages() {
+	}
 
 	public static DataDictionary getSessionDataDictionary(String beginString) {
 		return dataDictionaryProvider.getSessionDataDictionary(beginString);

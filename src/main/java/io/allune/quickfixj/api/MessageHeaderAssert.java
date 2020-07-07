@@ -63,6 +63,7 @@ public class MessageHeaderAssert extends AbstractMessageAssert<MessageHeaderAsse
 		return this;
 	}
 
+	// TODO: Rename to isOfType
 	public MessageHeaderAssert hasMessageType(String expectedMsgType) {
 		messages.assertMessageIsOfType(info, actual, expectedMsgType);
 		return this;
@@ -86,7 +87,6 @@ public class MessageHeaderAssert extends AbstractMessageAssert<MessageHeaderAsse
 		return this;
 	}
 
-	//    <field name="OnBehalfOfCompID" required="N" />
 	//    <field name="DeliverToCompID" required="N" />
 	//    <field name="SecureDataLen" required="N" />
 	//    <field name="SecureData" required="N" />
