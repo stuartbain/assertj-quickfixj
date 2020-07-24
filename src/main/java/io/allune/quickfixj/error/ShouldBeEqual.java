@@ -22,6 +22,16 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class ShouldBeEqual extends BasicErrorMessageFactory {
 
+	private ShouldBeEqual(Object message, Object fieldClass, Object fieldTag, Object actualValue, Object expectedValue) {
+		// TODO: refactor message wording
+		super("Expecting value for field <%s> (tag=<%s>) in Message:%n"
+				+ " <%s>%n"
+				+ "to be:%n"
+				+ " <%s>%n"
+				+ "but was:%n"
+				+ " <%s>", fieldClass, fieldTag, message, expectedValue, actualValue);
+	}
+
 	/**
 	 * Creates a new <code>{@link ShouldBeEqual}</code>.
 	 *
@@ -34,16 +44,6 @@ public class ShouldBeEqual extends BasicErrorMessageFactory {
 	 */
 	public static ErrorMessageFactory shouldBeEqual(Object message, Object fieldClass, Object fieldTag, Object actualValue, Object expectedValue) {
 		return new ShouldBeEqual(message, fieldClass, fieldTag, actualValue, expectedValue);
-	}
-
-	private ShouldBeEqual(Object message, Object fieldClass, Object fieldTag, Object actualValue, Object expectedValue) {
-		// TODO: refactor message wording
-		super("Expecting value for field <%s> (tag=<%s>) in Message:%n"
-				+ " <%s>%n"
-				+ "to be:%n"
-				+ " <%s>%n"
-				+ "but was:%n"
-				+ " <%s>", fieldClass, fieldTag, message, expectedValue, actualValue);
 	}
 
 }

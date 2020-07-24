@@ -12,13 +12,12 @@
  */
 package io.allune.quickfixj.internal;
 
-import static io.allune.quickfixj.error.ShouldHaveVersionEqualTo.shouldHaveVersionEqualTo;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
-
 import quickfix.Message;
+
+import static io.allune.quickfixj.error.ShouldHaveVersionEqualTo.shouldHaveVersionEqualTo;
 
 /**
  * @author Simon Lewis

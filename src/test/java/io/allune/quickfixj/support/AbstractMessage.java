@@ -10,23 +10,11 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.support;
-
-import static io.allune.quickfixj.internal.Messages.getSessionDataDictionary;
-import static java.lang.String.format;
-import static java.time.LocalDateTime.now;
-import static java.util.Optional.ofNullable;
-import static quickfix.FixVersions.BEGINSTRING_FIXT11;
-import static quickfix.FixVersions.FIX50;
-import static quickfix.FixVersions.FIX50SP1;
-import static quickfix.FixVersions.FIX50SP2;
-
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.function.Supplier;
+package io.allune.quickfixj.support;
 
 import io.allune.quickfixj.exception.InvalidMessageException;
 import io.allune.quickfixj.exception.InvalidVersionException;
+import io.allune.quickfixj.internal.Dictionaries;
 import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import quickfix.FieldNotFound;
@@ -39,7 +27,21 @@ import quickfix.field.BeginString;
 import quickfix.field.MsgSeqNum;
 import quickfix.field.SenderCompID;
 import quickfix.field.SendingTime;
+import quickfix.field.Signature;
+import quickfix.field.SignatureLength;
 import quickfix.field.TargetCompID;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import static java.lang.String.format;
+import static java.time.LocalDateTime.now;
+import static java.util.Optional.ofNullable;
+import static quickfix.FixVersions.BEGINSTRING_FIXT11;
+import static quickfix.FixVersions.FIX50;
+import static quickfix.FixVersions.FIX50SP1;
+import static quickfix.FixVersions.FIX50SP2;
 
 @SuperBuilder
 public abstract class AbstractMessage {
@@ -58,16 +60,7 @@ public abstract class AbstractMessage {
 	@Builder.Default
 	LocalDateTime sendingTime = now();
 
-	void addMessageFields(Message message) {
-		message.getHeader().setField(new BeginString(beginString));
-		ofNullable(applVerId).ifPresent(value -> message.getHeader().setField(new ApplVerID(applVerId)));
-		ofNullable(sender).ifPresent(value -> message.getHeader().setField(new SenderCompID(value)));
-		ofNullable(target).ifPresent(value -> message.getHeader().setField(new TargetCompID(value)));
-		message.getHeader().setField(new MsgSeqNum(mesSeqNum));
-		message.getHeader().setField(new SendingTime(sendingTime));
-	}
-
-	protected abstract Map<String, Supplier<? extends Message>> getMap();
+	String signature;
 
 	public <T extends Message> T toMessage() {
 		if (beginString == null) {
@@ -85,12 +78,35 @@ public abstract class AbstractMessage {
 
 		try {
 			determineVersion(beginString);
+
+			addHeaderFields(order);
 			addMessageFields(order);
-			getSessionDataDictionary(beginString).validate(order, true);
+			addTrailerFields(order);
+			Dictionaries.getSessionDataDictionary(beginString).validate(order, true);
 		} catch (IncorrectTagValue | FieldNotFound | IncorrectDataFormat e) {
 			throw new InvalidMessageException(e.getMessage(), e);
 		}
 		return order;
+	}
+
+	protected abstract Map<String, Supplier<? extends Message>> getMap();
+
+	protected void addHeaderFields(Message message) {
+		message.getHeader().setField(new BeginString(beginString));
+		ofNullable(applVerId).ifPresent(value -> message.getHeader().setField(new ApplVerID(applVerId)));
+		ofNullable(sender).ifPresent(value -> message.getHeader().setField(new SenderCompID(value)));
+		ofNullable(target).ifPresent(value -> message.getHeader().setField(new TargetCompID(value)));
+		message.getHeader().setField(new MsgSeqNum(mesSeqNum));
+		message.getHeader().setField(new SendingTime(sendingTime));
+	}
+
+	protected abstract <T extends Message> void addMessageFields(T order);
+
+	private void addTrailerFields(Message message) {
+		ofNullable(signature).ifPresent(value -> {
+			message.getTrailer().setField(new Signature(value));
+			message.getTrailer().setField(new SignatureLength(value.length()));
+		});
 	}
 
 	private void determineVersion(String beginString) {

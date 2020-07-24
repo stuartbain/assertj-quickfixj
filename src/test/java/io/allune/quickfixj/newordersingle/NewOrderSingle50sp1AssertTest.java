@@ -10,18 +10,11 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.newordersingle;
+package io.allune.quickfixj.newordersingle;
 
-import static io.allune.quickfixj.api.Assertions.assertThat;
-import static io.allune.quickfixj.api.support.TestNewOrderSingleMessageFactory.newOrderSingleBuilder;
-import static quickfix.FixVersions.FIX50SP2;
-import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
-
-import java.time.LocalDateTime;
+import io.allune.quickfixj.support.NewOrderSingle.NewOrderSingleBuilder;
 import org.junit.Before;
 import org.junit.Test;
-
-import io.allune.quickfixj.api.support.NewOrderSingle.NewOrderSingleBuilder;
 import quickfix.field.Account;
 import quickfix.field.ClOrdID;
 import quickfix.field.HandlInst;
@@ -30,6 +23,13 @@ import quickfix.field.OrderQty;
 import quickfix.field.Side;
 import quickfix.field.Symbol;
 import quickfix.field.TransactTime;
+
+import java.time.LocalDateTime;
+
+import static io.allune.quickfixj.api.Assertions.assertThat;
+import static io.allune.quickfixj.support.TestNewOrderSingleMessageFactory.newOrderSingleBuilder;
+import static quickfix.FixVersions.FIX50SP2;
+import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
 
 /**
  * @author Eduardo Sanchez-Ros

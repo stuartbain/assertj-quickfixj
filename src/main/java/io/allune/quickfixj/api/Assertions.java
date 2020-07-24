@@ -15,15 +15,43 @@ package io.allune.quickfixj.api;
 import quickfix.Message;
 
 /**
+ * Entry point for all QuickFIX/J assertions
+ *
  * @author Eduardo Sanchez-Ros
  */
-public class Assertions extends org.assertj.core.api.Assertions {
+public final class Assertions {
 
+	private Assertions() {
+		// empty
+	}
+
+	/**
+	 * Creates a new instance of {@link MessageAssert}.
+	 *
+	 * @param message The {@link quickfix.Message} to assert on.
+	 * @return The created assertion object.
+	 */
 	public static MessageAssert assertThat(Message message) {
 		return new MessageAssert(message);
 	}
 
-	protected Assertions() {
-		// empty
-	}
+//	/**
+//	 * Creates a new instance of {@link MessageHeaderAssert}.
+//	 *
+//	 * @param header The {@link quickfix.Message.Header} to assert on.
+//	 * @return The created assertion object.
+//	 */
+//	public static MessageHeaderAssert assertThat(Header header) {
+//		return new MessageHeaderAssert(header);
+//	}
+//
+//	/**
+//	 * Creates a new instance of {@link MessageTrailerAssert}.
+//	 *
+//	 * @param trailer The {@link quickfix.Message.Trailer} to assert on.
+//	 * @return The created assertion object.
+//	 */
+//	public static MessageTrailerAssert assertThat(Trailer trailer) {
+//		return new MessageTrailerAssert(trailer);
+//	}
 }

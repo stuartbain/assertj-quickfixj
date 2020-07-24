@@ -20,15 +20,15 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class ShouldBeValidMessage extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldBeValidMessage(Object actual, Object error) {
-		return new ShouldBeValidMessage(actual, error);
-	}
-
 	private ShouldBeValidMessage(Object actual, Object error) {
 		super("Expecting Message:%n"
 				+ " <%s>"
 				+ "to be a valid message but was not.%n"
 				+ "Error:%n"
 				+ " <%s>", actual, error);
+	}
+
+	public static ErrorMessageFactory shouldBeValidMessage(Object actual, Object error) {
+		return new ShouldBeValidMessage(actual, error);
 	}
 }

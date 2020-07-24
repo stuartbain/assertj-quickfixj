@@ -10,7 +10,7 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.support;
+package io.allune.quickfixj.support;
 
 import java.util.Optional;
 import java.util.function.Consumer;

@@ -22,6 +22,13 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class ShouldBeAdminMessage extends BasicErrorMessageFactory {
 
+	private ShouldBeAdminMessage(Object message) {
+		// TODO: refactor message wording
+		super("Expecting Message:%n"
+				+ " <%s>%n"
+				+ "to be an Admin message but was not", message);
+	}
+
 	/**
 	 * Creates a new <code>{@link ShouldBeAdminMessage}</code>.
 	 *
@@ -30,13 +37,6 @@ public class ShouldBeAdminMessage extends BasicErrorMessageFactory {
 	 */
 	public static ErrorMessageFactory shouldBeAdminMessage(Object message) {
 		return new ShouldBeAdminMessage(message);
-	}
-
-	private ShouldBeAdminMessage(Object message) {
-		// TODO: refactor message wording
-		super("Expecting Message:%n"
-				+ " <%s>%n"
-				+ "to be an Admin message but was not", message);
 	}
 
 }

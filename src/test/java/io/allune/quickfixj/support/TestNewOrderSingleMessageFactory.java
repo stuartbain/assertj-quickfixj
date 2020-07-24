@@ -10,15 +10,15 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.support;
+package io.allune.quickfixj.support;
 
-import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
+import io.allune.quickfixj.support.NewOrderSingle.NewOrderSingleBuilder;
+import quickfix.field.OrdType;
+import quickfix.field.Side;
 
 import java.time.LocalDateTime;
 
-import io.allune.quickfixj.api.support.NewOrderSingle.NewOrderSingleBuilder;
-import quickfix.field.OrdType;
-import quickfix.field.Side;
+import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
 
 /**
  * @author Eduardo Sanchez-Ros

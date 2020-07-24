@@ -20,14 +20,14 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class ShouldHaveHeader extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldHaveHeader(Object message) {
-		return new ShouldHaveHeader(message);
-	}
-
 	private ShouldHaveHeader(Object message) {
 		super("%n"
 				+ "Expecting Message:%n"
 				+ " <%s>%n"
 				+ "to have a header but did not.", message);
+	}
+
+	public static ErrorMessageFactory shouldHaveHeader(Object message) {
+		return new ShouldHaveHeader(message);
 	}
 }

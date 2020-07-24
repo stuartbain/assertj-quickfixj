@@ -12,6 +12,14 @@
  */
 package io.allune.quickfixj.api;
 
+import io.allune.quickfixj.support.NewOrderSingle;
+import io.allune.quickfixj.support.NewOrderSingle.NewOrderSingleBuilder;
+import org.junit.Before;
+import org.junit.Test;
+import quickfix.Message;
+import quickfix.field.OrdType;
+import quickfix.field.Side;
+
 import static io.allune.quickfixj.api.Assertions.assertThat;
 import static java.time.LocalDateTime.now;
 import static quickfix.FixVersions.BEGINSTRING_FIX40;
@@ -24,19 +32,10 @@ import static quickfix.FixVersions.FIX50SP1;
 import static quickfix.FixVersions.FIX50SP2;
 import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import io.allune.quickfixj.api.support.NewOrderSingle;
-import io.allune.quickfixj.api.support.NewOrderSingle.NewOrderSingleBuilder;
-import quickfix.Message;
-import quickfix.field.OrdType;
-import quickfix.field.Side;
-
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageAssert_IsNewOrderSingle_Test {
+public class MessageAssert_isNewOrderSingle_Test {
 
 	NewOrderSingleBuilder<?, ?> messageBuilder;
 

@@ -20,13 +20,13 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class FieldShouldHaveTag extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory fieldShouldHaveTag(Object actual) {
-		return new FieldShouldHaveTag(actual);
-	}
-
 	private FieldShouldHaveTag(Object actual) {
 		// TODO: re do
 		super("Expecting field of type <%s> to have static field \"FIELD\" with tag id%n"
 				+ "but did not.", actual);
+	}
+
+	public static ErrorMessageFactory fieldShouldHaveTag(Object actual) {
+		return new FieldShouldHaveTag(actual);
 	}
 }

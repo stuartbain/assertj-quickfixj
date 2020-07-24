@@ -12,32 +12,39 @@
  */
 package io.allune.quickfixj.api;
 
-import static io.allune.quickfixj.error.ShouldBeEqual.shouldBeEqual;
-import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
-
 import io.allune.quickfixj.internal.Messages;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.internal.Failures;
 import quickfix.FieldNotFound;
-import quickfix.Message;
+import quickfix.Message.Header;
 import quickfix.field.BeginString;
-import quickfix.field.BodyLength;
 import quickfix.field.OnBehalfOfCompID;
 import quickfix.field.SenderCompID;
 import quickfix.field.TargetCompID;
 
+import static io.allune.quickfixj.error.ShouldBeEqual.shouldBeEqual;
+import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
+
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageHeaderAssert extends AbstractMessageAssert<MessageHeaderAssert, Message> {
+public class MessageHeaderAssert extends AbstractAssert<MessageHeaderAssert, Header> {
 
-	protected Messages messages = Messages.instance();
+	Messages messages = Messages.instance();
+
+	Failures failures = Failures.instance();
+
+	private final MessageAssert messageAssert;
 
 	/**
-	 * Creates a new <code>{@link AbstractMessageAssert}</code>.
+	 * Creates a new <code>{@link MessageHeaderAssert}</code>.
 	 *
-	 * @param message the actual value to verify
+	 * @param header the actual value to verify
+	 * @param messageAssert
 	 */
-	protected MessageHeaderAssert(Message message) {
-		super(MessageHeaderAssert.class, message);
+	MessageHeaderAssert(Header header, MessageAssert messageAssert) {
+		super(header, MessageHeaderAssert.class);
+		this.messageAssert = messageAssert;
 	}
 
 	public MessageHeaderAssert hasGroup(int expectedGroupTag) {
@@ -56,17 +63,24 @@ public class MessageHeaderAssert extends AbstractMessageAssert<MessageHeaderAsse
 		return this;
 	}
 
-	public MessageHeaderAssert hasBodyLength(int expectedBodyLength) {
+	public MessageHeaderAssert hasField(int expectedFieldTag) {
 		isNotNull();
-		if (actual.bodyLength() != expectedBodyLength)
-			throw failures.failure(info, shouldBeEqual(actual, BodyLength.class, BodyLength.FIELD, actual.bodyLength(), expectedBodyLength));
+		if (!actual.isSetField(expectedFieldTag))
+			throw failures.failure(info, shouldHaveField(actual, expectedFieldTag));
 		return this;
 	}
 
-	// TODO: Rename to isOfType
-	public MessageHeaderAssert hasMessageType(String expectedMsgType) {
-		messages.assertMessageIsOfType(info, actual, expectedMsgType);
+	public MessageHeaderAssert hasFields(int... expectedFieldTags) {
+		// TODO: Iterate through all fields, gather the errors and custom error message
+		isNotNull();
+		for (int field : expectedFieldTags) {
+			hasField(field);
+		}
 		return this;
+	}
+
+	public MessageAssert and() {
+		return messageAssert;
 	}
 
 	public MessageHeaderAssert hasSenderCompID(String expectedSenderCompID) {

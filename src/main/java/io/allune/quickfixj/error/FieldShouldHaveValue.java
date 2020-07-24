@@ -36,19 +36,19 @@ public class FieldShouldHaveValue extends BasicErrorMessageFactory {
 					+ "but was:%n"
 					+ " <%s>";
 
-	public static ErrorMessageFactory fieldShouldHaveValue(Object message, Object fieldClass, Object fieldTag, Object actualValue, Object expectedValue) {
-		return new FieldShouldHaveValue(message, fieldClass, fieldTag, actualValue, expectedValue);
-	}
-
-	public static ErrorMessageFactory fieldShouldHaveValue(Object message, Object fieldTag, Object actual, Object expected) {
-		return new FieldShouldHaveValue(message, fieldTag, actual, expected);
-	}
-
 	private FieldShouldHaveValue(Object message, Object fieldClass, Object fieldTag, Object actualValue, Object expectedValue) {
 		super(FIELD_SHOULD_HAVE_VALUE, fieldClass, fieldTag, message, expectedValue, actualValue);
 	}
 
 	private FieldShouldHaveValue(Object message, Object fieldTag, Object actualValue, Object expectedValue) {
 		super(FIELD_SHOULD_HAVE_VALUE_WITHOUT_CLASS, fieldTag, message, expectedValue, actualValue);
+	}
+
+	public static ErrorMessageFactory fieldShouldHaveValue(Object message, Object fieldClass, Object fieldTag, Object actualValue, Object expectedValue) {
+		return new FieldShouldHaveValue(message, fieldClass, fieldTag, actualValue, expectedValue);
+	}
+
+	public static ErrorMessageFactory fieldShouldHaveValue(Object message, Object fieldTag, Object actual, Object expected) {
+		return new FieldShouldHaveValue(message, fieldTag, actual, expected);
 	}
 }

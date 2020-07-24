@@ -22,6 +22,13 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class ShouldBeAppMessage extends BasicErrorMessageFactory {
 
+	private ShouldBeAppMessage(Object message) {
+		// TODO: refactor message wording
+		super("Expecting Message:%n"
+				+ " <%s>%n"
+				+ "to be an Application message but was not", message);
+	}
+
 	/**
 	 * Creates a new <code>{@link ShouldBeAppMessage}</code>.
 	 *
@@ -30,13 +37,6 @@ public class ShouldBeAppMessage extends BasicErrorMessageFactory {
 	 */
 	public static ErrorMessageFactory shouldBeAppMessage(Object message) {
 		return new ShouldBeAppMessage(message);
-	}
-
-	private ShouldBeAppMessage(Object message) {
-		// TODO: refactor message wording
-		super("Expecting Message:%n"
-				+ " <%s>%n"
-				+ "to be an Application message but was not", message);
 	}
 
 }

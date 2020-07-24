@@ -12,9 +12,9 @@
  */
 package io.allune.quickfixj.internal;
 
-import java.util.function.BiFunction;
-
 import io.allune.quickfixj.exception.ThrownByLambdaException;
+
+import java.util.function.BiFunction;
 
 /**
  * A throwing {@link BiFunction}

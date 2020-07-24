@@ -12,30 +12,73 @@
  */
 package io.allune.quickfixj.api;
 
-import quickfix.Message;
+import io.allune.quickfixj.internal.Messages;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.internal.Failures;
+import quickfix.Message.Trailer;
+import quickfix.field.CheckSum;
+import quickfix.field.Signature;
+import quickfix.field.SignatureLength;
+
+import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageTrailerAssert extends AbstractMessageAssert<MessageTrailerAssert, Message> {
+public class MessageTrailerAssert extends AbstractAssert<MessageTrailerAssert, Trailer> {
+
+	private Messages messages = Messages.instance();
+
+	Failures failures = Failures.instance();
+
+	private final MessageAssert messageAssert;
 
 	/**
-	 * Creates a new <code>{@link AbstractMessageAssert}</code>.
+	 * Creates a new <code>{@link MessageTrailerAssert}</code>.
 	 *
-	 * @param message the actual value to verify
+	 * @param trailer the actual value to verify
+	 * @param messageAssert
 	 */
-	protected MessageTrailerAssert(Message message) {
-		super(MessageTrailerAssert.class, message);
+	MessageTrailerAssert(Trailer trailer, MessageAssert messageAssert) {
+		super(trailer, MessageTrailerAssert.class);
+		this.messageAssert = messageAssert;
 	}
 
-	///  <trailer>
-	//    <field name="SignatureLength" required="N"/>
-	//    <field name="Signature" required="N"/>
-	//    <field name="CheckSum" required="Y"/>
-	//  </trailer>
-
-	public MessageTrailerAssert hasGroup(int expectedGroupTag) {
-		actual.getHeader().hasGroup(expectedGroupTag);
+	public MessageTrailerAssert hasField(int expectedFieldTag) {
+		isNotNull();
+		if (!actual.isSetField(expectedFieldTag))
+			throw failures.failure(info, shouldHaveField(actual, expectedFieldTag));
 		return this;
+	}
+
+	public MessageTrailerAssert hasFields(int... expectedFieldTags) {
+		// TODO: Iterate through all fields, gather the errors and custom error message
+		isNotNull();
+		for (int field : expectedFieldTags) {
+			hasField(field);
+		}
+		return this;
+	}
+
+	public MessageTrailerAssert hasSignature(String expectedSignature) {
+		isNotNull();
+		messages.assertFieldHasValue(info, actual, Signature.class, expectedSignature);
+		return this;
+	}
+
+	public MessageTrailerAssert hasSignatureLength(int expectedSignatureLength) {
+		isNotNull();
+		messages.assertFieldHasValue(info, actual, SignatureLength.class, expectedSignatureLength);
+		return this;
+	}
+
+	public MessageTrailerAssert hasChecksum(String expectedChecksum) {
+		isNotNull();
+		messages.assertFieldHasValue(info, actual, CheckSum.class, expectedChecksum);
+		return this;
+	}
+
+	public MessageAssert and() {
+		return messageAssert;
 	}
 }

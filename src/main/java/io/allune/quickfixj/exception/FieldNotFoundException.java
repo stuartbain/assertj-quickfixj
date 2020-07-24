@@ -10,24 +10,10 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.error;
+package io.allune.quickfixj.exception;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
-
-/**
- * @author Eduardo Sanchez-Ros
- */
-public class ShouldHaveTrailer extends BasicErrorMessageFactory {
-
-	private ShouldHaveTrailer(Object message) {
-		super("%n"
-				+ "Expecting Message:%n"
-				+ " <%s>%n"
-				+ "to have a trailer but did not.", message);
-	}
-
-	public static ErrorMessageFactory shouldHaveTrailer(Object message) {
-		return new ShouldHaveTrailer(message);
+public class FieldNotFoundException extends RuntimeException {
+	public FieldNotFoundException(String message, Throwable throwable) {
+		super(message, throwable);
 	}
 }

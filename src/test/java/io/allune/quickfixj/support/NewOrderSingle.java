@@ -10,24 +10,7 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.api.support;
-
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toMap;
-import static quickfix.FixVersions.BEGINSTRING_FIX40;
-import static quickfix.FixVersions.BEGINSTRING_FIX41;
-import static quickfix.FixVersions.BEGINSTRING_FIX42;
-import static quickfix.FixVersions.BEGINSTRING_FIX43;
-import static quickfix.FixVersions.BEGINSTRING_FIX44;
-import static quickfix.FixVersions.FIX50;
-import static quickfix.FixVersions.FIX50SP1;
-import static quickfix.FixVersions.FIX50SP2;
-
-import java.time.LocalDateTime;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+package io.allune.quickfixj.support;
 
 import lombok.experimental.SuperBuilder;
 import quickfix.Message;
@@ -40,6 +23,23 @@ import quickfix.field.Price;
 import quickfix.field.Side;
 import quickfix.field.Symbol;
 import quickfix.field.TransactTime;
+
+import java.time.LocalDateTime;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toMap;
+import static quickfix.FixVersions.BEGINSTRING_FIX40;
+import static quickfix.FixVersions.BEGINSTRING_FIX41;
+import static quickfix.FixVersions.BEGINSTRING_FIX42;
+import static quickfix.FixVersions.BEGINSTRING_FIX43;
+import static quickfix.FixVersions.BEGINSTRING_FIX44;
+import static quickfix.FixVersions.FIX50;
+import static quickfix.FixVersions.FIX50SP1;
+import static quickfix.FixVersions.FIX50SP2;
 
 @SuperBuilder
 public class NewOrderSingle extends AbstractMessage {
@@ -73,9 +73,8 @@ public class NewOrderSingle extends AbstractMessage {
 
 	private LocalDateTime transactTime;
 
-	void addMessageFields(Message order) {
-		super.addMessageFields(order);
-
+	@Override
+	protected <T extends Message> void addMessageFields(T order) {
 		ofNullable(clientOrderId).ifPresent(value -> order.setField(new ClOrdID(clientOrderId)));
 		ofNullable(handlInst).ifPresent(value -> order.setField(new HandlInst(handlInst)));
 		ofNullable(symbol).ifPresent(value -> order.setField(new Symbol(symbol)));

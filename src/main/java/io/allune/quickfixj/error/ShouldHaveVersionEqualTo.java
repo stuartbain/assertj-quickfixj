@@ -20,10 +20,6 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class ShouldHaveVersionEqualTo extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldHaveVersionEqualTo(Object message, Object actualVersion, Object expectedVersion) {
-		return new ShouldHaveVersionEqualTo(message, actualVersion, expectedVersion);
-	}
-
 	private ShouldHaveVersionEqualTo(Object message, Object actualVersion, Object expectedVersion) {
 		super("Expecting Message:%n"
 				+ " <%s>%n"
@@ -31,5 +27,9 @@ public class ShouldHaveVersionEqualTo extends BasicErrorMessageFactory {
 				+ " <%s>%n"
 				+ "but was:%n"
 				+ " <%s>", message, expectedVersion, actualVersion);
+	}
+
+	public static ErrorMessageFactory shouldHaveVersionEqualTo(Object message, Object actualVersion, Object expectedVersion) {
+		return new ShouldHaveVersionEqualTo(message, actualVersion, expectedVersion);
 	}
 }

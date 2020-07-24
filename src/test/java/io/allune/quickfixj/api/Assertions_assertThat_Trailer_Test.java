@@ -10,24 +10,25 @@
  *
  * Copyright 2020-2020 the original author or authors.
  */
-package io.allune.quickfixj.error;
-
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
+package io.allune.quickfixj.api;
 
 /**
+ * Tests for <code>{@link Assertions#assertThat(Message)}</code>.
+ *
  * @author Eduardo Sanchez-Ros
  */
-public class ShouldHaveTrailer extends BasicErrorMessageFactory {
+public class Assertions_assertThat_Trailer_Test {
 
-	private ShouldHaveTrailer(Object message) {
-		super("%n"
-				+ "Expecting Message:%n"
-				+ " <%s>%n"
-				+ "to have a trailer but did not.", message);
-	}
-
-	public static ErrorMessageFactory shouldHaveTrailer(Object message) {
-		return new ShouldHaveTrailer(message);
-	}
+//  @Test
+//  public void should_create_Assert() {
+//    Multimap<String, String> actual = HashMultimap.create();
+//    assertNotNull(Assertions.assertThat(actual));
+//    assertEquals(MultimapAssert.class, Assertions.assertThat(actual).getClass());
+//  }
+//
+//  @Test
+//  public void should_pass_actual() {
+//    Multimap<String, String> actual = HashMultimap.create();
+//    assertSame(actual, Assertions.assertThat(actual).getActual());
+//  }
 }

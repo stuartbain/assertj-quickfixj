@@ -20,15 +20,15 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class ShouldBeOfType extends BasicErrorMessageFactory {
 
-	public static ErrorMessageFactory shouldBeOfType(Object message, Object actualMessageType, Object expectedMessageType) {
-		return new ShouldBeOfType(message, actualMessageType, expectedMessageType);
-	}
-
 	private ShouldBeOfType(Object actual, Object actualMessageType, Object expectedMessageType) {
 		super("Expecting Message:%n"
 				+ " <%s>%n"
 				+ "to be of type <%s>%n" // TODO: Add message class (maybe lookup by msgType?)
 				+ "but was:%n"
 				+ " <%s>", actual, expectedMessageType, actualMessageType);
+	}
+
+	public static ErrorMessageFactory shouldBeOfType(Object message, Object actualMessageType, Object expectedMessageType) {
+		return new ShouldBeOfType(message, actualMessageType, expectedMessageType);
 	}
 }

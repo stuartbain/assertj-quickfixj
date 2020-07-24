@@ -12,14 +12,14 @@
  */
 package io.allune.quickfixj.api;
 
-import static io.allune.quickfixj.api.Assertions.assertThat;
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.fail;
-
 import org.junit.Test;
-
 import quickfix.InvalidMessage;
 import quickfix.Message;
+
+import static io.allune.quickfixj.api.Assertions.assertThat;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * @author Eduardo Sanchez-Ros
