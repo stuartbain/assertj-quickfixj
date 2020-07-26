@@ -15,7 +15,6 @@ package io.allune.quickfixj.api;
 import io.allune.quickfixj.internal.Dictionaries;
 import io.allune.quickfixj.internal.Messages;
 import io.allune.quickfixj.internal.Versions;
-import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import quickfix.DataDictionary;
@@ -23,12 +22,10 @@ import quickfix.FixVersions;
 import quickfix.Message;
 import quickfix.field.BodyLength;
 
-import static io.allune.quickfixj.error.FieldShouldHaveValue.fieldShouldHaveValue;
 import static io.allune.quickfixj.error.ShouldBeAdminMessage.shouldBeAdminMessage;
 import static io.allune.quickfixj.error.ShouldBeAppMessage.shouldBeAppMessage;
 import static io.allune.quickfixj.error.ShouldBeEmptyMessage.shouldBeEmptyMessage;
 import static io.allune.quickfixj.error.ShouldBeEqual.shouldBeEqual;
-import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
 import static io.allune.quickfixj.error.ShouldHaveHeader.shouldHaveHeader;
 import static io.allune.quickfixj.error.ShouldHaveTrailer.shouldHaveTrailer;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -41,29 +38,91 @@ import static quickfix.FixVersions.BEGINSTRING_FIXT11;
 import static quickfix.field.ApplVerID.FIX50;
 import static quickfix.field.ApplVerID.FIX50SP1;
 import static quickfix.field.ApplVerID.FIX50SP2;
+import static quickfix.field.MsgType.ADVERTISEMENT;
+import static quickfix.field.MsgType.ALLOCATION_INSTRUCTION;
+import static quickfix.field.MsgType.ALLOCATION_INSTRUCTION_ACK;
+import static quickfix.field.MsgType.BID_REQUEST;
+import static quickfix.field.MsgType.BID_RESPONSE;
+import static quickfix.field.MsgType.BUSINESS_MESSAGE_REJECT;
+import static quickfix.field.MsgType.CROSS_ORDER_CANCEL_REPLACE_REQUEST;
+import static quickfix.field.MsgType.CROSS_ORDER_CANCEL_REQUEST;
+import static quickfix.field.MsgType.DERIVATIVE_SECURITY_LIST;
+import static quickfix.field.MsgType.DERIVATIVE_SECURITY_LIST_REQUEST;
+import static quickfix.field.MsgType.DONT_KNOW_TRADE;
+import static quickfix.field.MsgType.EMAIL;
+import static quickfix.field.MsgType.EXECUTION_REPORT;
 import static quickfix.field.MsgType.HEARTBEAT;
+import static quickfix.field.MsgType.INDICATION_OF_INTEREST;
+import static quickfix.field.MsgType.LIST_CANCEL_REQUEST;
+import static quickfix.field.MsgType.LIST_EXECUTE;
+import static quickfix.field.MsgType.LIST_STATUS;
+import static quickfix.field.MsgType.LIST_STATUS_REQUEST;
+import static quickfix.field.MsgType.LIST_STRIKE_PRICE;
+import static quickfix.field.MsgType.LOGON;
+import static quickfix.field.MsgType.LOGOUT;
+import static quickfix.field.MsgType.MARKET_DATA_INCREMENTAL_REFRESH;
+import static quickfix.field.MsgType.MARKET_DATA_REQUEST;
+import static quickfix.field.MsgType.MARKET_DATA_REQUEST_REJECT;
+import static quickfix.field.MsgType.MARKET_DATA_SNAPSHOT_FULL_REFRESH;
+import static quickfix.field.MsgType.MASS_QUOTE;
+import static quickfix.field.MsgType.MASS_QUOTE_ACKNOWLEDGEMENT;
+import static quickfix.field.MsgType.MULTILEG_ORDER_CANCEL_REPLACE;
+import static quickfix.field.MsgType.NEWS;
+import static quickfix.field.MsgType.NEW_ORDER_CROSS;
+import static quickfix.field.MsgType.NEW_ORDER_MULTILEG;
+import static quickfix.field.MsgType.ORDER_CANCEL_REJECT;
+import static quickfix.field.MsgType.ORDER_CANCEL_REPLACE_REQUEST;
+import static quickfix.field.MsgType.ORDER_CANCEL_REQUEST;
+import static quickfix.field.MsgType.ORDER_LIST;
+import static quickfix.field.MsgType.ORDER_MASS_CANCEL_REPORT;
+import static quickfix.field.MsgType.ORDER_MASS_CANCEL_REQUEST;
 import static quickfix.field.MsgType.ORDER_SINGLE;
+import static quickfix.field.MsgType.ORDER_STATUS_REQUEST;
+import static quickfix.field.MsgType.QUOTE;
+import static quickfix.field.MsgType.QUOTE_CANCEL;
+import static quickfix.field.MsgType.QUOTE_REQUEST;
+import static quickfix.field.MsgType.QUOTE_STATUS_REQUEST;
+import static quickfix.field.MsgType.REGISTRATION_INSTRUCTIONS;
+import static quickfix.field.MsgType.REGISTRATION_INSTRUCTIONS_RESPONSE;
+import static quickfix.field.MsgType.REJECT;
+import static quickfix.field.MsgType.RESEND_REQUEST;
+import static quickfix.field.MsgType.SECURITY_DEFINITION;
+import static quickfix.field.MsgType.SECURITY_DEFINITION_REQUEST;
+import static quickfix.field.MsgType.SECURITY_LIST;
+import static quickfix.field.MsgType.SECURITY_LIST_REQUEST;
+import static quickfix.field.MsgType.SECURITY_STATUS;
+import static quickfix.field.MsgType.SECURITY_STATUS_REQUEST;
+import static quickfix.field.MsgType.SECURITY_TYPES;
+import static quickfix.field.MsgType.SECURITY_TYPE_REQUEST;
+import static quickfix.field.MsgType.SEQUENCE_RESET;
+import static quickfix.field.MsgType.SETTLEMENT_INSTRUCTIONS;
+import static quickfix.field.MsgType.TEST_REQUEST;
+import static quickfix.field.MsgType.TRADE_CAPTURE_REPORT_REQUEST;
+import static quickfix.field.MsgType.TRADING_SESSION_STATUS;
+import static quickfix.field.MsgType.TRADING_SESSION_STATUS_REQUEST;
+import static quickfix.field.MsgType.XML_MESSAGE;
 
 /**
  * @author Eduardo Sanchez-Ros
+ * @author Simon Lewis
  */
-public class MessageAssert extends AbstractAssert<MessageAssert, Message> {
-
-	Objects objects = Objects.instance();
-
-	Failures failures = Failures.instance();
-
-	Messages messages = Messages.instance();
-
-	Versions versions = Versions.instance();
-
-	Dictionaries dictionaries = Dictionaries.instance();
+public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message> {
 
 	private final String beginString;
+	Objects objects = Objects.instance();
+	Failures failures = Failures.instance();
+	Messages messages = Messages.instance();
+	Versions versions = Versions.instance();
+	Dictionaries dictionaries = Dictionaries.instance();
 
 	public MessageAssert(Message message) {
 		super(message, MessageAssert.class);
 		this.beginString = messages.determineBeginString(info, actual);
+	}
+
+	@Override
+	public String getBeginString() {
+		return beginString;
 	}
 
 	protected Message getActual() {
@@ -188,70 +247,14 @@ public class MessageAssert extends AbstractAssert<MessageAssert, Message> {
 		isNotNull();
 		if (actual.getHeader() == null)
 			throw failures.failure(info, shouldHaveHeader(actual));
-		return new MessageHeaderAssert(actual.getHeader(), this);
+		return new MessageHeaderAssert(actual.getHeader(), this, beginString);
 	}
 
 	public MessageTrailerAssert trailer() {
 		isNotNull();
 		if (actual.getTrailer() == null)
 			throw failures.failure(info, shouldHaveTrailer(actual));
-		return new MessageTrailerAssert(actual.getTrailer(), this);
-	}
-
-	public MessageAssert hasField(int expectedTag) {
-		isNotNull();
-		if (!actual.isSetField(expectedTag))
-			throw failures.failure(info, shouldHaveField(actual, expectedTag));
-		return this;
-	}
-
-	public MessageAssert hasFields(int... expectedFieldTags) {
-		// TODO: Iterate through all fields, gather the errors and custom error message
-		isNotNull();
-		for (int field : expectedFieldTags) {
-			hasField(field);
-		}
-		return this;
-	}
-
-//	public MessageAssert hasMessageField(int expectedFieldTag) {
-//		isNotNull();
-//		if (!actual.isSetField(expectedFieldTag) &&
-//				(actual.getHeader() == null || !actual.getHeader().isSetField(expectedFieldTag)) &&
-//				(actual.getTrailer() == null || !actual.getTrailer().isSetField(expectedFieldTag))) {
-//			throw failures.failure(info, shouldHaveField(actual, expectedFieldTag));
-//		}
-//
-//		return this;
-//	}
-//
-//	public MessageAssert hasMessageFields(int... expectedFieldTags) {
-//		// TODO: Iterate through all fields, gather the errors and custom error message
-//		isNotNull();
-//		for (int field : expectedFieldTags) {
-//			hasMessageField(field);
-//		}
-//		return this;
-//	}
-
-	// TODO: Rename to containsField(fieldTag, expectedValue)
-	public MessageAssert hasFieldValue(int expectedFieldTag, Object expectedFieldValue) {
-		isNotNull();
-		//		    Objects.instance().assertNotNull(info, actual);
-		checkArgument(expectedFieldTag > 0, "'expectedFieldTag' must be greater than 0.");
-		checkArgument(expectedFieldValue != null, "'expectedFieldValue' must not be null.");
-
-		hasField(expectedFieldTag);
-
-		try {
-			Object actualFieldValue = messages.getFieldValue(expectedFieldTag, this.beginString, this.actual);
-			if (!expectedFieldValue.equals(actualFieldValue))
-				throw failures.failure(info, fieldShouldHaveValue(actual, expectedFieldTag, actualFieldValue, expectedFieldValue));
-		} catch (Exception ex) {
-			throw new RuntimeException(ex.getMessage(), ex);
-		}
-
-		return this;
+		return new MessageTrailerAssert(actual.getTrailer(), this, beginString);
 	}
 
 	public MessageAssert isAdmin() {
@@ -280,8 +283,313 @@ public class MessageAssert extends AbstractAssert<MessageAssert, Message> {
 		return this;
 	}
 
+	public MessageAssert isTestRequest() {
+		messages.assertMessageIsOfType(info, actual, TEST_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isResendRequest() {
+		messages.assertMessageIsOfType(info, actual, RESEND_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isReject() {
+		messages.assertMessageIsOfType(info, actual, REJECT);
+		return this;
+	}
+
+	public MessageAssert isSequenceReset() {
+		messages.assertMessageIsOfType(info, actual, SEQUENCE_RESET);
+		return this;
+	}
+
+	public MessageAssert isLogout() {
+		messages.assertMessageIsOfType(info, actual, LOGOUT);
+		return this;
+	}
+
+	public MessageAssert isIndicationOfInterest() {
+		messages.assertMessageIsOfType(info, actual, INDICATION_OF_INTEREST);
+		return this;
+	}
+
+	public MessageAssert isAdvertisement() {
+		messages.assertMessageIsOfType(info, actual, ADVERTISEMENT);
+		return this;
+	}
+
+	public MessageAssert isExecution_report() {
+		messages.assertMessageIsOfType(info, actual, EXECUTION_REPORT);
+		return this;
+	}
+
+	public MessageAssert isOrder_cancel_reject() {
+		messages.assertMessageIsOfType(info, actual, ORDER_CANCEL_REJECT);
+		return this;
+	}
+
+	public MessageAssert isLogon() {
+		messages.assertMessageIsOfType(info, actual, LOGON);
+		return this;
+	}
+
+	public MessageAssert isNews() {
+		messages.assertMessageIsOfType(info, actual, NEWS);
+		return this;
+	}
+
+	public MessageAssert isEmail() {
+		messages.assertMessageIsOfType(info, actual, EMAIL);
+		return this;
+	}
+
 	public MessageAssert isNewOrderSingle() {
 		messages.assertMessageIsOfType(info, actual, ORDER_SINGLE);
+		return this;
+	}
+
+	public MessageAssert isNewOrderList() {
+		messages.assertMessageIsOfType(info, actual, ORDER_LIST);
+		return this;
+	}
+
+	public MessageAssert isOrder_cancel_request() {
+		messages.assertMessageIsOfType(info, actual, ORDER_CANCEL_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isOrder_cancel_replace_request() {
+		messages.assertMessageIsOfType(info, actual, ORDER_CANCEL_REPLACE_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isOrder_status_request() {
+		messages.assertMessageIsOfType(info, actual, ORDER_STATUS_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isAllocation_instruction() {
+		messages.assertMessageIsOfType(info, actual, ALLOCATION_INSTRUCTION);
+		return this;
+	}
+
+	public MessageAssert isList_cancel_request() {
+		messages.assertMessageIsOfType(info, actual, LIST_CANCEL_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isList_execute() {
+		messages.assertMessageIsOfType(info, actual, LIST_EXECUTE);
+		return this;
+	}
+
+	public MessageAssert isList_status_request() {
+		messages.assertMessageIsOfType(info, actual, LIST_STATUS_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isList_status() {
+		messages.assertMessageIsOfType(info, actual, LIST_STATUS);
+		return this;
+	}
+
+	public MessageAssert isAllocation_instruction_ack() {
+		messages.assertMessageIsOfType(info, actual, ALLOCATION_INSTRUCTION_ACK);
+		return this;
+	}
+
+	public MessageAssert isDont_know_trade() {
+		messages.assertMessageIsOfType(info, actual, DONT_KNOW_TRADE);
+		return this;
+	}
+
+	public MessageAssert isQuote_request() {
+		messages.assertMessageIsOfType(info, actual, QUOTE_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isQuote() {
+		messages.assertMessageIsOfType(info, actual, QUOTE);
+		return this;
+	}
+
+	public MessageAssert isSettlement_instructions() {
+		messages.assertMessageIsOfType(info, actual, SETTLEMENT_INSTRUCTIONS);
+		return this;
+	}
+
+	public MessageAssert isMarket_data_request() {
+		messages.assertMessageIsOfType(info, actual, MARKET_DATA_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isMarket_data_snapshot_full_refresh() {
+		messages.assertMessageIsOfType(info, actual, MARKET_DATA_SNAPSHOT_FULL_REFRESH);
+		return this;
+	}
+
+	public MessageAssert isMarket_data_incremental_refresh() {
+		messages.assertMessageIsOfType(info, actual, MARKET_DATA_INCREMENTAL_REFRESH);
+		return this;
+	}
+
+	public MessageAssert isMarket_data_request_reject() {
+		messages.assertMessageIsOfType(info, actual, MARKET_DATA_REQUEST_REJECT);
+		return this;
+	}
+
+	public MessageAssert isQuote_cancel() {
+		messages.assertMessageIsOfType(info, actual, QUOTE_CANCEL);
+		return this;
+	}
+
+	public MessageAssert isQuote_status_request() {
+		messages.assertMessageIsOfType(info, actual, QUOTE_STATUS_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isMass_quote_acknowledgement() {
+		messages.assertMessageIsOfType(info, actual, MASS_QUOTE_ACKNOWLEDGEMENT);
+		return this;
+	}
+
+	public MessageAssert isSecurity_definition_request() {
+		messages.assertMessageIsOfType(info, actual, SECURITY_DEFINITION_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isSecurity_definition() {
+		messages.assertMessageIsOfType(info, actual, SECURITY_DEFINITION);
+		return this;
+	}
+
+	public MessageAssert isSecurity_status_request() {
+		messages.assertMessageIsOfType(info, actual, SECURITY_STATUS_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isSecurity_status() {
+		messages.assertMessageIsOfType(info, actual, SECURITY_STATUS);
+		return this;
+	}
+
+	public MessageAssert isTrading_session_status_request() {
+		messages.assertMessageIsOfType(info, actual, TRADING_SESSION_STATUS_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isTrading_session_status() {
+		messages.assertMessageIsOfType(info, actual, TRADING_SESSION_STATUS);
+		return this;
+	}
+
+	public MessageAssert isMass_quote() {
+		messages.assertMessageIsOfType(info, actual, MASS_QUOTE);
+		return this;
+	}
+
+	public MessageAssert isBusiness_message_reject() {
+		messages.assertMessageIsOfType(info, actual, BUSINESS_MESSAGE_REJECT);
+		return this;
+	}
+
+	public MessageAssert isBid_request() {
+		messages.assertMessageIsOfType(info, actual, BID_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isBid_response() {
+		messages.assertMessageIsOfType(info, actual, BID_RESPONSE);
+		return this;
+	}
+
+	public MessageAssert isList_strike_price() {
+		messages.assertMessageIsOfType(info, actual, LIST_STRIKE_PRICE);
+		return this;
+	}
+
+	public MessageAssert isXml_message() {
+		messages.assertMessageIsOfType(info, actual, XML_MESSAGE);
+		return this;
+	}
+
+	public MessageAssert isRegistration_instructions() {
+		messages.assertMessageIsOfType(info, actual, REGISTRATION_INSTRUCTIONS);
+		return this;
+	}
+
+	public MessageAssert isRegistration_instructions_response() {
+		messages.assertMessageIsOfType(info, actual, REGISTRATION_INSTRUCTIONS_RESPONSE);
+		return this;
+	}
+
+	public MessageAssert isOrder_mass_cancel_request() {
+		messages.assertMessageIsOfType(info, actual, ORDER_MASS_CANCEL_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isOrder_mass_cancel_report() {
+		messages.assertMessageIsOfType(info, actual, ORDER_MASS_CANCEL_REPORT);
+		return this;
+	}
+
+	public MessageAssert isNew_order_cross() {
+		messages.assertMessageIsOfType(info, actual, NEW_ORDER_CROSS);
+		return this;
+	}
+
+	public MessageAssert isCross_order_cancel_replace_request() {
+		messages.assertMessageIsOfType(info, actual, CROSS_ORDER_CANCEL_REPLACE_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isCross_order_cancel_request() {
+		messages.assertMessageIsOfType(info, actual, CROSS_ORDER_CANCEL_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isSecurity_type_request() {
+		messages.assertMessageIsOfType(info, actual, SECURITY_TYPE_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isSecurity_types() {
+		messages.assertMessageIsOfType(info, actual, SECURITY_TYPES);
+		return this;
+	}
+
+	public MessageAssert isSecurity_list_request() {
+		messages.assertMessageIsOfType(info, actual, SECURITY_LIST_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isSecurity_list() {
+		messages.assertMessageIsOfType(info, actual, SECURITY_LIST);
+		return this;
+	}
+
+	public MessageAssert isDerivative_security_list_request() {
+		messages.assertMessageIsOfType(info, actual, DERIVATIVE_SECURITY_LIST_REQUEST);
+		return this;
+	}
+
+	public MessageAssert isDerivative_security_list() {
+		messages.assertMessageIsOfType(info, actual, DERIVATIVE_SECURITY_LIST);
+		return this;
+	}
+
+	public MessageAssert isNew_order_multileg() {
+		messages.assertMessageIsOfType(info, actual, NEW_ORDER_MULTILEG);
+		return this;
+	}
+
+	public MessageAssert isMultileg_order_cancel_replace() {
+		messages.assertMessageIsOfType(info, actual, MULTILEG_ORDER_CANCEL_REPLACE);
+		return this;
+	}
+
+	public MessageAssert isTrade_capture_report_request() {
+		messages.assertMessageIsOfType(info, actual, TRADE_CAPTURE_REPORT_REQUEST);
 		return this;
 	}
 
@@ -293,7 +601,7 @@ public class MessageAssert extends AbstractAssert<MessageAssert, Message> {
 
 	// TODO: Rename to isOfType
 	public MessageAssert hasMsgTypeName(String expectedMsgTypeName) {
-		String msgType = Dictionaries.getSessionDataDictionary(beginString).getMsgType(expectedMsgTypeName);
+		String msgType = dictionaries.getSessionDataDictionary(beginString).getMsgType(expectedMsgTypeName);
 		System.out.println(msgType);
 //		messages.assertMessageIsOfTypeName(info, actual, expectedMsgTypeName);
 		return this;

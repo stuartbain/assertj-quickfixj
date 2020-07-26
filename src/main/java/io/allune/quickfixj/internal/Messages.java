@@ -74,6 +74,7 @@ public class Messages {
 			}};
 	Objects objects = Objects.instance();
 	Failures failures = Failures.instance();
+	Dictionaries dictionaries = Dictionaries.instance();
 
 	Messages() {
 	}
@@ -83,8 +84,7 @@ public class Messages {
 	}
 
 	public void assertMessageIsOfType(AssertionInfo info, Message actual, String expectedMessageType) {
-//		objects.assertNotNull(info, actual);
-
+		objects.assertNotNull(info, actual);
 
 		try {
 			String actualMessageType = getMessageType(actual.toString());
@@ -174,7 +174,7 @@ public class Messages {
 	}
 
 	public Object getFieldValue(int fieldTag, String beginString, FieldMap actual) throws IncorrectDataFormat {
-		DataDictionary dataDictionary = Dictionaries.getSessionDataDictionary(beginString);
+		DataDictionary dataDictionary = dictionaries.getSessionDataDictionary(beginString);
 		//		FieldType fieldType = dataDictionary.getFieldType(expectedFieldTag);
 		//		System.out.println("Field type: " + fieldType.toString());
 		//

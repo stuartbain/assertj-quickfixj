@@ -34,24 +34,4 @@ public final class Assertions {
 	public static MessageAssert assertThat(Message message) {
 		return new MessageAssert(message);
 	}
-
-//	/**
-//	 * Creates a new instance of {@link MessageHeaderAssert}.
-//	 *
-//	 * @param header The {@link quickfix.Message.Header} to assert on.
-//	 * @return The created assertion object.
-//	 */
-//	public static MessageHeaderAssert assertThat(Header header) {
-//		return new MessageHeaderAssert(header);
-//	}
-//
-//	/**
-//	 * Creates a new instance of {@link MessageTrailerAssert}.
-//	 *
-//	 * @param trailer The {@link quickfix.Message.Trailer} to assert on.
-//	 * @return The created assertion object.
-//	 */
-//	public static MessageTrailerAssert assertThat(Trailer trailer) {
-//		return new MessageTrailerAssert(trailer);
-//	}
 }

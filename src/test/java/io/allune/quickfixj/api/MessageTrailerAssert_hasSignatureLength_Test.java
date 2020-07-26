@@ -15,7 +15,6 @@ package io.allune.quickfixj.api;
 import io.allune.quickfixj.support.NewOrderSingle;
 import org.junit.Before;
 import org.junit.Test;
-import quickfix.InvalidMessage;
 import quickfix.Message;
 import quickfix.field.OrdType;
 import quickfix.field.Side;
@@ -44,7 +43,7 @@ public class MessageTrailerAssert_hasSignatureLength_Test {
 	}
 
 	@Test
-	public void should() throws InvalidMessage {
+	public void shouldAssertAllFieldsInTrailerForMessageVersion40() {
 		// Given
 		Message message = messageBuilder
 				.signature("123321")

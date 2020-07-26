@@ -13,51 +13,38 @@
 package io.allune.quickfixj.api;
 
 import io.allune.quickfixj.internal.Messages;
-import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Failures;
 import quickfix.Message.Trailer;
 import quickfix.field.CheckSum;
 import quickfix.field.Signature;
 import quickfix.field.SignatureLength;
 
-import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
-
 /**
  * @author Eduardo Sanchez-Ros
  */
-public class MessageTrailerAssert extends AbstractAssert<MessageTrailerAssert, Trailer> {
-
-	private Messages messages = Messages.instance();
-
-	Failures failures = Failures.instance();
+public class MessageTrailerAssert extends AbstractFieldMapAssert<MessageTrailerAssert, Trailer> {
 
 	private final MessageAssert messageAssert;
+	private final String beginString;
+	Failures failures = Failures.instance();
+	private Messages messages = Messages.instance();
 
 	/**
 	 * Creates a new <code>{@link MessageTrailerAssert}</code>.
 	 *
-	 * @param trailer the actual value to verify
+	 * @param trailer       the actual value to verify
 	 * @param messageAssert
+	 * @param beginString
 	 */
-	MessageTrailerAssert(Trailer trailer, MessageAssert messageAssert) {
+	MessageTrailerAssert(Trailer trailer, MessageAssert messageAssert, String beginString) {
 		super(trailer, MessageTrailerAssert.class);
 		this.messageAssert = messageAssert;
+		this.beginString = beginString;
 	}
 
-	public MessageTrailerAssert hasField(int expectedFieldTag) {
-		isNotNull();
-		if (!actual.isSetField(expectedFieldTag))
-			throw failures.failure(info, shouldHaveField(actual, expectedFieldTag));
-		return this;
-	}
-
-	public MessageTrailerAssert hasFields(int... expectedFieldTags) {
-		// TODO: Iterate through all fields, gather the errors and custom error message
-		isNotNull();
-		for (int field : expectedFieldTags) {
-			hasField(field);
-		}
-		return this;
+	@Override
+	public String getBeginString() {
+		return beginString;
 	}
 
 	public MessageTrailerAssert hasSignature(String expectedSignature) {

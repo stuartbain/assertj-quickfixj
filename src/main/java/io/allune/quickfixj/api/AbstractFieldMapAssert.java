@@ -12,27 +12,76 @@
  */
 package io.allune.quickfixj.api;
 
+import io.allune.quickfixj.internal.Messages;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.internal.Failures;
 import quickfix.FieldMap;
 
+import static io.allune.quickfixj.error.FieldShouldHaveValue.fieldShouldHaveValue;
+import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
+import static org.assertj.core.util.Preconditions.checkArgument;
+
+/**
+ * @param <SELF>
+ * @param <ACTUAL>
+ * @author Eduardo Sanchez-Ros
+ */
 public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert<SELF, ACTUAL>, ACTUAL extends FieldMap>
 		extends AbstractAssert<SELF, ACTUAL> {
 
-//	protected Objects objects = Objects.instance();
+	//	protected Objects objects = Objects.instance();
 //
-//	protected Failures failures = Failures.instance();
-//
-//	protected Messages messages = Messages.instance();
+	protected Failures failures = Failures.instance();
+	//
+	protected Messages messages = Messages.instance();
 //
 //	protected Versions versions = Versions.instance();
 
 	/**
 	 * Creates a new <code>{@link AbstractFieldMapAssert}</code>.
 	 *
-	 * @param selfType the "self type"
 	 * @param actual   the actual value to verify
+	 * @param selfType the "self type"
 	 */
-	protected AbstractFieldMapAssert(Class<SELF> selfType, ACTUAL actual) {
+	protected AbstractFieldMapAssert(ACTUAL actual, Class<SELF> selfType) {
 		super(actual, selfType);
 	}
+
+	public SELF hasField(int expectedTag) {
+		isNotNull();
+		if (!actual.isSetField(expectedTag))
+			throw failures.failure(info, shouldHaveField(actual, expectedTag));
+		return (SELF) this;
+	}
+
+	public SELF hasFields(int... expectedFieldTags) {
+		// TODO: Iterate through all fields, gather the errors and custom error message
+		isNotNull();
+		for (int field : expectedFieldTags) {
+			hasField(field);
+		}
+		return (SELF) this;
+	}
+
+	// TODO: Rename to containsField(fieldTag, expectedValue)
+	public SELF hasFieldValue(int expectedFieldTag, Object expectedFieldValue) {
+		isNotNull();
+		//		    Objects.instance().assertNotNull(info, actual);
+		checkArgument(expectedFieldTag > 0, "'expectedFieldTag' must be greater than 0.");
+		checkArgument(expectedFieldValue != null, "'expectedFieldValue' must not be null.");
+
+		hasField(expectedFieldTag);
+
+		try {
+			Object actualFieldValue = messages.getFieldValue(expectedFieldTag, getBeginString(), this.actual);
+			if (!expectedFieldValue.equals(actualFieldValue))
+				throw failures.failure(info, fieldShouldHaveValue(actual, expectedFieldTag, actualFieldValue, expectedFieldValue));
+		} catch (Exception ex) {
+			throw new RuntimeException(ex.getMessage(), ex);
+		}
+
+		return (SELF) this;
+	}
+
+	public abstract String getBeginString();
 }

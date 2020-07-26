@@ -82,7 +82,7 @@ public abstract class AbstractMessage {
 			addHeaderFields(order);
 			addMessageFields(order);
 			addTrailerFields(order);
-			Dictionaries.getSessionDataDictionary(beginString).validate(order, true);
+			Dictionaries.instance().getSessionDataDictionary(beginString).validate(order, true);
 		} catch (IncorrectTagValue | FieldNotFound | IncorrectDataFormat e) {
 			throw new InvalidMessageException(e.getMessage(), e);
 		}

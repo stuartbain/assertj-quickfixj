@@ -14,38 +14,23 @@ package io.allune.quickfixj.api;
 
 import org.junit.Test;
 import quickfix.Message;
+import quickfix.field.CheckSum;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static io.allune.quickfixj.api.Assertions.assertThat;
 
-/**
- * Tests for <code>{@link Assertions#assertThat(Message)}</code>.
- *
- * @author Eduardo Sanchez-Ros
- */
-public class Assertions_assertThat_Message_Test {
+public class MessageTrailerAssert_hasFieldValues_Test {
 
 	@Test
-	public void shouldCreateMessageAssert() {
+	public void shouldAssertMessageHasFieldValue() throws Exception {
 		// Given
-		Message message = new Message();
+		Message message = new Message(
+				"8=FIX.4.0\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000138=1000\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000155=GBP/USD\u000159=0\u000160=20100225-19:39:52.020\u000110=074\u0001");
 
-		// When
-		MessageAssert messageAssert = Assertions.assertThat(message);
-
-		// Then
-		assertThat(messageAssert).isNotNull();
-		assertThat(messageAssert.getClass()).isEqualTo(MessageAssert.class);
-	}
-
-	@Test
-	public void shouldPassActual() {
-		// Given
-		Message message = new Message();
-
-		// When
-		Message actual = Assertions.assertThat(message).getActual();
-
-		// Then
-		assertThat(actual).isEqualTo(message);
+		// When/Then
+		//@formatter:off
+		assertThat(message)
+				.trailer()
+					.hasFieldValue(CheckSum.FIELD, "074");
+		//@formatter:on
 	}
 }

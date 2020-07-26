@@ -44,26 +44,27 @@ public class AbstractMessageAssertTest {
 				"8=FIX.4.0\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000138=1000\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000155=GBP/USD\u000159=0\u000160=20100225-19:39:52.020\u000110=074\u0001");
 
 		// When/Then
+		//@formatter:off
 		assertThat(message)
 				.header()
-				.hasField(BeginString.FIELD)
-				.hasField(BodyLength.FIELD)
-				.hasField(MsgType.FIELD)
-				.hasField(MsgSeqNum.FIELD)
-				.hasField(SenderCompID.FIELD)
-				.hasField(SendingTime.FIELD)
-				.hasField(TargetCompID.FIELD)
+					.hasField(BeginString.FIELD)
+					.hasField(BodyLength.FIELD)
+					.hasField(MsgType.FIELD)
+					.hasField(MsgSeqNum.FIELD)
+					.hasField(SenderCompID.FIELD)
+					.hasField(SendingTime.FIELD)
+					.hasField(TargetCompID.FIELD)
 				.and()
 				.trailer()
-				.hasField(CheckSum.FIELD)
+					.hasField(CheckSum.FIELD)
 				.and()
-				.hasField(Account.FIELD)
-				.hasField(ClOrdID.FIELD)
-				.hasField(Side.FIELD)
-				.hasField(Symbol.FIELD)
-				.hasField(OrdType.FIELD)
-
+					.hasField(Account.FIELD)
+					.hasField(ClOrdID.FIELD)
+					.hasField(Side.FIELD)
+					.hasField(Symbol.FIELD)
+					.hasField(OrdType.FIELD)
 		;
+		//@formatter:on
 	}
 
 	@Test
@@ -71,63 +72,6 @@ public class AbstractMessageAssertTest {
 		// TODO
 	}
 
-	@Test
-	public void shouldAssertMessageHasFields() throws Exception {
-		// Given
-		Message message = new Message(
-				"8=FIX.4.0\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000138=1000\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000155=GBP/USD\u000159=0\u000160=20100225-19:39:52.020\u000110=074\u0001");
-
-		// When/Then
-		assertThat(message)
-				.header()
-				.hasFields(
-						BeginString.FIELD,
-						BodyLength.FIELD,
-						MsgType.FIELD,
-						MsgSeqNum.FIELD,
-						SenderCompID.FIELD,
-						SendingTime.FIELD,
-						TargetCompID.FIELD);
-		assertThat(message)
-				.hasFields(
-						Account.FIELD,
-						ClOrdID.FIELD,
-						Side.FIELD,
-						Symbol.FIELD,
-						OrdType.FIELD);
-		assertThat(message)
-				.trailer()
-				.hasField(
-						CheckSum.FIELD);
-	}
-
-	@Test
-	public void shouldFailToAssertMessageHasFields() {
-		// TODO
-	}
-
-//	@Test
-//	public void shouldAssertMessageHasFieldValue() throws Exception {
-//		// Given
-//		Message message = new Message(
-//				"8=FIX.4.0\u00019=122\u000135=D\u000134=215\u000149=CLIENT12\u000152=20100225-19:41:57.316\u000138=1000\u000156=B\u00011=Marcel\u000111=13346\u000121=1\u000140=2\u000144=5\u000154=1\u000155=GBP/USD\u000159=0\u000160=20100225-19:39:52.020\u000110=074\u0001");
-//
-//		// When/Then
-//		assertThat(message)
-//				.hasFieldValue(BeginString.FIELD, "FIX.4.0")
-//				.hasFieldValue(BodyLength.FIELD, "122")
-//				.hasFieldValue(MsgType.FIELD, "D")
-//				.hasFieldValue(MsgSeqNum.FIELD, "215")
-//				.hasFieldValue(SenderCompID.FIELD, "CLIENT12")
-//				.hasFieldValue(SendingTime.FIELD, "20100225-19:41:57.316")
-//				.hasFieldValue(TargetCompID.FIELD, "B")
-//				.hasFieldValue(Account.FIELD, "Marcel")
-//				.hasFieldValue(ClOrdID.FIELD, "13346")
-//				.hasFieldValue(Side.FIELD, "1")
-//				.hasFieldValue(Symbol.FIELD, "GBP/USD")
-//				.hasFieldValue(OrdType.FIELD, "2")
-//				.hasFieldValue(CheckSum.FIELD, "074");
-//	}
 
 	@Test
 	public void shouldFailToAssertMessageHasFieldValue() {

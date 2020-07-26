@@ -31,11 +31,11 @@ public class Dictionaries {
 		return INSTANCE;
 	}
 
-	public static DataDictionary getSessionDataDictionary(String beginString) {
+	public DataDictionary getSessionDataDictionary(String beginString) {
 		return dataDictionaryProvider.getSessionDataDictionary(beginString);
 	}
 
-	public static void addDataDictionary(String beginString, DataDictionary dataDictionary) {
+	public void addDataDictionary(String beginString, DataDictionary dataDictionary) {
 		dataDictionaryProvider.addTransportDictionary(beginString, dataDictionary);
 	}
 
