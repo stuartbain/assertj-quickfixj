@@ -121,14 +121,14 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingle50sp1HasTransactTime() {
 		// Given
-		LocalDateTime now = LocalDateTime.now();
-		messageBuilder.transactTime(now);
+		LocalDateTime time = LocalDateTime.parse("2020-08-30T20:00:00");
+		messageBuilder.transactTime(time);
 		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
 		assertThat(message)
 				.isNewOrderSingle()
-				.hasFieldValue(TransactTime.FIELD, now);
+				.hasFieldValue(TransactTime.FIELD, time);
 	}
 
 	@Test
@@ -145,8 +145,8 @@ public class NewOrderSingle50sp1AssertTest {
 	@Test
 	public void shouldAssertNewOrderSingleAllFields() {
 		// Given
-		LocalDateTime now = LocalDateTime.now();
-		messageBuilder.transactTime(now);
+		LocalDateTime time = LocalDateTime.parse("2020-08-30T20:00:00");
+		messageBuilder.transactTime(time);
 		quickfix.fix50sp2.NewOrderSingle message = messageBuilder.build().toMessage();
 
 		// When/Then
@@ -158,7 +158,7 @@ public class NewOrderSingle50sp1AssertTest {
 				.hasFieldValue(Side.FIELD, Side.BUY)
 				.hasFieldValue(OrderQty.FIELD, 1000D)
 				.hasFieldValue(OrdType.FIELD, OrdType.LIMIT)
-				.hasFieldValue(TransactTime.FIELD, now)
+				.hasFieldValue(TransactTime.FIELD, time)
 				.hasFieldValue(Account.FIELD, "Marcel");
 	}
 }

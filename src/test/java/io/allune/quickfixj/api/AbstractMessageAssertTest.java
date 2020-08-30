@@ -36,7 +36,6 @@ import static io.allune.quickfixj.api.Assertions.assertThat;
  */
 public class AbstractMessageAssertTest {
 
-
 	@Test
 	public void shouldAssertMessageHasField() throws Exception {
 		// Given
@@ -46,6 +45,7 @@ public class AbstractMessageAssertTest {
 		// When/Then
 		//@formatter:off
 		assertThat(message)
+				.isVersion40()
 				.header()
 					.hasField(BeginString.FIELD)
 					.hasField(BodyLength.FIELD)

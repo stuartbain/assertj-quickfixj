@@ -12,8 +12,6 @@
  */
 package io.allune.quickfixj.api;
 
-import io.allune.quickfixj.internal.Messages;
-import org.assertj.core.internal.Failures;
 import quickfix.FieldNotFound;
 import quickfix.Message.Header;
 import quickfix.field.ApplExtID;
@@ -58,9 +56,8 @@ import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
 public class MessageHeaderAssert extends AbstractFieldMapAssert<MessageHeaderAssert, Header> {
 
 	private final MessageAssert messageAssert;
+
 	private final String beginString;
-	Messages messages = Messages.instance();
-	Failures failures = Failures.instance();
 
 	/**
 	 * Creates a new <code>{@link MessageHeaderAssert}</code>.
@@ -244,7 +241,6 @@ public class MessageHeaderAssert extends AbstractFieldMapAssert<MessageHeaderAss
 		messages.assertFieldHasValue(info, actual, CstmApplVerID.class, expectedCstmApplVerID);
 		return this;
 	}
-
 
 
 	//    <group name="NoHops" required="N">

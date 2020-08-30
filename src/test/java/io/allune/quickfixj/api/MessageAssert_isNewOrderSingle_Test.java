@@ -12,153 +12,48 @@
  */
 package io.allune.quickfixj.api;
 
-import io.allune.quickfixj.support.NewOrderSingle;
-import io.allune.quickfixj.support.NewOrderSingle.NewOrderSingleBuilder;
-import org.junit.Before;
 import org.junit.Test;
+import quickfix.InvalidMessage;
 import quickfix.Message;
-import quickfix.field.OrdType;
-import quickfix.field.Side;
 
 import static io.allune.quickfixj.api.Assertions.assertThat;
-import static java.time.LocalDateTime.now;
-import static quickfix.FixVersions.BEGINSTRING_FIX40;
-import static quickfix.FixVersions.BEGINSTRING_FIX41;
-import static quickfix.FixVersions.BEGINSTRING_FIX42;
-import static quickfix.FixVersions.BEGINSTRING_FIX43;
-import static quickfix.FixVersions.BEGINSTRING_FIX44;
-import static quickfix.FixVersions.FIX50;
-import static quickfix.FixVersions.FIX50SP1;
-import static quickfix.FixVersions.FIX50SP2;
-import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * @author Eduardo Sanchez-Ros
  */
 public class MessageAssert_isNewOrderSingle_Test {
 
-	NewOrderSingleBuilder<?, ?> messageBuilder;
-
-	@Before
-	public void setUp() {
-		messageBuilder = NewOrderSingle.builder()
-				.sender("BANZAI")
-				.target("EXEC")
-				.clientOrderId("13346")
-				.handlInst(AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION)
-				.symbol("GBP/USD")
-				.side(Side.BUY)
-				.orderQty(1000D)
-				.orderType(OrdType.LIMIT)
-				.price(300.00)
-				.account("Marcel");
-	}
-
 	@Test
-	public void shouldAssertMessageTypeIsNewOrderSingle40() {
+	public void shouldAssertMessageTypeIsNewOrderSingle() throws InvalidMessage {
 		// Given
-		Message message = messageBuilder.build()
-				.toMessage(BEGINSTRING_FIX40);
+		Message message = new Message("8=FIX.4.0\u00019=112\u000135=D\u000134=1\u000149=BANZAI\u000152=20200727-12:28:02.659\u000156=EXEC\u00011=Marcel\u000111=13346\u000121=1\u000138=1000\u000140=2\u000144=300\u000154=1\u000155=GBP/USD\u000110=018\u0001");
 
 		// When/Then
 		assertThat(message)
-				.isVersion40()
 				.isNewOrderSingle();
 	}
 
 	@Test
-	public void shouldAssertMessageTypeIsNewOrderSingle41() {
-		// Given
-		Message message = messageBuilder.build()
-				.toMessage(BEGINSTRING_FIX41);
+	public void shouldFailToAssertIsNewOrderSingleGivenMessageIsAdvertisement() throws InvalidMessage {
+		try {
+			// Given
+			Message message = new Message("8=FIX.4.0\u00019=254\u000135=7\u000134=3\u000149=ACCEPT\u000150=SSubID\u000152=20200726-11:20:01\u000156=INIT\u000157=TSubID\u000190=6\u000191=qwerty\u0001115=OBOCID\u0001116=OBOSID\u0001128=DTCID\u0001129=DTSID\u00012=1234\u00013=123123\u00014=B\u00015=N\u000115=GBP\u000122=1\u000144=12.21\u000148=SecurityID\u000153=1221\u000155=GBP\u000158=Text here\u000165=SymbolSfx\u0001106=Issuer\u0001107=SecurityDesc\u000110=110\u0001");
 
-		// When/Then
-		assertThat(message)
-				.isVersion41()
-				.isNewOrderSingle();
-	}
-
-	@Test
-	public void shouldAssertMessageTypeIsNewOrderSingle42() {
-		// Given
-		Message message = messageBuilder
-				.transactTime(now())
-				.build()
-				.toMessage(BEGINSTRING_FIX42);
-
-		// When/Then
-		assertThat(message)
-				.isVersion42()
-				.isNewOrderSingle();
-	}
-
-	@Test
-	public void shouldAssertMessageTypeIsNewOrderSingle43() {
-		// Given
-		Message message = messageBuilder
-				.transactTime(now())
-				.build()
-				.toMessage(BEGINSTRING_FIX43);
-
-		// When/Then
-		assertThat(message)
-				.isVersion43()
-				.isNewOrderSingle();
-	}
-
-	@Test
-	public void shouldAssertMessageTypeIsNewOrderSingle44() {
-		// Given
-		Message message = messageBuilder
-				.transactTime(now())
-				.build()
-				.toMessage(BEGINSTRING_FIX44);
-
-		// When/Then
-		assertThat(message)
-				.isVersion44()
-				.isNewOrderSingle();
-	}
-
-	@Test
-	public void shouldAssertMessageTypeIsNewOrderSingle50() {
-		// Given
-		Message message = messageBuilder
-				.transactTime(now())
-				.build()
-				.toMessage(FIX50);
-
-		// When/Then
-		assertThat(message)
-				.isVersion50()
-				.isNewOrderSingle();
-	}
-
-	@Test
-	public void shouldAssertMessageTypeIsNewOrderSingle50sp1() {
-		// Given
-		Message message = messageBuilder
-				.transactTime(now())
-				.build()
-				.toMessage(FIX50SP1);
-
-		// When/Then
-		assertThat(message)
-				.isVersion50sp1()
-				.isNewOrderSingle();
-	}
-
-	@Test
-	public void shouldAssertMessageTypeIsNewOrderSingle50sp2() {
-		// Given
-		Message message = messageBuilder
-				.transactTime(now())
-				.build()
-				.toMessage(FIX50SP2);
-
-		// When/Then
-		assertThat(message)
-				.isVersion50sp2()
-				.isNewOrderSingle();
+			// When
+			assertThat(message)
+					.isNewOrderSingle();
+		} // Then
+		catch (AssertionError e) {
+			org.assertj.core.api.Assertions.assertThat(e).hasMessage(format(
+					"Expecting Message:%n"
+							+ " <8=FIX.4.0\u00019=254\u000135=7\u000134=3\u000149=ACCEPT\u000150=SSubID\u000152=20200726-11:20:01\u000156=INIT\u000157=TSubID\u000190=6\u0001115=OBOCID\u0001116=OBOSID\u0001128=DTCID\u0001129=DTSID\u00012=1234\u00013=123123\u00014=B\u00015=N\u000115=GBP\u000122=1\u000144=12.21\u000148=SecurityID\u000153=1221\u000155=GBP\u000158=Text here\u000165=SymbolSfx\u000191=qwerty\u0001106=Issuer\u0001107=SecurityDesc\u000110=110\u0001>%n"
+							+ "to be of type <\"D\">%n"
+							+ "but was:%n"
+							+ " <\"7\">"));
+			return;
+		}
+		fail("Should have thrown AssertionError");
 	}
 }

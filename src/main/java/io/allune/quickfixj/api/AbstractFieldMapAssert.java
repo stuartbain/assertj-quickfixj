@@ -12,14 +12,15 @@
  */
 package io.allune.quickfixj.api;
 
+import io.allune.quickfixj.internal.Dictionaries;
 import io.allune.quickfixj.internal.Messages;
+import io.allune.quickfixj.internal.Versions;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Failures;
 import quickfix.FieldMap;
 
 import static io.allune.quickfixj.error.FieldShouldHaveValue.fieldShouldHaveValue;
 import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
-import static org.assertj.core.util.Preconditions.checkArgument;
 
 /**
  * @param <SELF>
@@ -29,13 +30,13 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert<SELF, ACTUAL>, ACTUAL extends FieldMap>
 		extends AbstractAssert<SELF, ACTUAL> {
 
-	//	protected Objects objects = Objects.instance();
-//
-	protected Failures failures = Failures.instance();
-	//
-	protected Messages messages = Messages.instance();
-//
-//	protected Versions versions = Versions.instance();
+	Failures failures = Failures.instance();
+
+	Messages messages = Messages.instance();
+
+	Versions versions = Versions.instance();
+
+	Dictionaries dictionaries = Dictionaries.instance();
 
 	/**
 	 * Creates a new <code>{@link AbstractFieldMapAssert}</code>.
@@ -47,6 +48,10 @@ public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert
 		super(actual, selfType);
 	}
 
+	/**
+	 * @param expectedTag
+	 * @return
+	 */
 	public SELF hasField(int expectedTag) {
 		isNotNull();
 		if (!actual.isSetField(expectedTag))
@@ -54,8 +59,12 @@ public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert
 		return (SELF) this;
 	}
 
+	/**
+	 *
+	 * @param expectedFieldTags
+	 * @return
+	 */
 	public SELF hasFields(int... expectedFieldTags) {
-		// TODO: Iterate through all fields, gather the errors and custom error message
 		isNotNull();
 		for (int field : expectedFieldTags) {
 			hasField(field);
@@ -63,12 +72,22 @@ public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert
 		return (SELF) this;
 	}
 
-	// TODO: Rename to containsField(fieldTag, expectedValue)
+	/**
+	 *
+	 * @param expectedFieldTag
+	 * @param expectedFieldValue
+	 * @return
+	 */
 	public SELF hasFieldValue(int expectedFieldTag, Object expectedFieldValue) {
 		isNotNull();
-		//		    Objects.instance().assertNotNull(info, actual);
-		checkArgument(expectedFieldTag > 0, "'expectedFieldTag' must be greater than 0.");
-		checkArgument(expectedFieldValue != null, "'expectedFieldValue' must not be null.");
+
+		if (expectedFieldTag <= 0) {
+			throw new IllegalArgumentException("'expectedFieldTag' must be greater than 0");
+		}
+
+		if (expectedFieldValue == null) {
+			throw new IllegalArgumentException("'expectedFieldValue' must not be null.");
+		}
 
 		hasField(expectedFieldTag);
 

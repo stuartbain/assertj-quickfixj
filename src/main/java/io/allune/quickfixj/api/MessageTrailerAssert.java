@@ -12,8 +12,6 @@
  */
 package io.allune.quickfixj.api;
 
-import io.allune.quickfixj.internal.Messages;
-import org.assertj.core.internal.Failures;
 import quickfix.Message.Trailer;
 import quickfix.field.CheckSum;
 import quickfix.field.Signature;
@@ -25,9 +23,8 @@ import quickfix.field.SignatureLength;
 public class MessageTrailerAssert extends AbstractFieldMapAssert<MessageTrailerAssert, Trailer> {
 
 	private final MessageAssert messageAssert;
+
 	private final String beginString;
-	Failures failures = Failures.instance();
-	private Messages messages = Messages.instance();
 
 	/**
 	 * Creates a new <code>{@link MessageTrailerAssert}</code>.
