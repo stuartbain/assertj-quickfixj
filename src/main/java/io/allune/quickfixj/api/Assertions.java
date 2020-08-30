@@ -15,7 +15,7 @@ package io.allune.quickfixj.api;
 import quickfix.Message;
 
 /**
- * Entry point for all QuickFIX/J assertions
+ * Entry point for all QuickFIX/J assertions.
  *
  * @author Eduardo Sanchez-Ros
  */

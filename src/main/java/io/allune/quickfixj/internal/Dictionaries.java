@@ -15,13 +15,14 @@ package io.allune.quickfixj.internal;
 import quickfix.DataDictionary;
 import quickfix.DefaultDataDictionaryProvider;
 
+/**
+ * @author Eduardo Sanchez-Ros
+ */
 public class Dictionaries {
 
 	private static final Dictionaries INSTANCE = new Dictionaries();
 
 	private static final DefaultDataDictionaryProvider dataDictionaryProvider = new DefaultDataDictionaryProvider();
-
-	//	private static final DefaultMessageFactory messageFactory = new DefaultMessageFactory();
 
 	private Dictionaries() {
 		//
@@ -38,18 +39,4 @@ public class Dictionaries {
 	public void addDataDictionary(String beginString, DataDictionary dataDictionary) {
 		dataDictionaryProvider.addTransportDictionary(beginString, dataDictionary);
 	}
-
-	//	@SuppressWarnings("unchecked")
-	//	public static <T extends Message> T createFromMessage(String beginString, String msgType, String messageData) {
-	//		Message message = messageFactory.create(beginString, msgType);
-	//		DataDictionary dataDictionary = dataDictionaryProvider.getSessionDataDictionary(beginString);
-	//
-	//		try {
-	//			message.fromString(messageData, dataDictionary, true);
-	//			dataDictionary.validate(message);
-	//		} catch (InvalidMessage | FieldNotFound | IncorrectTagValue | IncorrectDataFormat e) {
-	//			throw new InvalidMessageException(e.getMessage(), e);
-	//		}
-	//		return (T) message;
-	//	}
 }

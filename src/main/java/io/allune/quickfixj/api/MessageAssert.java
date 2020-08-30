@@ -98,6 +98,8 @@ import static quickfix.field.MsgType.TRADING_SESSION_STATUS_REQUEST;
 import static quickfix.field.MsgType.XML_MESSAGE;
 
 /**
+ * Assertions for QuickFix/J {@link Message}.
+ *
  * @author Eduardo Sanchez-Ros
  * @author Simon Lewis
  */
@@ -105,6 +107,11 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 
 	private final String beginString;
 
+	/**
+	 * Creates a new {@link MessageAssert}.
+	 *
+	 * @param message the {@link Message} to verify.
+	 */
 	public MessageAssert(Message message) {
 		super(message, MessageAssert.class);
 		this.beginString = messages.determineBeginString(info, actual);
@@ -129,7 +136,7 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	 * 	</code>
 	 * </pre>
 	 *
-	 * @return this assertion object.
+	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual {@code Message} is {@code null}.
 	 * @throws AssertionError if the actual {@code Message}'s FIX version number is not {@link FixVersions#BEGINSTRING_FIX40}.
 	 */
@@ -148,7 +155,7 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	 * 	</code>
 	 * </pre>
 	 *
-	 * @return this assertion object.
+	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual {@code Message} is {@code null}.
 	 * @throws AssertionError if the actual {@code Message}'s FIX version number is not {@link FixVersions#BEGINSTRING_FIX41}.
 	 */
@@ -167,7 +174,7 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	 * 	</code>
 	 * </pre>
 	 *
-	 * @return this assertion object.
+	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual {@code Message} is {@code null}.
 	 * @throws AssertionError if the actual {@code Message}'s FIX version number is not {@link FixVersions#BEGINSTRING_FIX42}.
 	 */
@@ -186,7 +193,7 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	 * 	</code>
 	 * </pre>
 	 *
-	 * @return this assertion object.
+	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual {@code Message} is {@code null}.
 	 * @throws AssertionError if the actual {@code Message}'s FIX version number is not {@link FixVersions#BEGINSTRING_FIX43}.
 	 */
@@ -196,7 +203,18 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	}
 
 	/**
-	 * @return this assertion object.
+	 * Verifies that the actual {@link Message}'s FIX version number is {@link FixVersions#BEGINSTRING_FIX44}.
+	 * Example:
+	 * <pre>
+	 * 	<code class='java'>
+	 * 		Message message = new Message(&quot;8=FIX.4.4\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=019\u0001&quot;);
+	 * 		assertThat(message).isVersion44();
+	 * 	</code>
+	 * </pre>
+	 *
+	 * @return {@code this} assertion object.
+	 * @throws AssertionError if the actual {@code Message} is {@code null}.
+	 * @throws AssertionError if the actual {@code Message}'s FIX version number is not {@link FixVersions#BEGINSTRING_FIX44}.
 	 */
 	public MessageAssert isVersion44() {
 		versions.assertMessageIsVersion(info, actual, BEGINSTRING_FIX44);
@@ -204,7 +222,18 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	}
 
 	/**
-	 * @return this assertion object.
+	 * Verifies that the actual {@link Message}'s FIX version number is {@link FixVersions#FIX50}.
+	 * Example:
+	 * <pre>
+	 * 	<code class='java'>
+	 * 		Message message = new Message(&quot;8=FIXT.1.1\u00019=74\u000135=2\u000149=BuySide\u000156=SellSide\u000134=4\u000152=20190605-17:09:11.495\u00011128=7\u00017=2\u000116=0\u000110=189\u0001&quot;);
+	 * 		assertThat(message).isVersion50();
+	 * 	</code>
+	 * </pre>
+	 *
+	 * @return {@code this} assertion object.
+	 * @throws AssertionError if the actual {@code Message} is {@code null}.
+	 * @throws AssertionError if the actual {@code Message}'s FIX version number is not {@link FixVersions#FIX50}.
 	 */
 	public MessageAssert isVersion50() {
 		versions.assertMessageIsVersion(info, actual, BEGINSTRING_FIXT11, FIX50);
@@ -212,7 +241,18 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	}
 
 	/**
-	 * @return this assertion object.
+	 * Verifies that the actual {@link Message}'s FIX version number is {@link FixVersions#FIX50SP1}.
+	 * Example:
+	 * <pre>
+	 * 	<code class='java'>
+	 * 		Message message = new Message(&quot;8=FIXT.1.1\u00019=74\u000135=2\u000149=BuySide\u000156=SellSide\u000134=4\u000152=20190605-17:09:11.495\u00011128=8\u00017=2\u000116=0\u000110=190\u0001&quot;);
+	 * 		assertThat(message).isVersion50sp1();
+	 * 	</code>
+	 * </pre>
+	 *
+	 * @return {@code this} assertion object.
+	 * @throws AssertionError if the actual {@code Message} is {@code null}.
+	 * @throws AssertionError if the actual {@code Message}'s FIX version number is not {@link FixVersions#FIX50SP1}.
 	 */
 	public MessageAssert isVersion50sp1() {
 		versions.assertMessageIsVersion(info, actual, BEGINSTRING_FIXT11, FIX50SP1);
@@ -220,7 +260,18 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	}
 
 	/**
-	 * @return this assertion object.
+	 * Verifies that the actual {@link Message}'s FIX version number is {@link FixVersions#FIX50SP2}.
+	 * Example:
+	 * <pre>
+	 * 	<code class='java'>
+	 * 		Message message = new Message(&quot;8=FIXT.1.1\u00019=74\u000135=2\u000149=BuySide\u000156=SellSide\u000134=4\u000152=20190605-17:09:11.495\u00011128=9\u00017=2\u000116=0\u000110=191\u0001&quot;);
+	 * 		assertThat(message).isVersion50sp2();
+	 * 	</code>
+	 * </pre>
+	 *
+	 * @return {@code this} assertion object.
+	 * @throws AssertionError if the actual {@code Message} is {@code null}.
+	 * @throws AssertionError if the actual {@code Message}'s FIX version number is not {@link FixVersions#FIX50SP2}.
 	 */
 	public MessageAssert isVersion50sp2() {
 		versions.assertMessageIsVersion(info, actual, BEGINSTRING_FIXT11, FIX50SP2);
@@ -229,10 +280,12 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 
 	@Override
 	public MessageAssert isEqualTo(Object expected) {
-		// TODO
-		return this;
+		throw new UnsupportedOperationException("");
 	}
 
+	/**
+	 * @return a {@link MessageHeaderAssert} assertion object.
+	 */
 	public MessageHeaderAssert header() {
 		isNotNull();
 		if (actual.getHeader() == null)
@@ -240,6 +293,9 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 		return new MessageHeaderAssert(actual.getHeader(), this, beginString);
 	}
 
+	/**
+	 * @return a {@link MessageTrailerAssert} assertion object.
+	 */
 	public MessageTrailerAssert trailer() {
 		isNotNull();
 		if (actual.getTrailer() == null)
@@ -247,6 +303,11 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 		return new MessageTrailerAssert(actual.getTrailer(), this, beginString);
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is an admin message
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isAdmin() {
 		isNotNull();
 		if (!actual.isAdmin())
@@ -254,6 +315,11 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is an application message
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isApp() {
 		isNotNull();
 		if (!actual.isApp())
@@ -261,6 +327,11 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is empty
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isEmpty() {
 		isNotNull();
 		if (!actual.isEmpty())
@@ -268,335 +339,552 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is a Heartbeat
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isHeartbeat() {
 		messages.assertMessageIsOfType(info, actual, HEARTBEAT);
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is a Test Request
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isTestRequest() {
 		messages.assertMessageIsOfType(info, actual, TEST_REQUEST);
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is a Resend Request
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isResendRequest() {
 		messages.assertMessageIsOfType(info, actual, RESEND_REQUEST);
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is a Reject
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isReject() {
 		messages.assertMessageIsOfType(info, actual, REJECT);
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is a Sequence Reset
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSequenceReset() {
 		messages.assertMessageIsOfType(info, actual, SEQUENCE_RESET);
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is a Logout
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isLogout() {
 		messages.assertMessageIsOfType(info, actual, LOGOUT);
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is an Indication of Interest
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isIndicationOfInterest() {
 		messages.assertMessageIsOfType(info, actual, INDICATION_OF_INTEREST);
 		return this;
 	}
 
+	/**
+	 * Verifies that the actual {@link Message} is an Advertisement
+	 *
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isAdvertisement() {
 		messages.assertMessageIsOfType(info, actual, ADVERTISEMENT);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isExecutionReport() {
 		messages.assertMessageIsOfType(info, actual, EXECUTION_REPORT);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isOrderCancelReject() {
 		messages.assertMessageIsOfType(info, actual, ORDER_CANCEL_REJECT);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isLogon() {
 		messages.assertMessageIsOfType(info, actual, LOGON);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isNews() {
 		messages.assertMessageIsOfType(info, actual, NEWS);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isEmail() {
 		messages.assertMessageIsOfType(info, actual, EMAIL);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isNewOrderSingle() {
 		messages.assertMessageIsOfType(info, actual, ORDER_SINGLE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isNewOrderList() {
 		messages.assertMessageIsOfType(info, actual, ORDER_LIST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isOrderCancelRequest() {
 		messages.assertMessageIsOfType(info, actual, ORDER_CANCEL_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isOrderCancelReplaceRequest() {
 		messages.assertMessageIsOfType(info, actual, ORDER_CANCEL_REPLACE_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isOrderStatusRequest() {
 		messages.assertMessageIsOfType(info, actual, ORDER_STATUS_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isAllocationInstruction() {
 		messages.assertMessageIsOfType(info, actual, ALLOCATION_INSTRUCTION);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isListCancelRequest() {
 		messages.assertMessageIsOfType(info, actual, LIST_CANCEL_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isListExecute() {
 		messages.assertMessageIsOfType(info, actual, LIST_EXECUTE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isListStatusRequest() {
 		messages.assertMessageIsOfType(info, actual, LIST_STATUS_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isListStatus() {
 		messages.assertMessageIsOfType(info, actual, LIST_STATUS);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isAllocationInstructionAck() {
 		messages.assertMessageIsOfType(info, actual, ALLOCATION_INSTRUCTION_ACK);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isDontKnowTrade() {
 		messages.assertMessageIsOfType(info, actual, DONT_KNOW_TRADE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isQuoteRequest() {
 		messages.assertMessageIsOfType(info, actual, QUOTE_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isQuote() {
 		messages.assertMessageIsOfType(info, actual, QUOTE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSettlementInstructions() {
 		messages.assertMessageIsOfType(info, actual, SETTLEMENT_INSTRUCTIONS);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isMarketDataRequest() {
 		messages.assertMessageIsOfType(info, actual, MARKET_DATA_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isMarketDataSnapshotFullRefresh() {
 		messages.assertMessageIsOfType(info, actual, MARKET_DATA_SNAPSHOT_FULL_REFRESH);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isMarketDataIncrementalRefresh() {
 		messages.assertMessageIsOfType(info, actual, MARKET_DATA_INCREMENTAL_REFRESH);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isMarketDataRequestReject() {
 		messages.assertMessageIsOfType(info, actual, MARKET_DATA_REQUEST_REJECT);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isQuoteCancel() {
 		messages.assertMessageIsOfType(info, actual, QUOTE_CANCEL);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isQuoteStatusRequest() {
 		messages.assertMessageIsOfType(info, actual, QUOTE_STATUS_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isMassQuoteAcknowledgement() {
 		messages.assertMessageIsOfType(info, actual, MASS_QUOTE_ACKNOWLEDGEMENT);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSecurityDefinitionRequest() {
 		messages.assertMessageIsOfType(info, actual, SECURITY_DEFINITION_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSecurityDefinition() {
 		messages.assertMessageIsOfType(info, actual, SECURITY_DEFINITION);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSecurityStatusRequest() {
 		messages.assertMessageIsOfType(info, actual, SECURITY_STATUS_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSecurityStatus() {
 		messages.assertMessageIsOfType(info, actual, SECURITY_STATUS);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isTradingSessionStatusRequest() {
 		messages.assertMessageIsOfType(info, actual, TRADING_SESSION_STATUS_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isTradingSessionStatus() {
 		messages.assertMessageIsOfType(info, actual, TRADING_SESSION_STATUS);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isMassQuote() {
 		messages.assertMessageIsOfType(info, actual, MASS_QUOTE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isBusinessMessageReject() {
 		messages.assertMessageIsOfType(info, actual, BUSINESS_MESSAGE_REJECT);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isBidRequest() {
 		messages.assertMessageIsOfType(info, actual, BID_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isBidResponse() {
 		messages.assertMessageIsOfType(info, actual, BID_RESPONSE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isListStrikePrice() {
 		messages.assertMessageIsOfType(info, actual, LIST_STRIKE_PRICE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isXmlMessage() {
 		messages.assertMessageIsOfType(info, actual, XML_MESSAGE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isRegistrationInstructions() {
 		messages.assertMessageIsOfType(info, actual, REGISTRATION_INSTRUCTIONS);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isRegistrationInstructionsResponse() {
 		messages.assertMessageIsOfType(info, actual, REGISTRATION_INSTRUCTIONS_RESPONSE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isOrderMassCancelRequest() {
 		messages.assertMessageIsOfType(info, actual, ORDER_MASS_CANCEL_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isOrderMassCancelReport() {
 		messages.assertMessageIsOfType(info, actual, ORDER_MASS_CANCEL_REPORT);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isNewOrderCross() {
 		messages.assertMessageIsOfType(info, actual, NEW_ORDER_CROSS);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isCrossOrderCancelReplaceRequest() {
 		messages.assertMessageIsOfType(info, actual, CROSS_ORDER_CANCEL_REPLACE_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isCrossOrderCancelRequest() {
 		messages.assertMessageIsOfType(info, actual, CROSS_ORDER_CANCEL_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSecurityTypeRequest() {
 		messages.assertMessageIsOfType(info, actual, SECURITY_TYPE_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSecurityTypes() {
 		messages.assertMessageIsOfType(info, actual, SECURITY_TYPES);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSecurityListRequest() {
 		messages.assertMessageIsOfType(info, actual, SECURITY_LIST_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isSecurityList() {
 		messages.assertMessageIsOfType(info, actual, SECURITY_LIST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isDerivativeSecurityListRequest() {
 		messages.assertMessageIsOfType(info, actual, DERIVATIVE_SECURITY_LIST_REQUEST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isDerivativeSecurityList() {
 		messages.assertMessageIsOfType(info, actual, DERIVATIVE_SECURITY_LIST);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isNewOrderMultileg() {
 		messages.assertMessageIsOfType(info, actual, NEW_ORDER_MULTILEG);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isMultilegOrderCancelReplace() {
 		messages.assertMessageIsOfType(info, actual, MULTILEG_ORDER_CANCEL_REPLACE);
 		return this;
 	}
 
+	/**
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert isTradeCaptureReportRequest() {
 		messages.assertMessageIsOfType(info, actual, TRADE_CAPTURE_REPORT_REQUEST);
 		return this;
 	}
 
-	// TODO: Rename to isOfType
+
+	/**
+	 * @param expectedMsgType
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert hasMsgType(String expectedMsgType) {
 		messages.assertMessageIsOfType(info, actual, expectedMsgType);
 		return this;
 	}
 
-	// TODO: Rename to isOfType
+
+	/**
+	 * @param expectedMsgTypeName
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert hasMsgTypeName(String expectedMsgTypeName) {
-		String msgType = dictionaries.getSessionDataDictionary(beginString).getMsgType(expectedMsgTypeName);
-		System.out.println(msgType);
+//		String msgType = dictionaries.getSessionDataDictionary(beginString).getMsgType(expectedMsgTypeName);
 //		messages.assertMessageIsOfTypeName(info, actual, expectedMsgTypeName);
-		return this;
+//		return this;
+		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * @param expectedBodyLength
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert hasBodyLength(int expectedBodyLength) {
 		isNotNull();
 
@@ -605,6 +893,11 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 		return this;
 	}
 
+	/**
+	 * @param beginString
+	 * @param dataDictionary
+	 * @return {@code this} assertion object.
+	 */
 	public MessageAssert usingDataDictionary(String beginString, DataDictionary dataDictionary) {
 		checkArgument(dataDictionary != null, "'dataDictionary' must not be null");
 

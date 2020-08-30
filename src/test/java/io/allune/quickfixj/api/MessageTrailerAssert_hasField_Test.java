@@ -34,9 +34,4 @@ public class MessageTrailerAssert_hasField_Test {
 							CheckSum.FIELD);
 		// @formatter:on
 	}
-
-	@Test
-	public void shouldFailToAssertMessageHasFields() {
-		// TODO
-	}
 }

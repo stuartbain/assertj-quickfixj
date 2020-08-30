@@ -41,6 +41,9 @@ import static quickfix.FixVersions.FIX50;
 import static quickfix.FixVersions.FIX50SP1;
 import static quickfix.FixVersions.FIX50SP2;
 
+/**
+ * @author Eduardo Sanchez-Ros
+ */
 @SuperBuilder
 public class NewOrderSingle extends AbstractMessage {
 

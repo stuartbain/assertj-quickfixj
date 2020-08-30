@@ -41,9 +41,4 @@ public class MessageAssert_hasFields_Test {
 						OrdType.FIELD);
 		//@formatter:on
 	}
-
-	@Test
-	public void shouldFailToAssertMessageHasFields() {
-		// TODO
-	}
 }

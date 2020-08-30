@@ -36,6 +36,7 @@ import static quickfix.field.HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROK
 /**
  * @author Eduardo Sanchez-Ros
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class NewOrderSingle40AssertTest {
 
 	private NewOrderSingle message;

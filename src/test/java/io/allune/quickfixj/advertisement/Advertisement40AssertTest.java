@@ -20,9 +20,6 @@ import static io.allune.quickfixj.api.Assertions.assertThat;
 
 public class Advertisement40AssertTest {
 
-//	"8=FIX.4.0\u00019=80\u000135=7\u000134=20\u000149=ACCEPT\u000152=20200726-11:11:29\u000156=INIT\u00012=1234\u00014=B\u00015=N\u000153=1221\u000155=GBP\u000110=188\u0001";
-
-
 	@Test
 	public void should() throws InvalidMessage {
 		// Given

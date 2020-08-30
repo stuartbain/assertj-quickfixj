@@ -23,8 +23,11 @@ import static io.allune.quickfixj.error.FieldShouldHaveValue.fieldShouldHaveValu
 import static io.allune.quickfixj.error.ShouldHaveField.shouldHaveField;
 
 /**
- * @param <SELF>
- * @param <ACTUAL>
+ * Base class for Message, Header and Trailer assertions
+ *
+ * @param <SELF>   the "self" type of this assertion class.
+ * @param <ACTUAL> the type of the "actual" value which is {@link FieldMap}.
+ *
  * @author Eduardo Sanchez-Ros
  */
 public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert<SELF, ACTUAL>, ACTUAL extends FieldMap>
@@ -41,16 +44,18 @@ public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert
 	/**
 	 * Creates a new <code>{@link AbstractFieldMapAssert}</code>.
 	 *
-	 * @param actual   the actual value to verify
-	 * @param selfType the "self type"
+	 * @param actual   the actual value to verify.
+	 * @param selfType the "self type".
 	 */
 	protected AbstractFieldMapAssert(ACTUAL actual, Class<SELF> selfType) {
 		super(actual, selfType);
 	}
 
 	/**
-	 * @param expectedTag
-	 * @return
+	 * Verifies that the actual FieldMap has a field with the provided tag number.
+	 *
+	 * @param expectedTag The expected tag number of the field.
+	 * @return {@code this} assertion object.
 	 */
 	public SELF hasField(int expectedTag) {
 		isNotNull();
@@ -60,8 +65,10 @@ public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert
 	}
 
 	/**
-	 * @param expectedFieldTags
-	 * @return
+	 * Verifies that the actual FieldMap has the fields with the provided tag numbers.
+	 *
+	 * @param expectedFieldTags The expected tag numbers of the fields.
+	 * @return {@code this} assertion object.
 	 */
 	public SELF hasFields(int... expectedFieldTags) {
 		isNotNull();
@@ -72,9 +79,11 @@ public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert
 	}
 
 	/**
-	 * @param expectedFieldTag
-	 * @param expectedFieldValue
-	 * @return
+	 * Verifies that the actual FieldMap has a field with the expected value.
+	 *
+	 * @param expectedFieldTag The expected tag number of the field.
+	 * @param expectedFieldValue The expected value.
+	 * @return {@code this} assertion object.
 	 */
 	public SELF hasFieldValue(int expectedFieldTag, Object expectedFieldValue) {
 		isNotNull();
@@ -100,5 +109,8 @@ public abstract class AbstractFieldMapAssert<SELF extends AbstractFieldMapAssert
 		return (SELF) this;
 	}
 
+	/**
+	 * @return Returns the BeginString value for the actual message.
+	 */
 	public abstract String getBeginString();
 }

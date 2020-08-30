@@ -12,6 +12,9 @@
  */
 package io.allune.quickfixj.exception;
 
+/**
+ * @author Eduardo Sanchez-Ros
+ */
 public class FieldNotFoundException extends RuntimeException {
 	public FieldNotFoundException(String message, Throwable throwable) {
 		super(message, throwable);

@@ -23,7 +23,9 @@ import static org.assertj.core.api.Assertions.fail;
 
 /**
  * @author Eduardo Sanchez-Ros
+ * @author Simon Lewis
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class MessageAssert_IsVersion_Test {
 
 	@Test

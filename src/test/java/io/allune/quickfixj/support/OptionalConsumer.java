@@ -15,6 +15,10 @@ package io.allune.quickfixj.support;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+/**
+ * @param <T>
+ * @author Eduardo Sanchez-Ros
+ */
 public class OptionalConsumer<T> {
 
 	private Optional<T> optional;

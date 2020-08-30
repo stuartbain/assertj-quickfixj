@@ -9,7 +9,7 @@
     <version>1.0.0-RC1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>AssertJ fluent assertions for QuickFix/J</name>
-
+    <description>AssertJ fluent assertions for QuickFix/J</description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>

@@ -68,17 +68,6 @@ public class AbstractMessageAssertTest {
 	}
 
 	@Test
-	public void shouldFailToAssertMessageHasField() {
-		// TODO
-	}
-
-
-	@Test
-	public void shouldFailToAssertMessageHasFieldValue() {
-		// TODO
-	}
-
-	@Test
 	public void shouldAssertMessageHasMessageType() throws InvalidMessage {
 		// Given
 		Message message = new Message(
@@ -87,14 +76,5 @@ public class AbstractMessageAssertTest {
 		// When/Then
 		assertThat(message)
 				.hasMsgType("D");
-	}
-
-	@Test
-	public void shouldAssertIsEquals() throws InvalidMessage {
-		Message message1 = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
-		Message message2 = new Message("8=FIX.4.0\u00019=61\u000135=A\u000134=1\u000149=BANZAI\u000152=20200408-06:49:07\u000156=EXEC\u000198=0\u0001108=30\u000110=015\u0001");
-
-		// TODO
-		//		assertThat(message1).isEqualTo(message2);
 	}
 }

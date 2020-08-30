@@ -46,9 +46,4 @@ public class MessageHeaderAssert_hasFields_Test {
 							TargetCompID.FIELD);
 		//@formatter:on
 	}
-
-	@Test
-	public void shouldFailToAssertMessageHasFields() {
-		// TODO
-	}
 }

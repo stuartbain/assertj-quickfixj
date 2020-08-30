@@ -12,6 +12,9 @@
  */
 package io.allune.quickfixj.exception;
 
+/**
+ * @author Eduardo Sanchez-Ros
+ */
 public final class ThrownByLambdaException extends RuntimeException {
 
 	public ThrownByLambdaException(final Throwable cause) {

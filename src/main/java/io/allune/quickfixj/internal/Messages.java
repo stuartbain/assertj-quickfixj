@@ -175,17 +175,6 @@ public class Messages {
 
 	public Object getFieldValue(int fieldTag, String beginString, FieldMap actual) throws IncorrectDataFormat {
 		DataDictionary dataDictionary = dictionaries.getSessionDataDictionary(beginString);
-		//		FieldType fieldType = dataDictionary.getFieldType(expectedFieldTag);
-		//		System.out.println("Field type: " + fieldType.toString());
-		//
-		//		boolean hasFieldValue = dataDictionary.hasFieldValue(expectedFieldTag);
-		//		System.out.println("Has field value: " + hasFieldValue);
-		//
-		boolean msgType = dataDictionary.isMsgType("BLAH");
-		//		System.out.printf("Is message type: " + msgType);
-		//
-		//		System.out.println("Version: " + dataDictionary.getVersion());
-
 		FieldType fieldType = dataDictionary.getFieldType(fieldTag);
 		if (fieldType == null) {
 			return null;
