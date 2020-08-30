@@ -875,10 +875,8 @@ public class MessageAssert extends AbstractFieldMapAssert<MessageAssert, Message
 	 * @return {@code this} assertion object.
 	 */
 	public MessageAssert hasMsgTypeName(String expectedMsgTypeName) {
-//		String msgType = dictionaries.getSessionDataDictionary(beginString).getMsgType(expectedMsgTypeName);
-//		messages.assertMessageIsOfTypeName(info, actual, expectedMsgTypeName);
-//		return this;
-		throw new UnsupportedOperationException();
+		messages.assertMessageIsOfTypeName(info, actual, beginString, expectedMsgTypeName);
+		return this;
 	}
 
 	/**

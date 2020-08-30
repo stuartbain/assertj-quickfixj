@@ -43,7 +43,7 @@ public class MessageAssert_isOfTypeName_Test {
 	}
 
 	@Test
-	public void should() {
+	public void shouldAssertMessageIsOfTypeByItsName() {
 		// Given
 		Message message = messageBuilder.build()
 				.toMessage(BEGINSTRING_FIX40);

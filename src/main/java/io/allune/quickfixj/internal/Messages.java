@@ -86,6 +86,17 @@ public class Messages {
 	public void assertMessageIsOfType(AssertionInfo info, Message actual, String expectedMessageType) {
 		objects.assertNotNull(info, actual);
 
+		assertSameMsgType(info, actual, expectedMessageType);
+	}
+
+	public void assertMessageIsOfTypeName(AssertionInfo info, Message actual, String beginString, String expectedMessageTypeName) {
+		objects.assertNotNull(info, actual);
+
+		String expectedMessageType = dictionaries.getSessionDataDictionary(beginString).getMsgType(expectedMessageTypeName);
+		assertSameMsgType(info, actual, expectedMessageType);
+	}
+
+	private void assertSameMsgType(AssertionInfo info, Message actual, String expectedMessageType) {
 		try {
 			String actualMessageType = getMessageType(actual.toString());
 			if (!actualMessageType.equals(expectedMessageType)) {
