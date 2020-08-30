@@ -4,7 +4,7 @@
 
     <groupId>io.allune</groupId>
     <artifactId>assertj-quickfixj</artifactId>
-    <version>1.0.0-RC1</version>
+    <version>1.0.0-RC2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>AssertJ fluent assertions for QuickFix/J</name>
     <description>AssertJ fluent assertions for QuickFix/J</description>
@@ -21,7 +21,7 @@
         <developerConnection>scm:git:git@github.com:esanchezros/assertj-quickfixj.git</developerConnection>
         <connection>scm:git:git@github.com:esanchezros/assertj-quickfixj.git</connection>
         <url>https://github.com/esanchezros/assertj-quickfixj</url>
-        <tag>assertj-quickfixj-1.0.0-RC1</tag>
+        <tag>HEAD</tag>
     </scm>
     <ciManagement>
         <system>jenkins</system>
