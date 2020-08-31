@@ -1,4 +1,4 @@
-# assertj-quickfixj
+# AssertJ fluent assertions for QuickFix/J (Release Candidate)
 
     // Given
     Message message = new Message(
