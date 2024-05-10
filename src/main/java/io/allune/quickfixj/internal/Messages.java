@@ -201,6 +201,7 @@ public class Messages {
 				case DATA:
 				case MONTHYEAR:
 				case DAYOFMONTH:
+				case CURRENCY:
 				case COUNTRY:
 					// String
 					return actual.getString(fieldTag);
